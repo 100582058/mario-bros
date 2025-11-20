@@ -33,6 +33,9 @@ Save progress
     git add [file, index.html]/[everything, .]
     git commit -m "message"
 
+For pull REQUESTS
+    git remote set-url origin https://github.com/[your_username]/[the_repo].git
+
 Push changes into github
     git push -u origin [branch, main]
 
