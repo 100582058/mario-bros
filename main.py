@@ -1,32 +1,34 @@
 import pyxel
 
-from utils.config import WIDTH, HEIGHT, NUM_CINTAS, POSICIONES_PAQUETES_CINTA, DIFICULTAD, TIEMPO, VIDAS
+from utils.config import WIDTH, HEIGHT, scl
+# POS_PAQ_CIN --> Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
+from utils.config import NUM_CINTAS, POS_PAQ_CIN, DIFICULTAD, TIEMPO, VIDAS
 from clases.fabrica import Fabrica
 
 # EN CONFIG
 # WIDTH, HEIGHT = 256, 256
-# # Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
-# # ERROR: Cambiar nombre a uno más corto
-# POSICIONES_PAQUETES_CINTA = 8
+
 # DIFICULTAD = "facil"
-# NUM_CINTAS = 5 # Depende de la dificultad
-# TIEMPO, VIDAS = 0, 0
 # # NUM_CINTAS, TIEMPO, VIDAS = asignarValores(DIFICULTAD)
 
+# MARCO (Sprint 2)
+# Vidas, fallos, tiempo
+# Dibujar paquetes y cintas
+
 # fabrica = None # ERROR??????? Se inicializa fuera del bucle????
-fabrica = Fabrica(TIEMPO, VIDAS)
+fabrica = Fabrica(TIEMPO, VIDAS, POS_PAQ_CIN, NUM_CINTAS)
 
 
 def main():
     # Se inicia el entorno de Pyxel
-    scl = 1
-    pyxel.init(int(WIDTH / scl), int(HEIGHT / scl), title="Sprint 1.B", display_scale=scl)
+    pyxel.init(int(WIDTH), int(HEIGHT), title="Proyecto final - Mario Bros", display_scale=scl)
 
     # Cargamos el banco de imágenes
     pyxel.load("assets/PyxelPersonajes.pyxres")
 
     # Inicializamos el juego
-    fabrica.start(POSICIONES_PAQUETES_CINTA, NUM_CINTAS)
+    # NO, en __init__()
+    # fabrica.start()
 
     # DEBUG: Para no ocultar el ratón
     pyxel.mouse(True)
@@ -54,19 +56,19 @@ def update():
 
 
 def draw():
-    """Esta función pone objetos en la pantalla en cada turno. En este
-    momento texto"""
+    """Esta función pone objetos en la pantalla en cada turno"""
     # Fijamos el color de fondo, cualquier cosa que haya en la pantalla se borra
     pyxel.cls(7)
     # usamos pyxel.frame_count para realizar acciones cada frame
     # -----------------------------------------------------------------------
     # -----------------------------------------------------------------------
     # ERROR: Que argumentos pasarle?
-    fabrica.draw(WIDTH, HEIGHT)
+    fabrica.draw()
 
     """
     
     """
+    pyxel.text(WIDTH - 90, HEIGHT - 10, f"Mouse: ({pyxel.mouse_x}, {pyxel.mouse_y})", 3)
 
 
 if __name__ == "__main__":

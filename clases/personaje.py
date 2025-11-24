@@ -2,6 +2,7 @@ import pyxel
 
 # ERROR: Circular import
 from utils.config import NUM_CINTAS
+from utils.funciones import dibujar
 
 class Personaje:
     def __init__(self, id, controles, posX, posY):
@@ -52,6 +53,10 @@ class Personaje:
             y = 20
         txt = f"{self.id} ({int(self.posicion[0])}, {int(self.posicion[1])})  Planta: {self.planta}"
         pyxel.text(250, y, txt, 9)
+
+        # Para dibujar al personaje
+        # DEBUG
+        dibujar(self, self.id)
 
     def __repr__(self):
         return f"Personaje(controles={self.controles}, posicion={self.posicion})"

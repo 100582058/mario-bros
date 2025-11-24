@@ -43,20 +43,16 @@ class Paquetes:
         # Busca los paquetes (1s) dentro de la matriz y los mueve a su siguiente posición
         # Para no mover paquetes ya movidos en esta iteración, se itera dentro de una matriz nueva
         matrizNueva = self.matrizPaquetes.copy()
-        for y in range(self.longitudY):
-            for x in range(self.longitudX):
+        for x in range(self.longitudX):
             # Recorremos la fila de dcha-izda para las cintas pares
             # y de izda-dcha para las impares
             # Así, conseguimos que un paquete no se mueva 2 veces en la misma 'actualización'
+            for y in range(self.longitudY):
                 paquete = self.matrizPaquetes[y][x]
                 if paquete == 1:
-                    movido = self.moverPaquete(x, y, matrizNueva)
-                    movido = True
-                    # Si el paquete se ha movido Y es fila impar, saltarse el índice
-                    if movido and y % 2 != 0:
-                        x += 1
-        # self.matrizPaquetes = matrizNueva.copy()
-        print(self)
+                    matrizNueva = self.moverPaquete(x, y, matrizNueva)
+
+        self.matrizPaquetes = matrizNueva.copy()
 
     # Añade un paquete al principio de las cintas
     def anadirPaquete(self):
@@ -80,10 +76,10 @@ class Paquetes:
                 # print("Subida desde cinta PAR")
             else:
                 # Movemos la posición del paquete de (x, y) a (x - 1, y)
-                self.matrizPaquetes[y][x] = 0
-                self.matrizPaquetes[y][x - 1] = 1
-                # matrizNueva[y][x] = 0
-                # matrizNueva[y][x - 1] = 1
+                # self.matrizPaquetes[y][x] = 0
+                # self.matrizPaquetes[y][x - 1] = 1
+                matrizNueva[y][x] = 0
+                matrizNueva[y][x - 1] = 1
                 # print("Movido a la izquierda")
         else:
             # Subir o mover a la derecha
@@ -92,10 +88,10 @@ class Paquetes:
                 # print("Subiendo desde cinta IMPAR")
             else:
                 # Movemos la posición del paquete de (x, y) a (x + 1, y)
-                self.matrizPaquetes[y][x] = 0
-                self.matrizPaquetes[y][x + 1] = 1
-                # matrizNueva[y][x] = 0
-                # matrizNueva[y][x + 1] = 1
+                # self.matrizPaquetes[y][x] = 0
+                # self.matrizPaquetes[y][x + 1] = 1
+                matrizNueva[y][x] = 0
+                matrizNueva[y][x + 1] = 1
                 # print("Movido a la derecha")
         # print("Después de mover los paquetes:", self)
         print()
@@ -103,10 +99,10 @@ class Paquetes:
 
     def subirPaquete(self, x, y, matrizNueva):
         if y != 0:
-            self.matrizPaquetes[y][x] = 0
-            self.matrizPaquetes[y - 1][x] = 1
-            # matrizNueva[y][x] = 0
-            # matrizNueva[y - 1][x] = 1
+            # self.matrizPaquetes[y][x] = 0
+            # self.matrizPaquetes[y - 1][x] = 1
+            matrizNueva[y][x] = 0
+            matrizNueva[y - 1][x] = 1
         else:
             print("=" * 10, "Paquete en la última altura/cinta", "=" * 10)
         return matrizNueva

@@ -1,16 +1,29 @@
 import pyxel
+import random
 
 from clases.personaje import Personaje
 from clases.paquetes import Paquetes
 from clases.camion import Camion
 
 class Fabrica:
-    def __init__(self, tiempo, vidas):
+    def __init__(self, tiempo, vidas, POS_PAQ_CIN, NUM_CINTAS):
         self.vidas = vidas # Cambian en función de la dificultad
         self.tiempo = tiempo # tiempo del nivel
         # self.dificultad = dificultad # 3 tipos
+        # DEBUG: En __init__() ???
+        # Inicializamos los personajes
+        controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
+        controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
+        self.luigi = Personaje("luigi", controlesLuigi, 100, 200)
+        self.mario = Personaje("mario", controlesMario, 400, 200)
+        print(repr(self.mario), repr(self.luigi))
 
-        self.personajes = []
+        self.camion = Camion(20, 30)
+        print(repr(self.camion))
+        self.paquetes = Paquetes(POS_PAQ_CIN, NUM_CINTAS)
+        print(repr(self.paquetes), "\n")
+        # Añade un paquete en la posición inicial
+        self.paquetes.anadirPaquete()
 
     @property
     def vidas(self):
@@ -39,41 +52,35 @@ class Fabrica:
     def __repr__(self):
         return f"Fabrica(vidas={self.vidas}, tiempo={self.tiempo}, dificultad={self.dificultad}"
 
-    def start(self, POSICIONES_PAQUETES_CINTA, NUM_CINTAS):
-        controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
-        controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-        mario = Personaje("mario", controlesMario, 500, 300)
-        luigi = Personaje("luigi", controlesLuigi, 100, 300)
-        self.personajes = [mario, luigi]
-        print(repr(mario), repr(luigi))
-
-        camion = Camion(20, 30)
-        print(repr(camion))
-        paquetes = Paquetes(POSICIONES_PAQUETES_CINTA, NUM_CINTAS)
-        print(repr(paquetes), "\n")
-        # Añade un paquete en la posición inicial
-        paquetes.anadirPaquete()
-        paquetes.actualizarPaquetes()
+    # def start(self, POSICIONES_PAQUETES_CINTA, NUM_CINTAS):
+    # MOVIDO A __init__()
 
     # Bucle principal del juego, controlado por la fábrica
     def run(self):
         # if pyxel.frame_count % 60 == 0:
         #     print("Running...")
-        for personaje in self.personajes:
-            personaje.mover()
+        self.luigi.mover()
+        self.mario.mover()
 
-    def draw(self, WIDTH, HEIGHT):
-        # DEBUG: Sustituir por el banco de imagenes
-        # pyxel.rectb(5, 5, WIDTH - 5 * 2, HEIGHT - 5 * 2, 1)
-        pyxel.text(5, 5, f"WIDTH: {WIDTH}, HEIGHT: {HEIGHT}", 1)
+        # Mueve los paquetes
+        if pyxel.frame_count % 30 == 0:
+            self.paquetes.actualizarPaquetes()
+
+        # self.paquetes.matrizPaquetes[3][2] = 1
+        # Añade los paquetes
+        # if pyxel.frame_count % random.randint(20, 60):
+        #     self.paquetes.anadirPaquete()
+
+    def draw(self):
+        # Muestra los personajes
+        self.luigi.draw()
+        self.mario.draw()
+
+        # Muestra las cintas y los paquetes
+        self.paquetes.draw()
+
         # Dibujamos el banco
         banco = 0
         # pyxel.blt(x:int, y:int, banco:int, u:int, v:int, w:int, h:int)
         # x, y, w, h: Variables del banco
-        # MUESTRA A MARIO
-        marioX, marioY = 100, 100
-        pyxel.blt(5, 5, banco, 16, 16, marioX, marioY, scale=2)
-
-        # Muestra los personajes
-        for personaje in self.personajes:
-            personaje.draw()
+        # pyxel.blt(5, 5, banco, 0, 0, 256, 256)

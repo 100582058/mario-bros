@@ -1,6 +1,7 @@
-WIDTH, HEIGHT = 700, 500
+scl = 2
+WIDTH, HEIGHT = 1024 / scl, 512 / scl
 # Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
-POSICIONES_PAQUETES_CINTA = 8
+POS_PAQ_CIN = 8
 DIFICULTAD = "facil"
 NUM_CINTAS = 5  # Depende de la dificultad
 # ?Separación entre cintas

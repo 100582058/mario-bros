@@ -17,6 +17,7 @@
  * Añadir esquema de clases en la memoria del proyecto
  * Añadir pantalla de inicio y selector de dificultad
  * Comproabr que estén todos los properties/setters
+ * Cambiar self.personajes por self.mario/self.luigi ?
 
 # Sprint 1.A: Objetos e interfaz gráfica (13/11)
  - Crear una clase para cada elemento principal del juego: Personajes, Camión,
