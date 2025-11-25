@@ -40,76 +40,57 @@ class Paquetes:
         return matriz
 
     def actualizarPaquetes(self):
-        # Busca los paquetes (1s) dentro de la matriz y los mueve a su siguiente posición
-        # Para no mover paquetes ya movidos en esta iteración, se itera dentro de una matriz nueva
-        matrizNueva = self.matrizPaquetes.copy()
+        # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
         for y in range(self.longitudY):
-            for x in range(self.longitudX):
-            # Recorremos la fila de dcha-izda para las cintas pares
-            # y de izda-dcha para las impares
-            # Así, conseguimos que un paquete no se mueva 2 veces en la misma 'actualización'
-                paquete = self.matrizPaquetes[y][x]
-                if paquete == 1:
-                    movido = self.moverPaquete(x, y, matrizNueva)
-                    movido = True
-                    # Si el paquete se ha movido Y es fila impar, saltarse el índice
-                    if movido and y % 2 != 0:
-                        x += 1
-        # self.matrizPaquetes = matrizNueva.copy()
-        print(self)
+            filaActual = self.matrizPaquetes[y]
+            # Movemos las cintas hacia la 'derecha'. Para eso, revertimos las cintas pares (se mueven hacia la izquierda)
+            if self.__cintaPar(y):
+                # Cinta par
+                filaActual.reverse()
+            # Se evalúa primero el último elemento de la lista
+            x = self.longitudX - 1
+            if filaActual[x] == 1:
+                # Subimos el paquete al lado correcto
+                self.subirPaquete(x, y)
+                # Eliminamos la posición actual del paquete de la variable 'filaActual'
+                filaActual[x] = 0
 
-    # Añade un paquete al principio de las cintas
-    def anadirPaquete(self):
-        iX = self.longitudX - 1
-        iY = self.longitudY - 1
-        self.matrizPaquetes[iY][iX] = 1
+            # Comprobamos cada posición de la fila y movemos los paquetes
+            # Bucle inverso desde el penúltimo elemento hasta el primero (índice 0)
+            for x in range(self.longitudX - 2, -1, -1):
+                if filaActual[x] == 1:
+                    filaActual = self.moverDcha(filaActual, x, y)
+            # Le damos la vuelta otra vez, si es necesario
+            if self.__cintaPar(y):
+                filaActual.reverse()
+            self.matrizPaquetes[y] = filaActual
 
-    def moverPaquete(self, x, y, matrizNueva):
+    def moverDcha(self, fila, x, y):
         # -- Mueve un paquete a la siguiente posición --
-        # Determina si el paquete está en una cinta par o impar
-        # REVERTIR LA FILA Y SALTARSE EL INDICE DEL QUE SE MUEVE
-        cintaPar = False
-        if y % 2 == 0:
-            cintaPar = True
-        # print("par?", cintaPar, f"({x}, {y})", self.longitudX)
-        # print(self)
-        if cintaPar:
-            # Subir o mover a la izquierda
-            if x == 0:
-                self.subirPaquete(x, y, matrizNueva)
-                # print("Subida desde cinta PAR")
-            else:
-                # Movemos la posición del paquete de (x, y) a (x - 1, y)
-                self.matrizPaquetes[y][x] = 0
-                self.matrizPaquetes[y][x - 1] = 1
-                # matrizNueva[y][x] = 0
-                # matrizNueva[y][x - 1] = 1
-                # print("Movido a la izquierda")
+        if x + 1 < self.longitudX:
+            # Movemos la posición del paquete de (x, y) a (x + 1, y)
+            fila[x] = 0
+            fila[x + 1] = 1
         else:
-            # Subir o mover a la derecha
-            if x == self.longitudX - 1:
-                self.subirPaquete(x, y, matrizNueva)
-                # print("Subiendo desde cinta IMPAR")
-            else:
-                # Movemos la posición del paquete de (x, y) a (x + 1, y)
-                self.matrizPaquetes[y][x] = 0
-                self.matrizPaquetes[y][x + 1] = 1
-                # matrizNueva[y][x] = 0
-                # matrizNueva[y][x + 1] = 1
-                # print("Movido a la derecha")
-        # print("Después de mover los paquetes:", self)
-        print()
-        return matrizNueva
+            print("ERROR: Paquete al final, se debería haber subido")
+        return fila
 
-    def subirPaquete(self, x, y, matrizNueva):
+    def subirPaquete(self, x, y):
         if y != 0:
             self.matrizPaquetes[y][x] = 0
-            self.matrizPaquetes[y - 1][x] = 1
-            # matrizNueva[y][x] = 0
-            # matrizNueva[y - 1][x] = 1
+            # Subimos el paquete al lado que corresponde (a la izquierda en las pares, a la derecha en las impares)
+            if self.__cintaPar(y - 1):
+                self.matrizPaquetes[y - 1][x] = 1
+            else:
+                self.matrizPaquetes[y - 1][0] = 1
         else:
-            print("=" * 10, "Paquete en la última altura/cinta", "=" * 10)
-        return matrizNueva
+            print("=" * 10, "Paquete en la última posición, listo para entrar al camión", "=" * 10)
+
+    # Añade un paquete al principio de las cintas
+    def anadirPaqInicio(self):
+        x = self.longitudX - 1
+        y = self.longitudY - 1
+        self.matrizPaquetes[y][x] = 1
 
     def draw(self):
         # 130, 210, 290
@@ -125,6 +106,8 @@ class Paquetes:
         for cinta in range(self.longitudY):
             y = maxY - cinta * sepCintas
             pyxel.rect(inicioCinta, y, finCinta - inicioCinta, h, 9)
+            # DEBUG
+            pyxel.text(inicioCinta - 10, y - 5, str(cinta), 0)
             # Dibujamos los 'ejes de giro' de las cintas
             # Izquierda
             pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, rad, 7)
@@ -157,9 +140,23 @@ class Paquetes:
                     col = 0
                 pyxel.rect(20 + i * 10, 20 + j * 10, 5, 5, col)
 
+    def __cintaPar(self, indice):
+        # El último índice (self.longitudY - 1) siempre is impar (num = 0)
+        num = (self.longitudY - 1) - indice
+        return num % 2 == 0
+    
+    def __paqsEnJuego(self):
+        # Cuenta cuantos paquetes hay actualmente en juego
+        sum = 0
+        for y in range(self.longitudY):
+            for x in range(self.longitudX):
+                if self.matrizPaquetes[y][x] == 1:
+                    sum += 1
+        return sum
+
     # DEBUG
     def __str__(self):
-        txt = "\n"
+        txt = ""
         for fila in self.matrizPaquetes:
             txt += str(fila) + "\n"
         return txt

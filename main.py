@@ -11,10 +11,6 @@ from clases.fabrica import Fabrica
 # DIFICULTAD = "facil"
 # # NUM_CINTAS, TIEMPO, VIDAS = asignarValores(DIFICULTAD)
 
-# MARCO (Sprint 2)
-# Vidas, fallos, tiempo
-# Dibujar paquetes y cintas
-
 # fabrica = None # ERROR??????? Se inicializa fuera del bucle????
 fabrica = Fabrica(TIEMPO, VIDAS, POS_PAQ_CIN, NUM_CINTAS)
 
@@ -32,7 +28,6 @@ def main():
 
     # DEBUG: Para no ocultar el ratón
     pyxel.mouse(True)
-    # Tiene que ir el ultimo, si no no se imprime nada
     pyxel.run(update, draw)
 
 
@@ -47,7 +42,7 @@ def update():
     fabrica.run()
 
     """
-    Puede haber "lógica pequeña" en updaet/draw, como esto
+    Puede haber "lógica pequeña" en update/draw, como esto
     if (pantalla_inicio.seleccionado == "--"):
         pantalla_inicio.subir_foco()
     ...
@@ -63,12 +58,13 @@ def draw():
     # -----------------------------------------------------------------------
     # -----------------------------------------------------------------------
     # ERROR: Que argumentos pasarle?
-    fabrica.draw()
+    fabrica.draw(WIDTH, HEIGHT)
 
     """
     
     """
     pyxel.text(WIDTH - 90, HEIGHT - 10, f"Mouse: ({pyxel.mouse_x}, {pyxel.mouse_y})", 3)
+
 
 
 if __name__ == "__main__":
