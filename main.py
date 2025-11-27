@@ -1,64 +1,57 @@
 import pyxel
 
-from utils.config import WIDTH, HEIGHT, scl
-# POS_PAQ_CIN --> Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
-from utils.config import NUM_CINTAS, POS_PAQ_CIN, DIFICULTAD, TIEMPO, VIDAS
+from utils.config import WIDTH, HEIGHT, NUM_CINTAS, POS_PAQ_CIN, DIFICULTAD, TIEMPO, VIDAS, scl
 from clases.fabrica import Fabrica
 
+from clases.pantallaInicio import PantallaInicio
 
-# Inicializamos el juego
-# fabrica = None # ERROR??????? Se inicializa fuera del bucle????
+# CLASE: Pantalla de Inicio
+
+
 fabrica = Fabrica(VIDAS, POS_PAQ_CIN, NUM_CINTAS)
+pantalla_inicio = PantallaInicio()
+juego_iniciado = False
 
 
 def main():
-    # Se inicia el entorno de Pyxel
     pyxel.init(int(WIDTH), int(HEIGHT), title="Proyecto final - Mario Bros", display_scale=scl)
 
-    # Cargamos el banco de imágenes
     pyxel.load("assets/PyxelPersonajes.pyxres")
 
-
-    # DEBUG: Para no ocultar el ratón
     pyxel.mouse(True)
-
     pyxel.run(update, draw)
 
 
 def update():
-    """Esta función se ejecuta cada frame. Ahora solo comprueba si
-    la tecla Escape o Q se presionan para finalizar el programa"""
+    # global?
+    global juego_iniciado
+
     if pyxel.btnp(pyxel.KEY_Q):
         pyxel.quit()
 
-    # --- Bucle del juego ---
-    # Bucle principal del juego, controlado por la fábrica
-    fabrica.run()
+    # Si todavía estamos en la pantalla inicial
+    if pantalla_inicio.activa:
+        dificultad = pantalla_inicio.update()
+        if dificultad is not None:
+            # Inicializamos el juego real cuando se confirme
+            # fabrica.start(POS_PAQ_CIN, NUM_CINTAS) # Ese método no existe
+            juego_iniciado = True
 
-    """
-    Puede haber "lógica pequeña" en update/draw, como esto
-    if (pantalla_inicio.seleccionado == "--"):
-        pantalla_inicio.subir_foco()
-    ...
-    pantalla_inicio.bajar_foco()
-    """
+    # Lógica normal del juego
+    fallo = False
+    if juego_iniciado and not fallo:
+        fabrica.run()
 
 
 def draw():
-    """Esta función pone objetos en la pantalla en cada turno"""
-    # Fijamos el color de fondo, cualquier cosa que haya en la pantalla se borra
+    # Pantalla inicial
+    if pantalla_inicio.activa:
+        pantalla_inicio.draw()
+        return
+
+    # Pantalla del juego
     pyxel.cls(7)
-    # usamos pyxel.frame_count para realizar acciones cada frame
-    # -----------------------------------------------------------------------
-    # -----------------------------------------------------------------------
-    # ERROR: Que argumentos pasarle?
     fabrica.draw(WIDTH, HEIGHT)
-
-    """
-    
-    """
-    pyxel.text(WIDTH - 90, HEIGHT - 10, f"Mouse: ({pyxel.mouse_x}, {pyxel.mouse_y})", 3)
-
 
 
 if __name__ == "__main__":
