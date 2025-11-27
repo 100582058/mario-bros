@@ -132,13 +132,6 @@ class Paquetes:
                 else:
                     pyxel.rectb(x, y, dimPaq, dimPaq * 0.85, 15)
 
-        for i in range(self.longitudX):
-            for j in range(self.longitudY):
-                col = 15
-                if self.matriz[j][i] == 1:
-                    col = 0
-                pyxel.rect(20 + i * 10, 20 + j * 10, 5, 5, col)
-
     
     def __paqsEnJuego(self):
         # Cuenta cuantos paquetes hay actualmente en juego
