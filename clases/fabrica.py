@@ -21,14 +21,13 @@ class Fabrica:
         # Inicializamos los personajes
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
         controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-        self.luigi = Personaje("luigi", controlesLuigi, 100, 200)
-        self.mario = Personaje("mario", controlesMario, 400, 200)
+        self.luigi = Personaje("luigi", controlesLuigi, 30, 100)
+        self.mario = Personaje("mario", controlesMario, 220, 100)
 
         self.camion = Camion(20, 30)
         self.paquetes = Paquetes(POS_PAQ_CIN, NUM_CINTAS)
         # Añade un paquete en la posición inicial
         self.paquetes.anadirPaqInicio()
-        print(self.paquetes)
 
     @property
     def fallos(self):

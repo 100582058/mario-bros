@@ -98,9 +98,9 @@ class Paquetes:
         # -- Dibujamos las cintas --
         # Dibujamos las cintas de abajo a arriba
         maxY = 210
-        inicioCinta, finCinta = 130, 390
+        inicioCinta, finCinta = 60, 200
         # w: finCinta - inicioCinta   /  h: Altura/Ancho de la cinta
-        h = 10
+        h = 5
         # Separación vertical entre las cintas   /   Separación horizontal entre los paquetes
         sepCintas, sepPaquetes = 40, 32.5
         rad = h * 0.3

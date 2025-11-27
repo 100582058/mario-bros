@@ -1,6 +1,6 @@
 import time
 
-scl = 2
+scl = 4
 WIDTH, HEIGHT = 1024 / scl, 512 / scl
 # Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
 POS_PAQ_CIN = 8
