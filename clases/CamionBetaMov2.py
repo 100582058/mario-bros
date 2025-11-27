@@ -1,6 +1,5 @@
 import pyxel
 
-from main import fabrica
 from utils.config import NUM_CINTAS
 
 class Camion:
@@ -8,10 +7,11 @@ class Camion:
         self.posicion = [posX, posY]  # No varía una vez asignado   
         self.camionLista = []
 
-    def moverPaquetesCamion(self):
+    def mover(self):
         if fabrica.paquetes.matriz[0][0] == 1 and fabrica.luigi.planta == NUM_CINTAS - 1:
             # Eliminamos el paquete de la matriz de paquetes
-            fabrica.paquetes.matriz[0][0] = 0
+            print("Paquete tiene que eliminarse desde paquete.py, si Luigi está en esa posición")
+            # fabrica.paquetes.matriz[0][0] = 0
             self.camionLista.append(1) #creo que se dibuja solo con lo de que se dibuja un paquete en los 1 que implementaste
         # else: 
             # Si no, no hace nada, no?
@@ -34,7 +34,7 @@ class Camion:
         # return (pintar un rectangulo donde en la lista camionLista haya un 1)
         self.pintarPaquetesCamion()
     
-    def pintarPaquetesCamion(self):
+    def draw(self):
         # Pinta el camión y los paquetes
         # Por ejemplo:
         pyxel.rect(self.posicion[0], self.posicion[1], 40, 15, 4)

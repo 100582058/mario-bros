@@ -3,11 +3,11 @@ import time
 scl = 4
 WIDTH, HEIGHT = 1024 / scl, 512 / scl
 # Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
-POS_PAQ_CIN = 8
+NUM_PAQ_CIN = 64
 DIFICULTAD = "facil"
 NUM_CINTAS = 5  # Depende de la dificultad
-# ?Separación entre cintas
-SEP_ENTRE_CINTAS = 40
+# Separación entre cintas
+SEP_ENTRE_CINTAS = (HEIGHT - 25) / NUM_CINTAS
 
 TIEMPO, VIDAS = time.time(), 3
 # NUM_CINTAS, TIEMPO, VIDAS, VEL = asignarValores(DIFICULTAD)

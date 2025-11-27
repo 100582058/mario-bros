@@ -1,6 +1,6 @@
 import pyxel
 
-from utils.config import NUM_CINTAS
+from utils.config import NUM_CINTAS, HEIGHT, SEP_ENTRE_CINTAS
 from utils.funciones import dibujar
 
 class Personaje:
@@ -33,25 +33,25 @@ class Personaje:
             # Mover hacia arriba si no está en la más alta
             if self.planta > 0:
                 self.planta -= 1
-                self.posicion[1] -= 40
+                self.posicion[1] -= SEP_ENTRE_CINTAS
         if pyxel.btnp(self.controles[1]):
             # Mover hacia abajo si no está en la inferior
             if self.planta < NUM_CINTAS - 1:
                 self.planta += 1
-                self.posicion[1] += 40
+                self.posicion[1] += SEP_ENTRE_CINTAS
 
     def draw(self):
         col = 11
         if self.id.lower() == "mario":
             col = 8
-        pyxel.rect(self.posicion[0], self.posicion[1], 20, 25, col)
+        pyxel.rect(self.posicion[0], self.posicion[1], 10, 12, col)
 
         # DEBUG: Imprime posición
-        y = 10
+        y = 8
         if self.id == "mario":
-            y = 20
+            y = 16
         txt = f"{self.id} ({int(self.posicion[0])}, {int(self.posicion[1])})  Planta: {self.planta}"
-        pyxel.text(250, y, txt, 9)
+        pyxel.text(10, y, txt, 9)
 
         # Para dibujar al personaje DEBUG
         # dibujar(self, self.id)

@@ -1,6 +1,9 @@
+from json.scanner import NUMBER_RE
+
 import pyxel
 
-from utils.config import cintaPar
+from utils.config import cintaPar, WIDTH, HEIGHT, NUM_CINTAS, SEP_ENTRE_CINTAS
+
 
 class Paquetes:
     def __init__(self, longitudX, longitudY):
@@ -84,8 +87,8 @@ class Paquetes:
                 self.matriz[y - 1][x] = 1
             else:
                 self.matriz[y - 1][0] = 1
-        else:
-            print("=" * 10, "Paquete en la última posición, listo para entrar al camión", "=" * 10)
+        # else:
+        #     print("=" * 10, "Paquete en la última posición, listo para entrar al camión", "=" * 10)
 
     # Añade un paquete al principio de las cintas
     def anadirPaqInicio(self):
@@ -97,40 +100,42 @@ class Paquetes:
         # 130, 210, 290
         # -- Dibujamos las cintas --
         # Dibujamos las cintas de abajo a arriba
-        maxY = 210
+        minY = 25
         inicioCinta, finCinta = 60, 200
-        # w: finCinta - inicioCinta   /  h: Altura/Ancho de la cinta
+        # w (Longitud de la cinta): finCinta - inicioCinta   /  h: Altura/Ancho de la cinta
+        # Dimensiones del paquete
+        altoPaq, anchoPaq = 7, 4
+        # Separación entre paquetes
+        sepEntrePaquetes = (finCinta - inicioCinta - anchoPaq) / self.longitudX
         h = 5
-        # Separación vertical entre las cintas   /   Separación horizontal entre los paquetes
-        sepCintas, sepPaquetes = 40, 32.5
-        rad = h * 0.3
+        # Radio de los 'ejes'
+        # rad = h * 0.3
+        # -- Dibujamos las cintas --
         for cinta in range(self.longitudY):
-            y = maxY - cinta * sepCintas
+            y = minY + cinta * SEP_ENTRE_CINTAS
             pyxel.rect(inicioCinta, y, finCinta - inicioCinta, h, 9)
-            # Dibujamos los 'ejes de giro' de las cintas
+            # -- Dibujamos los 'ejes de giro' de las cintas --
             # Izquierda
-            pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, rad, 7)
-            pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, 1, 0)
+            # pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, rad, 7)
+            # pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, 1, 0)
             # Derecha
-            pyxel.circ(finCinta - (rad * 1.75), y + h / 2, rad, 7)
-            pyxel.circ(finCinta - (rad * 1.75), y + h / 2, 1, 0)
+            # pyxel.circ(finCinta - (rad * 1.75), y + h / 2, rad, 7)
+            # pyxel.circ(finCinta - (rad * 1.75), y + h / 2, 1, 0)
+
         # -- Dibujamos los paquetes --
         # Cada paquete puede estar en una posición de la matriz, de dimensiones (longitudX, longitudY)
-        dimPaq = 12  # Dimensiones del paquete
         # minY -> La altura a la que se empiezan a dibujar los paquertes (de arriba a abajo)
-        minY = maxY - (self.longitudY - 1) * sepCintas
+        # y = minY +  * sepCintas
         for i in range(self.longitudX):
             for j in range(self.longitudY):
-                x = inicioCinta + i * sepPaquetes
+                x = inicioCinta + i * sepEntrePaquetes
                 # y = maxY - j * sepCintas - dimPaq
-                y = minY + j * sepCintas - dimPaq
-                # NOTA: SIEMPRE [y][x] o [j][i]!!! Es el orden inverso de las componentes (x, y)
-                # # Se dibujan empezando de arriba a abajo, siguiendo el orden indiceJ -> [4, 3, 2, 1, 0] REFACTOR?
-                # indiceJ = (self.longitudY - 1) - j
+                y = minY + j * SEP_ENTRE_CINTAS - anchoPaq
+
                 if self.matriz[j][i] == 1:
-                    pyxel.rect(x, y, dimPaq, dimPaq * 0.85, 14)
-                else:
-                    pyxel.rectb(x, y, dimPaq, dimPaq * 0.85, 15)
+                    pyxel.rect(x, y, altoPaq, anchoPaq, 14)
+                #else:
+                #    pyxel.rectb(x, y, altoPaq, anchoPaq, 15)
 
     
     def __paqsEnJuego(self):

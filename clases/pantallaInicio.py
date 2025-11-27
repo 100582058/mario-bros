@@ -44,7 +44,7 @@ class PantallaInicio:
         pyxel.text(WIDTH//2 - 45, 10, "BIENVENIDO A MARIO BROS", pyxel.frame_count % 8)
 
         # Para dibujar los botones
-        x = 15
+        x = 12
         y = 30
 
         i = 0  #Es un contador, pero no me gustaba llamarlo contador
@@ -59,8 +59,8 @@ class PantallaInicio:
                 color_rect = color
                 borde = 0 #para que parezca que se elimina el borde, aunque solo se vuelve del color del fondo
 
-            pyxel.rect(x - 3, y - 3, 46, 22, borde)  # Rectángulo del borde (simplemente es un rectángulo más grande)
-            pyxel.rect(x, y, 40, 16, color_rect)  # Rectángulo del botón
+            pyxel.rect(x - 2, y - 2, 44, 18, borde)  # Rectángulo del borde (simplemente es un rectángulo más grande)
+            pyxel.rect(x, y, 40, 14, color_rect)  # Rectángulo del botón
 
 
             #Texto del botón

@@ -4,7 +4,8 @@ import time
 
 from clases.personaje import Personaje
 from clases.paquetes import Paquetes
-from clases.camion import Camion
+# from clases.camion import Camion
+from clases.CamionBetaMov2 import Camion
 
 from utils.config import TIEMPO, NUM_CINTAS, cintaPar
 
@@ -61,21 +62,20 @@ class Fabrica:
 
     # Bucle principal del juego, controlado por la fábrica
     def run(self):
-        # if pyxel.frame_count % 60 == 0:
-        #     print("Running...")
         # Permite mover a los personajes con las teclas
         self.luigi.mover()
         self.mario.mover()
 
         # Mueve los paquetes
-        if pyxel.frame_count % 15 == 0:
+        if pyxel.frame_count % 4 == 0:
             self.checkFallo()
             self.paquetes.actualizarPaquetes()
 
         # Añade los paquetes
         if pyxel.frame_count % random.randint(120, 240) == 0:
-            # print("NUEVO PAQUETE")
             self.paquetes.anadirPaqInicio()
+
+        # Mover el camión con los paquetes, solo si se llama desde self.fallo()
 
     def draw(self, WIDTH, HEIGHT):
         # Muestra los personajes
@@ -85,12 +85,15 @@ class Fabrica:
         # Muestra las cintas y los paquetes
         self.paquetes.draw()
 
+        # Muestra el camión
+        # self.camion.draw()
+
         # Muestra los fallos y tiempo
         t = time.time()
         tiempo = int((t - self.tiempoInicial) / 1)
         pyxel.text(WIDTH - 20, 15, str(tiempo), 10)
         txt = "FALLOS: "
-        txt += "X " * self.fallos
+        txt += "X" * self.fallos
         pyxel.text(WIDTH - 100, 15, txt, 0)
 
     # Función para ver si se cae un paquete
@@ -101,17 +104,25 @@ class Fabrica:
         x = self.paquetes.longitudX
         for y in range(NUM_CINTAS):
             # if (paquete en el borde izquierdo) Y (cinta par) Y (luigi no está en esa planta)
-            if (
-                self.paquetes.matriz[y][0] == 1 and cintaPar(y) and self.luigi.planta != y):  # luigi es el de la izq
-                # stop matriz paquetes (tenemos que ver como va)
-                # pausar juego
-                self.paquetes.matriz[y][0] = 0
-                self.fallos += 1
-            # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
-            elif (self.paquetes.matriz[y][x -1] == 1 and not cintaPar(y) and self.mario.planta != y):
-                # stop matriz paquetes (tenemos que ver como va)
-                self.paquetes.matriz[y][x - 1] = 0
-                self.fallos += 1
+            # Plantas intermedias
+
+            if y != 0:
+                if (
+                    self.paquetes.matriz[y][0] == 1 and cintaPar(y) and self.luigi.planta != y):  # luigi es el de la izq
+                    # stop matriz paquetes (tenemos que ver como va)
+                    # pausar juego
+                    self.paquetes.matriz[y][0] = 0
+                    self.fallos += 1
+                # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
+                elif (self.paquetes.matriz[y][x -1] == 1 and not cintaPar(y) and self.mario.planta != y):
+                    # stop matriz paquetes (tenemos que ver como va)
+                    self.paquetes.matriz[y][x - 1] = 0
+                    self.fallos += 1
+            else:
+                # Camion
+                print("Camion se mueve")
+                self.camion.mover()
+
 
     # Vidas
     # Dibujamos el banco
