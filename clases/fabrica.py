@@ -6,14 +6,18 @@ from clases.personaje import Personaje
 from clases.paquetes import Paquetes
 from clases.camion import Camion
 
-from utils.config import tiempoInicial
+from utils.config import TIEMPO, NUM_CINTAS, cintaPar
 
 class Fabrica:
-    def __init__(self, tiempo, vidas, POS_PAQ_CIN, NUM_CINTAS):
-        self.fallos = 2 # Cambian en función de la dificultad. DEBUG: Vidas o fallos?
-        self.tiempo = tiempo # tiempo del nivel
+    def __init__(self, vidas, POS_PAQ_CIN, NUM_CINTAS):
+        self.fallos = 0 
+        # Cambian en función de la dificultad. DEBUG: Vidas o fallos?
+        self.maxFallos = vidas
+        self.puntos = 0
+        self.tiempoInicial = TIEMPO # tiempo del nivel
         # self.dificultad = dificultad # 3 tipos
         # DEBUG: En __init__() ???
+
         # Inicializamos los personajes
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
         controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
@@ -24,6 +28,7 @@ class Fabrica:
         self.paquetes = Paquetes(POS_PAQ_CIN, NUM_CINTAS)
         # Añade un paquete en la posición inicial
         self.paquetes.anadirPaqInicio()
+        print(self.paquetes)
 
     @property
     def fallos(self):
@@ -33,13 +38,16 @@ class Fabrica:
     def fallos(self, valor):
         self.__vidas = valor
 
-    @property
-    def tiempo(self):
-        return self.__tiempo
+    # @property
+    # def tiempoInicial(self):
+    #     return self.__tiempoInicial
 
-    @tiempo.setter
-    def tiempo(self, valor):
-        self.__tiempo = valor
+    # @tiempoInicial.setter
+    # def tiempoInicial(self, valor):
+    #     if isinstance(valor, int):
+    #         self.__tiempoInicial = valor
+    #     else:
+    #         raise TypeError("El tiempo no es un entero")
 
     @property
     def dificultad(self):
@@ -50,20 +58,19 @@ class Fabrica:
         self.__dificultad = valor
 
     def __repr__(self):
-        return f"Fabrica(vidas={self.fallos}, tiempo={self.tiempo}, dificultad={self.dificultad}"
-
-    # def start(self, POSICIONES_PAQUETES_CINTA, NUM_CINTAS):
-    # MOVIDO A __init__()
+        return f"Fabrica(vidas={self.fallos}, tiempo={self.tiempoInicial}, dificultad={self.dificultad}"
 
     # Bucle principal del juego, controlado por la fábrica
     def run(self):
         # if pyxel.frame_count % 60 == 0:
         #     print("Running...")
+        # Permite mover a los personajes con las teclas
         self.luigi.mover()
         self.mario.mover()
 
         # Mueve los paquetes
         if pyxel.frame_count % 15 == 0:
+            self.checkFallo()
             self.paquetes.actualizarPaquetes()
 
         # Añade los paquetes
@@ -81,11 +88,31 @@ class Fabrica:
 
         # Muestra los fallos y tiempo
         t = time.time()
-        tiempo = int((t - tiempoInicial) / 1)
+        tiempo = int((t - self.tiempoInicial) / 1)
         pyxel.text(WIDTH - 20, 15, str(tiempo), 10)
         txt = "FALLOS: "
         txt += "X " * self.fallos
         pyxel.text(WIDTH - 100, 15, txt, 0)
+
+    # Función para ver si se cae un paquete
+    # matriz[y][x] = 0/1
+
+    # Cuando paquete en el final de las filas pares y no está Luigi, eliminar el paquete. Lo mismo para Mario
+    def checkFallo(self):
+        x = self.paquetes.longitudX
+        for y in range(NUM_CINTAS):
+            # if (paquete en el borde izquierdo) Y (cinta par) Y (luigi no está en esa planta)
+            if (
+                self.paquetes.matriz[y][0] == 1 and cintaPar(y) and self.luigi.planta != y):  # luigi es el de la izq
+                # stop matriz paquetes (tenemos que ver como va)
+                # pausar juego
+                self.paquetes.matriz[y][0] = 0
+                self.fallos += 1
+            # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
+            elif (self.paquetes.matriz[y][x -1] == 1 and not cintaPar(y) and self.mario.planta != y):
+                # stop matriz paquetes (tenemos que ver como va)
+                self.paquetes.matriz[y][x - 1] = 0
+                self.fallos += 1
 
     # Vidas
     # Dibujamos el banco

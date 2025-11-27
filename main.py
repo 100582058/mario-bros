@@ -5,14 +5,10 @@ from utils.config import WIDTH, HEIGHT, scl
 from utils.config import NUM_CINTAS, POS_PAQ_CIN, DIFICULTAD, TIEMPO, VIDAS
 from clases.fabrica import Fabrica
 
-# EN CONFIG
-# WIDTH, HEIGHT = 256, 256
 
-# DIFICULTAD = "facil"
-# # NUM_CINTAS, TIEMPO, VIDAS = asignarValores(DIFICULTAD)
-
+# Inicializamos el juego
 # fabrica = None # ERROR??????? Se inicializa fuera del bucle????
-fabrica = Fabrica(TIEMPO, VIDAS, POS_PAQ_CIN, NUM_CINTAS)
+fabrica = Fabrica(VIDAS, POS_PAQ_CIN, NUM_CINTAS)
 
 
 def main():
@@ -22,12 +18,10 @@ def main():
     # Cargamos el banco de imágenes
     pyxel.load("assets/PyxelPersonajes.pyxres")
 
-    # Inicializamos el juego
-    # NO, en __init__()
-    # fabrica.start()
 
     # DEBUG: Para no ocultar el ratón
     pyxel.mouse(True)
+
     pyxel.run(update, draw)
 
 

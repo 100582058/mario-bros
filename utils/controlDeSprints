@@ -1,8 +1,9 @@
 # Dudas:
 - Como estructurar el proyecto (init, clases)
-- Como importar variables (config)
+- Como importar variables (config) -> Bien
 - Como hacer la lógica del juego (fábrica y update) --> Pantalla_inicio y Escenario
 - Como poner los comentarios
+- Donde inicializar la fabrica?
 
 # Fernando (20/11):
 - Pantalla_inicio   --> Clase para el "home"

@@ -9,7 +9,12 @@ NUM_CINTAS = 5  # Depende de la dificultad
 # ?Separación entre cintas
 SEP_ENTRE_CINTAS = 40
 
-tiempoInicial = time.time()
+TIEMPO, VIDAS = time.time(), 3
+# NUM_CINTAS, TIEMPO, VIDAS, VEL = asignarValores(DIFICULTAD)
 
-TIEMPO, VIDAS = 0, 0
-# NUM_CINTAS, TIEMPO, VIDAS = asignarValores(DIFICULTAD)
+
+def cintaPar(indice):
+    # El último índice (self.longitudY - 1) siempre is impar (num = 0)
+    # DEBUG: self.longitudY == NUM_CINTAS ??
+    nuevoIndice = (NUM_CINTAS - 1) - indice
+    return nuevoIndice % 2 == 0

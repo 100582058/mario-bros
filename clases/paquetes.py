@@ -1,12 +1,13 @@
 import pyxel
 
+from utils.config import cintaPar
 
 class Paquetes:
     def __init__(self, longitudX, longitudY):
         # Creamos la matriz con los paquetes de tamaño (posiconesCinta, numCintas)
         self.longitudX = longitudX
         self.longitudY = longitudY
-        self.matrizPaquetes = self.inicializarPaquetes(longitudX, longitudY)
+        self.matriz = self.crearMatriz(longitudX, longitudY)
 
     @property
     def longitudX(self):
@@ -30,7 +31,7 @@ class Paquetes:
         else:
             raise TypeError("LongitudY debe ser un entero positivo")
 
-    def inicializarPaquetes(self, longitudX, longitudY):
+    def crearMatriz(self, longitudX, longitudY):
         matriz = []
         for y in range(longitudY):
             fila = []
@@ -42,9 +43,9 @@ class Paquetes:
     def actualizarPaquetes(self):
         # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
         for y in range(self.longitudY):
-            filaActual = self.matrizPaquetes[y]
+            filaActual = self.matriz[y]
             # Movemos las cintas hacia la 'derecha'. Para eso, revertimos las cintas pares (se mueven hacia la izquierda)
-            if self.__cintaPar(y):
+            if cintaPar(y):
                 # Cinta par
                 filaActual.reverse()
             # Se evalúa primero el último elemento de la lista
@@ -61,9 +62,9 @@ class Paquetes:
                 if filaActual[x] == 1:
                     filaActual = self.moverDcha(filaActual, x, y)
             # Le damos la vuelta otra vez, si es necesario
-            if self.__cintaPar(y):
+            if cintaPar(y):
                 filaActual.reverse()
-            self.matrizPaquetes[y] = filaActual
+            self.matriz[y] = filaActual
 
     def moverDcha(self, fila, x, y):
         # -- Mueve un paquete a la siguiente posición --
@@ -77,12 +78,12 @@ class Paquetes:
 
     def subirPaquete(self, x, y):
         if y != 0:
-            self.matrizPaquetes[y][x] = 0
+            self.matriz[y][x] = 0
             # Subimos el paquete al lado que corresponde (a la izquierda en las pares, a la derecha en las impares)
-            if self.__cintaPar(y - 1):
-                self.matrizPaquetes[y - 1][x] = 1
+            if cintaPar(y - 1):
+                self.matriz[y - 1][x] = 1
             else:
-                self.matrizPaquetes[y - 1][0] = 1
+                self.matriz[y - 1][0] = 1
         else:
             print("=" * 10, "Paquete en la última posición, listo para entrar al camión", "=" * 10)
 
@@ -90,7 +91,7 @@ class Paquetes:
     def anadirPaqInicio(self):
         x = self.longitudX - 1
         y = self.longitudY - 1
-        self.matrizPaquetes[y][x] = 1
+        self.matriz[y][x] = 1
 
     def draw(self):
         # 130, 210, 290
@@ -106,8 +107,6 @@ class Paquetes:
         for cinta in range(self.longitudY):
             y = maxY - cinta * sepCintas
             pyxel.rect(inicioCinta, y, finCinta - inicioCinta, h, 9)
-            # DEBUG
-            pyxel.text(inicioCinta - 10, y - 5, str(cinta), 0)
             # Dibujamos los 'ejes de giro' de las cintas
             # Izquierda
             pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, rad, 7)
@@ -128,7 +127,7 @@ class Paquetes:
                 # NOTA: SIEMPRE [y][x] o [j][i]!!! Es el orden inverso de las componentes (x, y)
                 # # Se dibujan empezando de arriba a abajo, siguiendo el orden indiceJ -> [4, 3, 2, 1, 0] REFACTOR?
                 # indiceJ = (self.longitudY - 1) - j
-                if self.matrizPaquetes[j][i] == 1:
+                if self.matriz[j][i] == 1:
                     pyxel.rect(x, y, dimPaq, dimPaq * 0.85, 14)
                 else:
                     pyxel.rectb(x, y, dimPaq, dimPaq * 0.85, 15)
@@ -136,30 +135,26 @@ class Paquetes:
         for i in range(self.longitudX):
             for j in range(self.longitudY):
                 col = 15
-                if self.matrizPaquetes[j][i] == 1:
+                if self.matriz[j][i] == 1:
                     col = 0
                 pyxel.rect(20 + i * 10, 20 + j * 10, 5, 5, col)
 
-    def __cintaPar(self, indice):
-        # El último índice (self.longitudY - 1) siempre is impar (num = 0)
-        num = (self.longitudY - 1) - indice
-        return num % 2 == 0
     
     def __paqsEnJuego(self):
         # Cuenta cuantos paquetes hay actualmente en juego
         sum = 0
         for y in range(self.longitudY):
             for x in range(self.longitudX):
-                if self.matrizPaquetes[y][x] == 1:
+                if self.matriz[y][x] == 1:
                     sum += 1
         return sum
 
     # DEBUG
     def __str__(self):
         txt = ""
-        for fila in self.matrizPaquetes:
+        for fila in self.matriz:
             txt += str(fila) + "\n"
         return txt
 
     def __repr__(self):
-        return f"Paquete(longitudX={self.longitudX}, longitudY={self.longitudY}, matrizPaquetes={self.matrizPaquetes})"
+        return f"Paquete(longitudX={self.longitudX}, longitudY={self.longitudY}, matrizPaquetes={self.matriz})"
