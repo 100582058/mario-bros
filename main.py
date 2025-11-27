@@ -53,6 +53,10 @@ def draw():
     pyxel.cls(7)
     fabrica.draw(WIDTH, HEIGHT)
 
+    # Posicion del ratón
+    txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
+    pyxel.text(40, 50, txt, 0)
+
 
 if __name__ == "__main__":
     main()
