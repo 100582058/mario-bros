@@ -1,5 +1,4 @@
 import pyxel
-
 from utils.config import WIDTH
 
 class PantallaInicio:
@@ -14,8 +13,26 @@ class PantallaInicio:
         self.seleccion = 0
         self.activa = True
         self.dificultadSeleccionada = None
+        self.timer = 0
+        self.comparador = 5 #Esto hace variar cuan rapido se activa el btn (que es para mantrener el botón presionado)
+
+    def btnCheck(self):
+        if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
+            self.timer += 1
+            if self.timer > self.comparador:
+                self.timer = 0 #Aqui lo reinicia
+                return 1
+        elif pyxel.btn(pyxel.KEY_W) or pyxel.btn(pyxel.KEY_UP):
+            self.timer += 1
+            if self.timer > self.comparador:
+                self.timer = 0
+                return 2
+        else:
+            self.timer = 0
+
 
     def update(self):
+
         #seleccion por flechas y wasd
         if pyxel.btnp(pyxel.KEY_S) or pyxel.btnp(pyxel.KEY_DOWN):
             if self.seleccion != 3:
@@ -23,12 +40,26 @@ class PantallaInicio:
             else:
                 self.seleccion = 0 # El mínimo
 
-
-        if pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_UP):
+        elif pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_UP):
             if self.seleccion != 0:
                 self.seleccion -= 1
             else:
                 self.seleccion = 3 # El máximo
+
+        else:
+            unoOdos = self.btnCheck()  # para que no halla problemas al llamar varias veces a la funcion en un solo frame
+            if unoOdos == 1:
+                    if self.seleccion != 3:
+                        self.seleccion += 1
+                    else:
+                        self.seleccion = 0  # El mínimo
+            elif unoOdos == 2:
+                    if self.seleccion != 0:
+                        self.seleccion -= 1
+                    else:
+                        self.seleccion = 3  # El máximo
+
+
 
         #confirmación con ENTER
         if pyxel.btnp(pyxel.KEY_RETURN): #Return es el enter
