@@ -14,8 +14,8 @@ class PantallaInicio:
         self.activa = True
         self.dificultadSeleccionada = None
         self.timer = 0
-        self.comparador = 5 #Esto hace variar cuan rapido se activa el btn (que es para mantrener el botón presionado)
-
+        self.comparador = 5 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
+                            #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
     def btnCheck(self):
         if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
             self.timer += 1
@@ -39,16 +39,19 @@ class PantallaInicio:
                 self.seleccion += 1
             else:
                 self.seleccion = 0 # El mínimo
+            self.timer = 0
 
         elif pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_UP):
             if self.seleccion != 0:
                 self.seleccion -= 1
             else:
                 self.seleccion = 3 # El máximo
+            self.timer = 0
 
         else:
             unoOdos = self.btnCheck()  # para que no halla problemas al llamar varias veces a la funcion en un solo frame
-            if unoOdos == 1:
+            if unoOdos == 1:           # como dato curioso al presionar a la vez arriba y abajo el programa tiene preferencia con
+                                       # el hacia abajo por estar antes en el condicional. Pero no supone problema porque el usuario no debería tocar ambos botones a la vez, y aunque lo haga no va a ser terrible
                     if self.seleccion != 3:
                         self.seleccion += 1
                     else:
