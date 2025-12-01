@@ -48,26 +48,26 @@ class Personaje:
 
             # Repetición al mantener pulsado arriba
             #NOTA +(tengo que revisar que funcione)+(Me parece que podría funcionar incluso con solo 1 timer para simplificar)
-            if pyxel.btn(self.controles[0]):
-                self.timerUp += 1
-                if self.timerUp > self.comparador:
-                    self.timerUp = 0 #Es importante asignarlo fuera por si se encuentra en el extremo de la lista
-                    if self.planta > 0:
-                        self.planta -= 1
-                        self.posicion[1] -= SEP_ENTRE_CINTAS
-            else:
-                self.timerUp = 0
+        if pyxel.btn(self.controles[0]):
+            self.timerUp += 1
+            if self.timerUp > self.comparador:
+                self.timerUp = 0 #Es importante asignarlo fuera por si se encuentra en el extremo de la lista
+                if self.planta > 0:
+                    self.planta -= 1
+                    self.posicion[1] -= SEP_ENTRE_CINTAS
+        else:
+            self.timerUp = 0
 
-            # Repetición al mantener pulsado abajo
-            if pyxel.btn(self.controles[1]):
-                self.timerDown += 1
-                if self.timerDown > self.comparador:
-                    self.timerDown = 0 #Es importante asignarlo fuera por si se encuentra en el extremo de la lista
-                    if self.planta < NUM_CINTAS - 1:
-                        self.planta += 1
-                        self.posicion[1] += SEP_ENTRE_CINTAS
-            else:
-                self.timerDown = 0
+        # Repetición al mantener pulsado abajo
+        if pyxel.btn(self.controles[1]):
+            self.timerDown += 1
+            if self.timerDown > self.comparador:
+                self.timerDown = 0 #Es importante asignarlo fuera por si se encuentra en el extremo de la lista
+                if self.planta < NUM_CINTAS - 1:
+                    self.planta += 1
+                    self.posicion[1] += SEP_ENTRE_CINTAS
+        else:
+            self.timerDown = 0
 
     def draw(self):
         col = 11

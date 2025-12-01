@@ -8,11 +8,11 @@ class Camion:
         self.camionLista = []
 
     def mover(self):
-        if fabrica.paquetes.matriz[0][0] == 1 and fabrica.luigi.planta == NUM_CINTAS - 1:
+        #if fabrica.paquetes.matriz[0][0] == 1 and fabrica.luigi.planta == NUM_CINTAS - 1:
             # Eliminamos el paquete de la matriz de paquetes
-            print("Paquete tiene que eliminarse desde paquete.py, si Luigi está en esa posición")
+            #print("Paquete tiene que eliminarse desde paquete.py, si Luigi está en esa posición")
             # fabrica.paquetes.matriz[0][0] = 0
-            self.camionLista.append(1) #creo que se dibuja solo con lo de que se dibuja un paquete en los 1 que implementaste
+            #self.camionLista.append(1) #creo que se dibuja solo con lo de que se dibuja un paquete en los 1 que implementaste
         # else: 
             # Si no, no hace nada, no?
             # Si no está Luigi, pierde una vida
@@ -32,7 +32,7 @@ class Camion:
         
         # No, así no se pinta un rectángulo
         # return (pintar un rectangulo donde en la lista camionLista haya un 1)
-        self.pintarPaquetesCamion()
+        self.draw()
     
     def draw(self):
         # Pinta el camión y los paquetes
