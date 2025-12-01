@@ -15,3 +15,12 @@ the region will be flipped horizontally and/or vertically. If colkey is specifie
 If rotate(in degrees), scale(1.0 = 100%), or both are specified, the corresponding transformations will be applied.
 The size of a tile is 8x8 pixels and is stored in a tilemap as a tuple of (image_tx, image_ty)."""
         pyxel.blt(x + 40, y, banco, 0, 0, tamanoImg, tamanoImg, scale=2)
+
+
+
+    # Vidas
+    # Dibujamos el banco
+    # banco = 0
+    # pyxel.blt(x:int, y:int, banco:int, u:int, v:int, w:int, h:int)
+    # x, y, w, h: Variables del banco
+    # pyxel.blt(5, 5, banco, 0, 0, 256, 256)

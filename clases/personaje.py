@@ -76,11 +76,11 @@ class Personaje:
         pyxel.rect(self.posicion[0], self.posicion[1], 10, 12, col)
 
         # DEBUG: Imprime posición
-        y = 8
-        if self.id == "mario":
-            y = 16
-        txt = f"{self.id} ({int(self.posicion[0])}, {int(self.posicion[1])})  Planta: {self.planta}"
-        pyxel.text(10, y, txt, 9)
+        # y = 8
+        # if self.id == "mario":
+        #     y = 16
+        # txt = f"{self.id} ({int(self.posicion[0])}, {int(self.posicion[1])})  Planta: {self.planta}"
+        # pyxel.text(10, y, txt, 9)
 
         # Para dibujar al personaje DEBUG
         # dibujar(self, self.id)

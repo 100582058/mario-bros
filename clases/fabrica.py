@@ -10,11 +10,14 @@ from utils.config import TIEMPO, NUM_CINTAS, cintaPar, COLORES
 
 class Fabrica:
     def __init__(self, vidas, POS_PAQ_CIN, NUM_CINTAS):
-        self.fallos = 0 
+        self.fallos = 0
+        self.pausa = False
         # Cambian en función de la dificultad. DEBUG: Vidas o fallos?
         self.maxFallos = vidas
         self.puntos = 0
         self.tiempoInicial = TIEMPO # tiempo del nivel
+        # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
+        self.tiempoPausado = TIEMPO
         # self.dificultad = dificultad # 3 tipos
         # DEBUG: En __init__() ???
 
@@ -59,22 +62,38 @@ class Fabrica:
     def __repr__(self):
         return f"Fabrica(vidas={self.fallos}, tiempo={self.tiempoInicial}, dificultad={self.dificultad}"
 
-    # Bucle principal del juego, controlado por la fábrica
+    # Bucle principal del juego
+    def juegoRun(self):
+        # Mueve todos los objetos (menos los paquetes)
+        self.run()
+        if not self.pausa:
+            # Se mueven los paquetes si el juego no está en pausa
+            self.moverPaquetes()
+        else:
+            # Esperar 't' segundos hasta volver a reanudar el juego
+            t = 2
+            tiempoActual = time.time()
+            tiempoPausado = tiempoActual - self.tiempoPausado
+            if tiempoPausado > t:
+                self.pausa = False
+
     def run(self):
         # Permite mover a los personajes con las teclas
         self.luigi.mover()
         self.mario.mover()
 
-        # Mueve los paquetes
+        # Mover el camión con los paquetes (si está lleno)
+        self.camion.mover_y_descargar()
+
+    def moverPaquetes(self):
         if pyxel.frame_count % 4 == 0:
             self.checkFallo()
             self.paquetes.actualizarPaquetes()
 
         # Añade los paquetes
-        if pyxel.frame_count % random.randint(120, 240) == 0:
+        if pyxel.frame_count % random.randint(60, 100) == 0:
             self.paquetes.anadirPaqInicio()
 
-        # Mover el camión con los paquetes, solo si se llama desde self.fallo()
 
     def draw(self, WIDTH, HEIGHT):
         # Muestra los personajes
@@ -90,28 +109,36 @@ class Fabrica:
         # Muestra el tiempo
         t = time.time()
         tiempo = int((t - self.tiempoInicial) / 1)
-        pyxel.text(WIDTH - 20, 15, str(tiempo), 10)
-        txt = "FALLOS: "
-        txt += "X" * self.fallos
-        pyxel.text(WIDTH - 100, 15, txt, 0)
+        pyxel.text(WIDTH - 20, 5, str(tiempo), COLORES["naranja"])
+
+        # Muestra los fallos
+        pyxel.text(WIDTH - 110, 5, f"FALLOS: {self.fallos}", COLORES["amarillo"])
+
+        # Muesta los puntos
+        pyxel.text(60, 5, f"PUNTOS: {self.puntos}", COLORES["amarillo"])
+
+    def anadirFallo(self):
+        self.pausa = True
+        self.fallos += 1
+        self.tiempoPausado = time.time()
 
     # Función para ver si se cae un paquete
-    # matriz[y][x] = 0/1
-
     # Cuando paquete en el final de las filas pares y no está Luigi, eliminar el paquete. Lo mismo para Mario
     def checkFallo(self):
         x = self.paquetes.longitudX
         for y in range(NUM_CINTAS):
-            # if (paquete en el borde izquierdo) Y (cinta par) Y (luigi no está en esa planta)
-            # Plantas intermedias
-
             if y != 0:
-                if (
-                    self.paquetes.matriz[y][0] == 1 and cintaPar(y) and self.luigi.planta != y):  # luigi es el de la izq
-                    # stop matriz paquetes (tenemos que ver como va)
-                    # pausar juego
-                    self.paquetes.matriz[y][0] = 0
-                    self.fallos += 1
+                # Comprueba si se cae un paquete en las filas intermedias
+                # REFACTOR: Fernando dice que son muchos condicionales y se lee mal
+                # QUIZÁS: self.paquetes.paqueteEn(x, y) and cintaIzda() and not self.luigi.enPlanta(y)
+                if self.paquetes.matriz[y][0] == 1 and cintaPar(y):
+                    if self.luigi.planta != y:  # luigi es el de la izq
+                        # stop matriz paquetes (tenemos que ver como va)
+                        # pausar juego
+                        self.anadirFallo()
+                        self.paquetes.matriz[y][0] = 0
+                    else:
+                        self.puntos += 1
                 # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
                 elif self.paquetes.matriz[y][x -1] == 1 and not cintaPar(y):
                     if self.mario.planta != y:

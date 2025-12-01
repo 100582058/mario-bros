@@ -37,9 +37,8 @@ def update():
         juegoIniciado = True
 
     # Lógica normal del juego
-    fallo = False
-    if juegoIniciado and not fallo:
-        fabrica.run()
+    if juegoIniciado:
+        fabrica.juegoRun()
 
 
 def draw():

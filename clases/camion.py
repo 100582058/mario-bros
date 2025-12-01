@@ -36,7 +36,6 @@ class Camion:
         return f"Camion(posicion={self.posicion}, carga={self.carga})"
 
 
-#NUEVA FUNCIÓN (revisar en prog)#
     def mover_y_descargar(self):
         # Condición inicial para que se empieze a mover
         if self.carga >= 8:
@@ -62,4 +61,9 @@ class Camion:
     def draw(self):
         # Pinta el camión y los paquetes
         # Por ejemplo:
-        pyxel.rect(self.posicion[0], self.posicion[1], 40, 15, COLORES["marron"])
+        longitudCamion = 30
+        pyxel.rect(self.posicion[0], self.posicion[1], longitudCamion, 5, COLORES["marron"])
+        pyxel.rect(self.posicion[0] +1, self.posicion[1] +2, longitudCamion -25, 5, COLORES["negro"])
+        pyxel.rect(self.posicion[0]+25, self.posicion[1] +2, longitudCamion - 25, 5, COLORES["negro"])
+        # Paquetes
+        pyxel.rect(self.posicion[0], self.posicion[1] - 5, longitudCamion * (self.carga / 8), 5, COLORES["rosa"])
