@@ -2,7 +2,7 @@ from json.scanner import NUMBER_RE
 
 import pyxel
 
-from utils.config import cintaPar, WIDTH, HEIGHT, NUM_CINTAS, SEP_ENTRE_CINTAS
+from utils.config import cintaPar, WIDTH, HEIGHT, NUM_CINTAS, SEP_ENTRE_CINTAS, COLORES
 
 
 class Paquetes:
@@ -113,7 +113,7 @@ class Paquetes:
         # -- Dibujamos las cintas --
         for cinta in range(self.longitudY):
             y = minY + cinta * SEP_ENTRE_CINTAS
-            pyxel.rect(inicioCinta, y, finCinta - inicioCinta, h, 9)
+            pyxel.rect(inicioCinta, y, finCinta - inicioCinta, h, COLORES["naranja"])
             # -- Dibujamos los 'ejes de giro' de las cintas --
             # Izquierda
             # pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, rad, 7)
@@ -133,9 +133,9 @@ class Paquetes:
                 y = minY + j * SEP_ENTRE_CINTAS - anchoPaq
 
                 if self.matriz[j][i] == 1:
-                    pyxel.rect(x, y, altoPaq, anchoPaq, 14)
+                    pyxel.rect(x, y, altoPaq, anchoPaq, COLORES["rosa"])
                 #else:
-                #    pyxel.rectb(x, y, altoPaq, anchoPaq, 15)
+                #    pyxel.rectb(x, y, altoPaq, anchoPaq, COLORES["carne"])
 
     
     def __paqsEnJuego(self):

@@ -1,14 +1,14 @@
 import pyxel
-from utils.config import WIDTH
+from utils.config import WIDTH, COLORES
 
 class PantallaInicio:
     def __init__(self):
         self.opciones = ["Facil", "Normal", "Dificil", "Crazy"]
         self.colores = {
-            "Facil": 3,    # verde
-            "Normal": 10,   # amarillo
-            "Dificil": 9,   # rojo
-            "Crazy": 8     # gris
+            "Facil": COLORES["azulCeleste"],
+            "Normal": COLORES["amarillo"],
+            "Dificil": COLORES["naranja"],
+            "Crazy": COLORES["gris"]
 }
         self.seleccion = 0
         self.activa = True
@@ -99,7 +99,7 @@ class PantallaInicio:
 
 
             #Texto del botón
-            pyxel.text(x + 6, y + 5, nombre, 0)
+            pyxel.text(x + 6, y + 5, nombre, COLORES["negro"])
 
             y += 22  # Separación de los rectángulos
             i += 1  # Incrementamos el contador

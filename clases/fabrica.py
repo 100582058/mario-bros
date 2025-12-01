@@ -4,10 +4,9 @@ import time
 
 from clases.personaje import Personaje
 from clases.paquetes import Paquetes
-# from clases.camion import Camion
-from clases.CamionBetaMov2 import Camion
+from clases.camion import Camion
 
-from utils.config import TIEMPO, NUM_CINTAS, cintaPar
+from utils.config import TIEMPO, NUM_CINTAS, cintaPar, COLORES
 
 class Fabrica:
     def __init__(self, vidas, POS_PAQ_CIN, NUM_CINTAS):

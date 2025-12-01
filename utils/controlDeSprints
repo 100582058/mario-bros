@@ -17,8 +17,7 @@
  * Añadir Jefe?, herencia de Personajes, imágenes!!!
  * Añadir esquema de clases en la memoria del proyecto
  * Añadir pantalla de inicio y selector de dificultad
- * Comproabr que estén todos los properties/setters
- * Cambiar self.personajes por self.mario/self.luigi ?
+ * Comprobar que estén todos los property/setters
  * 'Globalizar' las variables de dibujar las cintas en config.py
 
 # Sprint 1.A: Objetos e interfaz gráfica (13/11)

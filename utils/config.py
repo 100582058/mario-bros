@@ -12,6 +12,24 @@ SEP_ENTRE_CINTAS = (HEIGHT - 25) / NUM_CINTAS
 TIEMPO, VIDAS = time.time(), 3
 # NUM_CINTAS, TIEMPO, VIDAS, VEL = asignarValores(DIFICULTAD)
 
+COLORES = {
+    "negro": 0,
+    "azulMarino": 1,
+    "morado": 2,
+    "azulCeleste": 3,
+    "marron": 4,
+    "azul": 5,
+    "azulClaro": 6,
+    "blanco": 7,
+    "magenta": 8,
+    "naranja": 9,
+    "amarillo": 10,
+    "verde": 11,
+    "azul12": 12,
+    "gris": 13,
+    "rosa": 14,
+    "carne": 15
+}
 
 def cintaPar(indice):
     # El último índice (self.longitudY - 1) siempre is impar (num = 0)
