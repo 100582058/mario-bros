@@ -5,10 +5,10 @@ class PantallaInicio:
     def __init__(self):
         self.opciones = ["Facil", "Normal", "Dificil", "Crazy"]
         self.colores = {
-            "Facil": 11,    # verde
+            "Facil": 3,    # verde
             "Normal": 10,   # amarillo
-            "Dificil": 8,   # rojo
-            "Crazy": 13     # gris
+            "Dificil": 9,   # rojo
+            "Crazy": 8     # gris
 }
         self.seleccion = 0
         self.activa = True
@@ -88,7 +88,7 @@ class PantallaInicio:
 
             #Si está seleccionado...
             if i == self.seleccion:
-                color_rect = 3  # para resaltar
+                color_rect = 5  # para resaltar
                 borde = 10  #borde
             else:
                 color_rect = color
