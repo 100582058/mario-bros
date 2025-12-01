@@ -119,9 +119,13 @@ class Fabrica:
                     self.fallos += 1
             else:
                 # Camion
-                print("Camion se mueve")
-                self.camion.mover()
-
+                if self.luigi.planta == 0
+                self.camion.append(1)
+                    if len(self.camion) == 8:
+                        print("Camion se mueve")
+                        self.camion.mover_y_descargar() #NUEVO: este método de camión deberia realizar todo el mov del camión
+                else:
+                    self.paquetes.matriz[0][0] = 0
 
     # Vidas
     # Dibujamos el banco

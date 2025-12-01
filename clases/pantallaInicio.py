@@ -8,7 +8,7 @@ class PantallaInicio:
             "Facil": COLORES["azulCeleste"],
             "Normal": COLORES["amarillo"],
             "Dificil": COLORES["naranja"],
-            "Crazy": COLORES["gris"]
+            "Crazy": COLORES["magenta"]
 }
         self.seleccion = 0
         self.activa = True
