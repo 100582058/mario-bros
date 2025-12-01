@@ -13,22 +13,23 @@ class PantallaInicio:
         self.seleccion = 0
         self.activa = True
         self.dificultadSeleccionada = None
-        self.timer = 0
+        self.timerUp = 0
+        self.timerDown = 0
         self.comparador = 5 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
                             #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
     def btnCheck(self):
         if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
-            self.timer += 1
-            if self.timer > self.comparador:
-                self.timer = 0 #Aqui lo reinicia
+            self.timerDown += 1
+            if self.timerDown > self.comparador:
+                self.timerDown = 0 #Aqui lo reinicia
                 return 1
         elif pyxel.btn(pyxel.KEY_W) or pyxel.btn(pyxel.KEY_UP):
-            self.timer += 1
-            if self.timer > self.comparador:
-                self.timer = 0
+            self.timerUp += 1
+            if self.timerUp > self.comparador:
+                self.timerUp = 0
                 return 2
         else:
-            self.timer = 0
+            self.timerDown = 0
 
 
     def update(self):
@@ -39,14 +40,14 @@ class PantallaInicio:
                 self.seleccion += 1
             else:
                 self.seleccion = 0 # El mínimo
-            self.timer = 0
+            self.timerDown = 0
 
         elif pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_UP):
             if self.seleccion != 0:
                 self.seleccion -= 1
             else:
                 self.seleccion = 3 # El máximo
-            self.timer = 0
+            self.timerUp = 0
 
         else:
             unoOdos = self.btnCheck()  # para que no halla problemas al llamar varias veces a la funcion en un solo frame
