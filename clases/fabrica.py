@@ -21,10 +21,10 @@ class Fabrica:
         # Inicializamos los personajes
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
         controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-        self.luigi = Personaje("luigi", controlesLuigi, 30, 100)
-        self.mario = Personaje("mario", controlesMario, 220, 100)
+        self.luigi = Personaje("luigi", controlesLuigi, 45, 100)
+        self.mario = Personaje("mario", controlesMario, 205, 100)
 
-        self.camion = Camion(20, 30)
+        self.camion = Camion(10, 30)
         self.paquetes = Paquetes(POS_PAQ_CIN, NUM_CINTAS)
         # Añade un paquete en la posición inicial
         self.paquetes.anadirPaqInicio()
@@ -85,9 +85,9 @@ class Fabrica:
         self.paquetes.draw()
 
         # Muestra el camión
-        # self.camion.draw()
+        self.camion.draw()
 
-        # Muestra los fallos y tiempo
+        # Muestra el tiempo
         t = time.time()
         tiempo = int((t - self.tiempoInicial) / 1)
         pyxel.text(WIDTH - 20, 15, str(tiempo), 10)
@@ -113,23 +113,22 @@ class Fabrica:
                     self.paquetes.matriz[y][0] = 0
                     self.fallos += 1
                 # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
-                elif (self.paquetes.matriz[y][x -1] == 1 and not cintaPar(y) and self.mario.planta != y):
-                    # stop matriz paquetes (tenemos que ver como va)
-                    self.paquetes.matriz[y][x - 1] = 0
-                    self.fallos += 1
-            else:
-                # Camion
-                if self.luigi.planta == 0
-                self.camion.append(1)
-                    if len(self.camion) == 8:
-                        print("Camion se mueve")
-                        self.camion.mover_y_descargar() #NUEVO: este método de camión deberia realizar todo el mov del camión
-                else:
-                    self.paquetes.matriz[0][0] = 0
+                elif self.paquetes.matriz[y][x -1] == 1 and not cintaPar(y):
+                    if self.mario.planta != y:
+                        self.paquetes.matriz[y][x - 1] = 0
+                        self.anadirFallo()
+                    else:
+                        self.puntos += 1
 
-    # Vidas
-    # Dibujamos el banco
-    # banco = 0
-    # pyxel.blt(x:int, y:int, banco:int, u:int, v:int, w:int, h:int)
-    # x, y, w, h: Variables del banco
-    # pyxel.blt(5, 5, banco, 0, 0, 256, 256)
+                # Comprueba que esté Luigi en la cinta del camión
+                if self.paquetes.matriz[0][0] == 1:
+                    if self.luigi.planta == 0:
+                            print("Paquete añadido al camión")
+                            self.camion.carga += 1
+                            # Controla cuando se llena el camión para pausar el juego
+                            if self.camion.carga >= 8:
+                                self.pausa = True
+                                self.tiempoPausado = time.time()
+                                self.puntos += 10
+                    else:
+                        self.anadirFallo()

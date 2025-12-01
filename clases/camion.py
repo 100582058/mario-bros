@@ -5,11 +5,12 @@ from utils.config import NUM_CINTAS, COLORES
 class Camion:
     def __init__(self, posX, posY):
         self.posicion = [posX, posY]  # Y no varía una vez asignado
-        self.camionLista = []
         self.carga = 0
-        self.posicionDescarga = -10
-        self.posicionCarga = 20
-        self.velocidadCamion = 1
+        self.posicionDescarga = -40
+        self.posicionCarga = 10
+        self.velocidadCamion = 2
+        # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
+        self.dirMov = 0
 
     @property
     def posicion(self):
@@ -37,17 +38,26 @@ class Camion:
 
 #NUEVA FUNCIÓN (revisar en prog)#
     def mover_y_descargar(self):
-        while self.posicion[0] > self.posicionDescarga: #por ejemplo (tiene que estar fuera de la pantalla)
-            self.posicion[0] -= self.velocidadCamion #Izquierda. En funcion de esto irá mas o menos rápido
-        if self.posicion[0] == self.posicionDescarga:
-            while self.camionLista != []:
-                del self.camionLista[0]
-        while self.posicion[0] != self.posicionCarga:
-            self.posicion[0] += self.velocidadCamion
+        # Condición inicial para que se empieze a mover
+        if self.carga >= 8:
+            self.dirMov = -1
+        if self.dirMov != 0:
+            if self.posicion[0] > self.posicionDescarga and self.dirMov == -1: #por ejemplo (tiene que estar fuera de la pantalla)
+                self.posicion[0] -= self.velocidadCamion #Izquierda. En funcion de esto irá mas o menos rápido
+                print("hacia la izquierda")
+            elif self.posicion[0] <= self.posicionDescarga:
+                self.carga = 0
+                print("vacia camion, ahora se movería hacia la derecha")
+                self.dirMov = 1
+
+            if self.posicion[0] < self.posicionCarga and self.dirMov == 1:
+                self.posicion[0] += self.velocidadCamion
+                print("hacia derecha")
+            elif self.posicion[0] >= self.posicionCarga:
+                self.dirMov = 0
+                print("Ahora se movería hacia la izda")
 
 
-        # return (pintar un rectangulo donde en la lista camionLista haya un 1)
-        self.draw()
     
     def draw(self):
         # Pinta el camión y los paquetes

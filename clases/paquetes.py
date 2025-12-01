@@ -11,6 +11,7 @@ class Paquetes:
         self.longitudX = longitudX
         self.longitudY = longitudY
         self.matriz = self.crearMatriz(longitudX, longitudY)
+        self.lista0 = self.longitudX
 
     @property
     def longitudX(self):
@@ -94,7 +95,7 @@ class Paquetes:
     def anadirPaqInicio(self):
         x = self.longitudX - 1
         y = self.longitudY - 1
-        self.matriz[y][x] = 1
+        self.matriz[2][x] = 1
 
     def draw(self):
         # 130, 210, 290
