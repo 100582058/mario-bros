@@ -11,7 +11,7 @@ class Paquetes:
         self.longitudX = longitudX
         self.longitudY = longitudY
         self.matriz = self.crearMatriz(longitudX, longitudY)
-        self.lista0 = self.longitudX
+        self.lista0 = []
 
     @property
     def longitudX(self):
@@ -43,6 +43,15 @@ class Paquetes:
                 fila.append(0)
             matriz.append(fila)
         return matriz
+
+    def crearlista0(self):
+        for x in range(longitudX):
+            self.lista0.append(0)
+        return lista0.reverse()
+    def anadirPaqueteLista0(self):
+        lista0[0] = 1
+
+
 
     def actualizarPaquetes(self):
         # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
@@ -95,7 +104,7 @@ class Paquetes:
     def anadirPaqInicio(self):
         x = self.longitudX - 1
         y = self.longitudY - 1
-        self.matriz[2][x] = 1
+        self.matriz[y][x] = 1
 
     def draw(self):
         # 130, 210, 290

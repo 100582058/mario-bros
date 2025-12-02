@@ -8,7 +8,8 @@ class Camion:
         self.carga = 0
         self.posicionDescarga = -40
         self.posicionCarga = 10
-        self.velocidadCamion = 2
+        self.velocidadCamion = 3
+        self.velocidadCamionRetroceso = 1.5
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
         self.dirMov = 0
 
@@ -50,7 +51,7 @@ class Camion:
                 self.dirMov = 1
 
             if self.posicion[0] < self.posicionCarga and self.dirMov == 1:
-                self.posicion[0] += self.velocidadCamion
+                self.posicion[0] += self.velocidadCamionRetroceso
                 print("hacia derecha")
             elif self.posicion[0] >= self.posicionCarga:
                 self.dirMov = 0

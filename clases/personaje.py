@@ -12,7 +12,6 @@ class Personaje:
         self.timerUp = 0       #Son temporizadores para la repetición del movimiento con btn
         self.timerDown = 0
         self.comparador = 5 #El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
-
     @property
     def controles(self):
         return self.__controles
@@ -68,6 +67,7 @@ class Personaje:
                     self.posicion[1] += SEP_ENTRE_CINTAS
         else:
             self.timerDown = 0
+
 
     def draw(self):
         col = 11
