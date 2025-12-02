@@ -44,18 +44,14 @@ class Camion:
         if self.dirMov != 0:
             if self.posicion[0] > self.posicionDescarga and self.dirMov == -1: #por ejemplo (tiene que estar fuera de la pantalla)
                 self.posicion[0] -= self.velocidadCamion #Izquierda. En funcion de esto irá mas o menos rápido
-                print("hacia la izquierda")
             elif self.posicion[0] <= self.posicionDescarga:
                 self.carga = 0
-                print("vacia camion, ahora se movería hacia la derecha")
                 self.dirMov = 1
 
             if self.posicion[0] < self.posicionCarga and self.dirMov == 1:
                 self.posicion[0] += self.velocidadCamionRetroceso
-                print("hacia derecha")
             elif self.posicion[0] >= self.posicionCarga:
                 self.dirMov = 0
-                print("Ahora se movería hacia la izda")
 
 
     

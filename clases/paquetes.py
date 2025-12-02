@@ -50,14 +50,17 @@ class Paquetes:
             lista0.reverse()
             return lista0
             lista0.reverse()
+
     def anadirPaqueteLista0(self):
         self.lista0[0] = 1
+
     def verDondeHayPaquetes(self, lista): #paraLista0
         listaPosUnos = []
         for i in range(len(lista)):
             if lista[i] == 1:
                 listaPosUnos.append(i)
         return indices
+
     def moverUnosLista0(self):
         for i in range(len(lista)):
            lista0[listaPosUnos[i]] = 0

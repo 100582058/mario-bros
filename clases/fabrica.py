@@ -145,7 +145,6 @@ class Fabrica:
                 # QUIZÁS: self.paquetes.paqueteEn(x, y) and cintaIzda() and not self.luigi.enPlanta(y)
                 if self.paquetes.matriz[y][0] == 1 and cintaPar(y):
                     if self.luigi.planta != y:  # luigi es el de la izq
-                        # stop matriz paquetes (tenemos que ver como va)
                         # pausar juego
                         self.anadirFallo()
                         self.paquetes.matriz[y][0] = 0
@@ -162,12 +161,13 @@ class Fabrica:
                 # Comprueba que esté Luigi en la cinta del camión
                 if self.paquetes.matriz[0][0] == 1:
                     if self.luigi.planta == 0:
-                            print("Paquete añadido al camión")
                             self.camion.carga += 1
                             # Controla cuando se llena el camión para pausar el juego
                             if self.camion.carga >= 8:
                                 self.pausa = True
                                 self.tiempoPausado = time.time()
                                 self.puntos += 10
+                            # Eliminamos el paquete de la cinta
+                            self.paquetes.matriz[0][0] = 0
                     else:
                         self.anadirFallo()
