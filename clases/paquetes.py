@@ -47,11 +47,21 @@ class Paquetes:
     def crearlista0(self):
         for x in range(longitudX):
             self.lista0.append(0)
-        return lista0.reverse()
+            lista0.reverse()
+            return lista0
+            lista0.reverse()
     def anadirPaqueteLista0(self):
-        lista0[0] = 1
-
-
+        self.lista0[0] = 1
+    def verDondeHayPaquetes(self, lista): #paraLista0
+        listaPosUnos = []
+        for i in range(len(lista)):
+            if lista[i] == 1:
+                listaPosUnos.append(i)
+        return indices
+    def moverUnosLista0(self):
+        for i in range(len(lista)):
+           lista0[listaPosUnos[i]] = 0
+           lista0[listaPosUnos[i+1]] = 1
 
     def actualizarPaquetes(self):
         # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
@@ -107,6 +117,12 @@ class Paquetes:
         self.matriz[y][x] = 1
 
     def draw(self):
+
+        for i in range(len(self.lista0)): #Por algún motivo no me los imprime :(
+            paq = self.lista0[listaPosUnos[i]]
+            if paq == 1:
+                pyxel.rect(220, 107, altoPaq, anchoPaq, COLORES["rosa"])
+                print("se imprime")
         # 130, 210, 290
         # -- Dibujamos las cintas --
         # Dibujamos las cintas de abajo a arriba
