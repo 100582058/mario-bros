@@ -31,8 +31,8 @@ class Fabrica:
     def crearJuego(self):
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
         controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-        self.luigi = Personaje("luigi", controlesLuigi, 45, 100, COLORES["verde"])
-        self.mario = Personaje("mario", controlesMario, 205, 100, COLORES["magenta"])
+        self.luigi = Personaje("luigi", controlesLuigi, 45, 99, COLORES["verde"])
+        self.mario = Personaje("mario", controlesMario, 205, 99, COLORES["magenta"])
 
         self.camion = Camion(10, 30,  30, 5, COLORES["marron"])
         anchoCinta, altoCinta = 140, 4
@@ -147,11 +147,11 @@ class Fabrica:
         pyxel.text(60, 5, f"PUNTOS: {self.puntos}", COLORES["amarillo"])
 
         # Muesta el tiempo para el siguiente paquete
-        pyxel.text(60, 15, f"TIEMPO PARA PAQUETE: {int(self.tiempoSigPaq)}", COLORES["amarillo"])
+        pyxel.text(150, 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
 
         # Muestra los fallos
 
-        pyxel.text(140, 5, f"FALLOS: {self.fallos}", COLORES["amarillo"])
+        pyxel.text(105, 5, f"FALLOS: {self.fallos}", COLORES["magenta"])
 
     def anadirFallo(self):
         self.pausa = True

@@ -172,6 +172,8 @@ class Paquetes(Elemento):
         pyxel.rect(self.cinta0_x + 30, y - 10, 50, 10, COLORES["negro"])
         pyxel.rect(self.cinta0_x + 32, y - 8, 6, 5, COLORES["magenta"])
         pyxel.rect(self.cinta0_x + 5, y , 40, 1, COLORES["gris"])
+        pyxel.rect(self.cinta0_x - 5, y + 3, 5, 1, COLORES["marron"])
+
 
 
         # -- Dibujamos las cintas --
