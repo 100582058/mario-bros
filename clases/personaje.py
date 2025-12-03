@@ -66,7 +66,6 @@ class Personaje(Elemento):
     def draw(self):
         pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
 
-        # DEBUG: Imprime posición
         # y = 8
         # if self.id == "mario":
         #     y = 16

@@ -78,7 +78,7 @@ class Paquetes(Elemento):
             self.lista0.append(0)
         print("lista0", self.lista0)
 
-    def funcionesLista0(self):
+    def moverPaquetesLista0(self):
         # Añade paquete
         self.lista0[-1] = 1 #Añade un paquete en la posición de indice más grande de la lista0 (a la izquierda)
 
@@ -116,10 +116,10 @@ class Paquetes(Elemento):
                 self.lista0[i] = 0
                 self.lista0[i - 1] = 1
 
-        # Comprobar si ya hay un paquete listo para entrar en la matriz
-        if self.lista0[0] == 1:
-            self.lista0[0] = 0
-            self.matriz[-1][-1] = 1
+        # # Comprobar si ya hay un paquete listo para entrar en la matriz
+        # if self.lista0[0] == 1:
+        #     self.lista0[0] = 0
+        #     self.matriz[-1][-1] = 1
 
     def moverDcha(self, fila, x, y):
         # -- Mueve un paquete a la siguiente posición --
@@ -147,7 +147,7 @@ class Paquetes(Elemento):
         # x = self.longitudX - 1
         # y = self.longitudY - 1
         # self.matriz[y][x] = 1
-        self.funcionesLista0()
+        self.moverPaquetesLista0()
         print(self.lista0)
 
     def draw(self):
@@ -202,7 +202,6 @@ class Paquetes(Elemento):
                     sum += 1
         return sum
 
-    # DEBUG
     def __str__(self):
         txt = ""
         for fila in self.matriz:

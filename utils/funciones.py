@@ -1,7 +1,6 @@
 import pyxel
 
-# DEBUG: Eliminar archivo?
-# Hay que dibujar una parte especifica del banco de imágenes
+# DEBUG: Hay que dibujar una parte especifica del banco de imágenes
 def dibujar(obj, id=None):
     if id == "mario":
         # MUESTRA A MARIO
@@ -17,8 +16,6 @@ The size of a tile is 8x8 pixels and is stored in a tilemap as a tuple of (image
         pyxel.blt(x + 40, y, banco, 0, 0, tamanoImg, tamanoImg, scale=2)
 
 
-
-    # Vidas
     # Dibujamos el banco
     # banco = 0
     # pyxel.blt(x:int, y:int, banco:int, u:int, v:int, w:int, h:int)

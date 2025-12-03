@@ -6,14 +6,14 @@ from clases.personaje import Personaje
 from clases.paquetes import Paquetes
 from clases.camion import Camion
 
-from utils.config import TIEMPO, NUM_CINTAS, SEP_ENTRE_CINTAS, cintaPar, COLORES
+from utils.config import TIEMPO, NUM_CINTAS, SEP_ENTRE_CINTAS, NUM_PAQ_CIN, NUM_CINTAS, VIDAS, cintaPar, COLORES
 
 class Fabrica:
-    def __init__(self, vidas, POS_PAQ_CIN, NUM_CINTAS):
+    def __init__(self):
         self.fallos = 0
         self.pausa = False
         # Cambian en función de la dificultad. DEBUG: Vidas o fallos?
-        self.maxFallos = vidas
+        self.maxFallos = VIDAS
         self.puntos = 0
         self.tiempoInicial = TIEMPO # tiempo del nivel
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
@@ -23,21 +23,31 @@ class Fabrica:
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
-        # DEBUG: En __init__() ???
         self.tiempoSigPaq = time.time()
 
-        # Inicializamos los personajes
+        # Inicializamos todos los objetos del juego
+        self.crearJuego()
+
+    def crearJuego(self):
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
         controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
         self.luigi = Personaje("luigi", controlesLuigi, 45, 100, COLORES["verde"])
         self.mario = Personaje("mario", controlesMario, 205, 100, COLORES["magenta"])
 
         self.camion = Camion(10, 30,  30, 5, COLORES["marron"])
-        # self.paquetes = Paquetes(60, 25, COLORES["naranja"], 140, POS_PAQ_CIN, NUM_CINTAS)
-        # self.paquetes = Paquetes(60, 25, 7,4, COLORES["naranja"], POS_PAQ_CIN, NUM_CINTAS)
-        # (self, inicioX, inicioY, anchoPaq, altoPaq, color, anchoCinta, altoCinta, longitudX, longitudY, SEP_ENTRE_CINTAS)
         anchoCinta, altoCinta = 140, 4
-        self.paquetes = Paquetes(60, 25, 7,4, COLORES["rosa"], anchoCinta, altoCinta, POS_PAQ_CIN, NUM_CINTAS, SEP_ENTRE_CINTAS)
+        self.paquetes = Paquetes(
+            60,
+            25,
+            7,
+            4,
+            COLORES["rosa"],
+            anchoCinta,
+            altoCinta,
+            NUM_PAQ_CIN,
+            NUM_CINTAS,
+            SEP_ENTRE_CINTAS,
+        )
         # Añade un paquete en la posición inicial
         self.paquetes.anadirPaqInicio()
 
@@ -133,14 +143,15 @@ class Fabrica:
         tiempo = int((t - self.tiempoInicial) / 1)
         pyxel.text(WIDTH - 20, 5, str(tiempo), COLORES["naranja"])
 
-        # Muestra los fallos
-        pyxel.text(WIDTH - 110, 5, f"FALLOS: {self.fallos}", COLORES["amarillo"])
-
         # Muesta los puntos
         pyxel.text(60, 5, f"PUNTOS: {self.puntos}", COLORES["amarillo"])
 
         # Muesta el tiempo para el siguiente paquete
-        pyxel.text(110, 5, f"TIEMPO PARA PAQUETE: {int(self.tiempoSigPaq)}", COLORES["amarillo"])
+        pyxel.text(60, 15, f"TIEMPO PARA PAQUETE: {int(self.tiempoSigPaq)}", COLORES["amarillo"])
+
+        # Muestra los fallos
+
+        pyxel.text(140, 5, f"FALLOS: {self.fallos}", COLORES["amarillo"])
 
     def anadirFallo(self):
         self.pausa = True
@@ -154,11 +165,11 @@ class Fabrica:
         for y in range(NUM_CINTAS):
             if y != 0:
                 # Comprueba si se cae un paquete en las filas intermedias
-                # REFACTOR: Fernando dice que son muchos condicionales y se lee mal
+                # REFACTOR: --> Parece que ya está mejor?  Fernando dice que son muchos condicionales y se lee mal
                 # QUIZÁS: self.paquetes.paqueteEn(x, y) and cintaIzda() and not self.luigi.enPlanta(y)
                 if self.paquetes.matriz[y][0] == 1 and cintaPar(y):
                     if self.luigi.planta != y:  # luigi es el de la izq
-                        # pausar juego
+                        # Pausar juego
                         self.anadirFallo()
                         self.paquetes.matriz[y][0] = 0
                     else:
@@ -174,20 +185,23 @@ class Fabrica:
                 # Comprueba que esté Luigi en la cinta del camión
                 if self.paquetes.matriz[0][0] == 1:
                     if self.luigi.planta == 0:
-                            self.camion.carga += 1
-                            # Controla cuando se llena el camión para pausar el juego
-                            if self.camion.carga >= 8:
-                                self.pausa = True
-                                self.tiempoPausado = time.time()
-                                self.puntos += 10
-                            # Eliminamos el paquete de la cinta
-                            self.paquetes.matriz[0][0] = 0
+                        self.camion.carga += 1
+                        # Controla cuando se llena el camión para pausar el juego
+                        if self.camion.carga >= 8:
+                            self.tiempoPausado = time.time()
+                            self.pausa = True
+                            self.puntos += 10
+                        # Eliminamos el paquete de la cinta
+                        self.paquetes.matriz[0][0] = 0
                     else:
                         self.anadirFallo()
-                #Elimina el paquete del final de la lista0 / o lo pasa y suma un punto
+                # Comprueba si hay un paquete en la lista0 listo para ser añadido a la matriz
                 if self.paquetes.lista0[0] == 1:
-                    if self.mario.planta != 0:
-                        self.paquetes.lista0[0] = 0
+                    if self.mario.planta != NUM_CINTAS - 1:
+                        # Añadimos un fallo
                         self.anadirFallo()
                     else:
+                        # Añadimos el paquete a la matriz
+                        self.paquetes.matriz[-1][-1] = 1
                         self.puntos += 1
+                    self.paquetes.lista0[0] = 0

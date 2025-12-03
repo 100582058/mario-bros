@@ -1,9 +1,9 @@
 import time
 
-scl = 3#4
+scl = 4
 WIDTH, HEIGHT = 1024 / scl, 512 / scl
 # Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
-NUM_PAQ_CIN = 30 # ANTES: 50 (Así va más rápido para probar cosas)
+NUM_PAQ_CIN = 40 # ANTES: 50 (Así va más rápido para probar cosas)
 DIFICULTAD = "facil"
 NUM_CINTAS = 5  # Depende de la dificultad
 # Separación entre cintas

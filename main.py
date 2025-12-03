@@ -1,12 +1,13 @@
 import pyxel
 
-from utils.config import WIDTH, HEIGHT, NUM_CINTAS, NUM_PAQ_CIN, DIFICULTAD, TIEMPO, VIDAS, scl
+from utils.config import WIDTH, HEIGHT, NUM_CINTAS, NUM_PAQ_CIN, DIFICULTAD, TIEMPO, scl
 from clases.fabrica import Fabrica
 
 from clases.pantallaInicio import PantallaInicio
 
 
-fabrica = Fabrica(VIDAS, NUM_PAQ_CIN, NUM_CINTAS)
+# REFACTOR: Fabrica debería tener algunos parámetros
+fabrica = Fabrica()
 pantallaInicio = PantallaInicio()
 
 
