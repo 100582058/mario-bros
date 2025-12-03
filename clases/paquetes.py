@@ -80,7 +80,7 @@ class Paquetes(Elemento):
 
     def funcionesLista0(self):
         # Añade paquete
-        self.lista0[-1] = 1
+        self.lista0[-1] = 1 #Añade un paquete en la posición de indice más grande de la lista0 (a la izquierda)
 
 
     def actualizarPaquetes(self):
