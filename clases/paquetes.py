@@ -75,9 +75,8 @@ class Paquetes(Elemento):
     def crearlista0(self):
         self.lista0 = []
         #for x in range(self.longitudX):
-        for x in range(200): #no cambi mucho la velocidad, fíjate
+        for x in range(200): #no cambia mucho la velocidad, fíjate
             self.lista0.append(0)
-        print("lista0", self.lista0)
 
     def moverPaquetesLista0(self):
         # Añade paquete
@@ -129,6 +128,7 @@ class Paquetes(Elemento):
             fila[x] = 0
             fila[x + 1] = 1
         else:
+            # DEBUG
             print("ERROR: Paquete al final, se debería haber subido")
         return fila
 
