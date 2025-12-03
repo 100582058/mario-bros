@@ -6,7 +6,7 @@ from clases.personaje import Personaje
 from clases.paquetes import Paquetes
 from clases.camion import Camion
 
-from utils.config import TIEMPO, NUM_CINTAS, cintaPar, COLORES
+from utils.config import TIEMPO, NUM_CINTAS, SEP_ENTRE_CINTAS, cintaPar, COLORES
 
 class Fabrica:
     def __init__(self, vidas, POS_PAQ_CIN, NUM_CINTAS):
@@ -19,20 +19,24 @@ class Fabrica:
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
         self.tiempoPausado = TIEMPO
         self.ultimoSpawn = time.time()
-        self.intervalos = [7]  # segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
-        self.indiceIntervalo = 0   # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista
-                                    # (cuando la lista se acaba se repite)
+        self.intervalos = [2]  # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
+        # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
+        self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
         # DEBUG: En __init__() ???
 
         # Inicializamos los personajes
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
         controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-        self.luigi = Personaje("luigi", controlesLuigi, 45, 100)
-        self.mario = Personaje("mario", controlesMario, 205, 100)
+        self.luigi = Personaje("luigi", controlesLuigi, 45, 100, COLORES["verde"])
+        self.mario = Personaje("mario", controlesMario, 205, 100, COLORES["magenta"])
 
-        self.camion = Camion(10, 30)
-        self.paquetes = Paquetes(POS_PAQ_CIN, NUM_CINTAS)
+        self.camion = Camion(10, 30,  30, 5, COLORES["marron"])
+        # self.paquetes = Paquetes(60, 25, COLORES["naranja"], 140, POS_PAQ_CIN, NUM_CINTAS)
+        # self.paquetes = Paquetes(60, 25, 7,4, COLORES["naranja"], POS_PAQ_CIN, NUM_CINTAS)
+        # (self, inicioX, inicioY, anchoPaq, altoPaq, color, anchoCinta, altoCinta, longitudX, longitudY, SEP_ENTRE_CINTAS)
+        anchoCinta, altoCinta = 140, 4
+        self.paquetes = Paquetes(60, 25, 7,4, COLORES["rosa"], anchoCinta, altoCinta, POS_PAQ_CIN, NUM_CINTAS, SEP_ENTRE_CINTAS)
         # Añade un paquete en la posición inicial
         self.paquetes.anadirPaqInicio()
 

@@ -1,17 +1,44 @@
-from json.scanner import NUMBER_RE
+# from os.path import altsep
+#
+# from json.scanner import NUMBER_RE
 
 import pyxel
 
-from utils.config import cintaPar, WIDTH, HEIGHT, NUM_CINTAS, SEP_ENTRE_CINTAS, COLORES
+# REFACTOR: Eliminar NUM_CINTAS y SEP_ENTRE_CINTAS? --> No importarlas, usarlas como atributos?
+from utils.config import cintaPar, WIDTH, HEIGHT, NUM_CINTAS, COLORES
+from clases.elemento import Elemento
 
 
-class Paquetes:
-    def __init__(self, longitudX, longitudY):
-        # Creamos la matriz con los paquetes de tamaño (posiconesCinta, numCintas)
+class Paquetes(Elemento):
+    def __init__(self, inicioX, inicioY, anchoPaq, altoPaq, color, anchoCinta, altoCinta, longitudX, longitudY, SEP_ENTRE_CINTAS):
+        # Creamos la matriz con los paquetes de tamaño (posicionesCinta, numCintas)
+        # Separacion entre los paquetes
+        """
+        En este caso, los atributos heredados de Elemento indican lo siguiente:
+        - posX: posicion en el eje X donde se empiezan a dibujar las cintas/paquetes
+        - posY: posicion en el eje Y donde se empiezan a dibujar las cintas/paquetes
+        - ancho: Anchura de las paquetes
+        - alto: Altura total del conjunto de paquetes
+        - color: Color de las paquetes
+        """
+        altoCintas = NUM_CINTAS * SEP_ENTRE_CINTAS
+        super().__init__(inicioX, inicioY, anchoPaq, altoPaq, color)
+        minY = 25
+        inicioCinta, finCinta = 60, 200
         self.longitudX = longitudX
         self.longitudY = longitudY
+
+        # self.anchoPaq = 7
+        # self.altoPaq = 4
+        self.anchoCinta = anchoCinta
+        self.altoCinta = altoCinta
+        self.colorCinta = COLORES["naranja"]
+
+        self.sepEntrePaqs = (anchoCinta - self.ancho) / self.longitudX
+        self.sepEntreCintas = SEP_ENTRE_CINTAS
+
         self.matriz = self.crearMatriz(longitudX, longitudY)
-        self.lista0 = []
+        self.crearlista0()
 
     @property
     def longitudX(self):
@@ -45,26 +72,15 @@ class Paquetes:
         return matriz
 
     def crearlista0(self):
-        for x in range(longitudX):
+        self.lista0 = []
+        for x in range(self.longitudX):
             self.lista0.append(0)
-            lista0.reverse()
-            return lista0
-            lista0.reverse()
+        print("lista0", self.lista0)
 
-    def anadirPaqueteLista0(self):
-        self.lista0[0] = 1
+    def funcionesLista0(self):
+        # Añade paquete
+        self.lista0[-1] = 1
 
-    def verDondeHayPaquetes(self, lista): #paraLista0
-        listaPosUnos = []
-        for i in range(len(lista)):
-            if lista[i] == 1:
-                listaPosUnos.append(i)
-        return indices
-
-    def moverUnosLista0(self):
-        for i in range(len(lista)):
-           lista0[listaPosUnos[i]] = 0
-           lista0[listaPosUnos[i+1]] = 1
 
     def actualizarPaquetes(self):
         # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
@@ -92,6 +108,18 @@ class Paquetes:
                 filaActual.reverse()
             self.matriz[y] = filaActual
 
+        # -- Mover paquetes de la cinta 0 --
+        # Comprueba indices donde hay unos y los mueve hacia la izquierda
+        for i in range(1, len(self.lista0)):
+            if self.lista0[i] == 1:
+                self.lista0[i] = 0
+                self.lista0[i - 1] = 1
+
+        # Comprobar si ya hay un paquete listo para entrar en la matriz
+        if self.lista0[0] == 1:
+            self.lista0[0] = 0
+            self.matriz[-1][-1] = 1
+
     def moverDcha(self, fila, x, y):
         # -- Mueve un paquete a la siguiente posición --
         if x + 1 < self.longitudX:
@@ -115,56 +143,64 @@ class Paquetes:
 
     # Añade un paquete al principio de las cintas
     def anadirPaqInicio(self):
-        x = self.longitudX - 1
-        y = self.longitudY - 1
-        self.matriz[y][x] = 1
+        # x = self.longitudX - 1
+        # y = self.longitudY - 1
+        # self.matriz[y][x] = 1
+        self.funcionesLista0()
+        print(self.lista0)
 
     def draw(self):
-
-        for i in range(len(self.lista0)): #Por algún motivo no me los imprime :(
-            paq = self.lista0[listaPosUnos[i]]
+        # minY = 25
+        # inicioCinta, finCinta = 60, 200
+        # altoCinta = 5
+        # -- Dibujamos la lista 0 de paquetes --
+        # y = minY + (self.longitudY - 1) * SEP_ENTRE_CINTAS
+        # Dibujamos los paquetes de la lista 0
+        x = self.posX
+        y = self.posY + (self.longitudY - 1) * self.sepEntreCintas
+        for i in range(len(self.lista0)):
+            paq = self.lista0[i]
             if paq == 1:
-                pyxel.rect(220, 107, altoPaq, anchoPaq, COLORES["rosa"])
-                print("se imprime")
-        # 130, 210, 290
-        # -- Dibujamos las cintas --
-        # Dibujamos las cintas de abajo a arriba
-        minY = 25
-        inicioCinta, finCinta = 60, 200
+                pyxel.rect(x, self.posY - self.alto, self.ancho, self.alto, self.color)
+                x += self.sepEntrePaqs
+
+        # REFACTOR: Como se pintan las cintas. Ya?
+        # Dibujamos la cinta 0
+        pyxel.rect(220, y, 200, self.altoCinta, self.colorCinta)
+        pyxel.rect(240, y - 10, 50, 10, COLORES["negro"])
+
+        # -------
         # w (Longitud de la cinta): finCinta - inicioCinta   /  h: Altura/Ancho de la cinta
         # Dimensiones del paquete
-        altoPaq, anchoPaq = 7, 4
         # Separación entre paquetes
-        sepEntrePaquetes = (finCinta - inicioCinta - anchoPaq) / self.longitudX
-        h = 5
         # Radio de los 'ejes'
         # rad = h * 0.3
+        # -------
         # -- Dibujamos las cintas --
-        for cinta in range(self.longitudY):
-            y = minY + cinta * SEP_ENTRE_CINTAS
-            pyxel.rect(inicioCinta, y, finCinta - inicioCinta, h, COLORES["naranja"])
-            # -- Dibujamos los 'ejes de giro' de las cintas --
-            # Izquierda
-            # pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, rad, 7)
-            # pyxel.circ(inicioCinta + rad * 1.75, y + h / 2, 1, 0)
-            # Derecha
-            # pyxel.circ(finCinta - (rad * 1.75), y + h / 2, rad, 7)
-            # pyxel.circ(finCinta - (rad * 1.75), y + h / 2, 1, 0)
+        # Dibujamos las cintas de abajo a arriba
+        y = self.posY
+        print("y")
+        for j in range(self.longitudY):
+            print("y", y)
+            pyxel.rect(self.posX, y, self.anchoCinta, self.altoCinta, self.colorCinta)
+            y += self.sepEntreCintas
 
-        # -- Dibujamos los paquetes --
+        # -- Dibujamos los paquetes de la matriz --
         # Cada paquete puede estar en una posición de la matriz, de dimensiones (longitudX, longitudY)
-        # minY -> La altura a la que se empiezan a dibujar los paquertes (de arriba a abajo)
+        # minY -> La altura a la que se empiezan a dibujar los paquetes (de arriba a abajo)
         # y = minY +  * sepCintas
-        for i in range(self.longitudX):
-            for j in range(self.longitudY):
-                x = inicioCinta + i * sepEntrePaquetes
-                # y = maxY - j * sepCintas - dimPaq
-                y = minY + j * SEP_ENTRE_CINTAS - anchoPaq
+        x = self.posX
+        y = self.posY
+        for i in range(self.longitudX - 1, -1, -1):
+            for j in range(self.longitudY - 1, -1, -1):
+                # x = inicioCinta + i * sepEntrePaquetes
+                # # y = maxY - j * sepCintas - dimPaq
+                # y = minY + j * SEP_ENTRE_CINTAS - self.alto
+                x += self.sepEntrePaqs
+                y += self.sepEntreCintas
 
                 if self.matriz[j][i] == 1:
-                    pyxel.rect(x, y, altoPaq, anchoPaq, COLORES["rosa"])
-                #else:
-                #    pyxel.rectb(x, y, altoPaq, anchoPaq, COLORES["carne"])
+                    pyxel.rect(x, y - self.alto, self.ancho, self.alto, self.color)
 
     
     def __paqsEnJuego(self):

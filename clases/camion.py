@@ -1,28 +1,20 @@
 import pyxel
 
 from utils.config import NUM_CINTAS, COLORES
+from clases.elemento import Elemento
 
-class Camion:
-    def __init__(self, posX, posY):
-        self.posicion = [posX, posY]  # Y no varía una vez asignado
+class Camion(Elemento):
+    def __init__(self, posX, posY, ancho, alto, color):
+        super().__init__(posX, posY, ancho, alto, color)
         self.carga = 0
+        # Posición inicial, donde carga los paquetes
+        self.posicionCarga = posX
+        # Posición fuera de la pantalla, donde descarga los paquetes
         self.posicionDescarga = -40
-        self.posicionCarga = 10
         self.velocidadCamion = 3
         self.velocidadCamionRetroceso = 1.5
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
         self.dirMov = 0
-
-    @property
-    def posicion(self):
-        return self.__posicion
-    @posicion.setter
-    def posicion(self, valor):
-        if isinstance(valor, list):
-            self.__posicion = valor
-        else:
-            raise TypeError("La posición debe ser una array con 2 números")
-
     @property
     def carga(self):
         return self.__carga
@@ -33,34 +25,31 @@ class Camion:
         else:
             raise TypeError("La carga debe ser un entero positivo")
 
-    def __repr__(self):
-        return f"Camion(posicion={self.posicion}, carga={self.carga})"
-
 
     def mover_y_descargar(self):
         # Condición inicial para que se empieze a mover
         if self.carga >= 8:
             self.dirMov = -1
         if self.dirMov != 0:
-            if self.posicion[0] > self.posicionDescarga and self.dirMov == -1: #por ejemplo (tiene que estar fuera de la pantalla)
-                self.posicion[0] -= self.velocidadCamion #Izquierda. En funcion de esto irá mas o menos rápido
-            elif self.posicion[0] <= self.posicionDescarga:
+            if self.posX > self.posicionDescarga and self.dirMov == -1: #por ejemplo (tiene que estar fuera de la pantalla)
+                self.posX -= self.velocidadCamion #Izquierda. En funcion de esto irá mas o menos rápido
+            elif self.posX <= self.posicionDescarga:
                 self.carga = 0
                 self.dirMov = 1
 
-            if self.posicion[0] < self.posicionCarga and self.dirMov == 1:
-                self.posicion[0] += self.velocidadCamionRetroceso
-            elif self.posicion[0] >= self.posicionCarga:
+            if self.posX < self.posicionCarga and self.dirMov == 1:
+                self.posX += self.velocidadCamionRetroceso
+            elif self.posX >= self.posicionCarga:
                 self.dirMov = 0
 
 
     
     def draw(self):
-        # Pinta el camión y los paquetes
-        # Por ejemplo:
-        longitudCamion = 30
-        pyxel.rect(self.posicion[0], self.posicion[1], longitudCamion, 5, COLORES["marron"])
-        pyxel.rect(self.posicion[0] +1, self.posicion[1] +2, longitudCamion -25, 5, COLORES["negro"])
-        pyxel.rect(self.posicion[0]+25, self.posicion[1] +2, longitudCamion - 25, 5, COLORES["negro"])
-        # Paquetes
-        pyxel.rect(self.posicion[0], self.posicion[1] - 5, longitudCamion * (self.carga / 8), 5, COLORES["rosa"])
+        # -- Pinta el camión y los paquetes --
+        # Camión
+        pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
+        # Ruedas
+        pyxel.rect(self.posX +1, self.posY +2, self.ancho -25, self.alto, COLORES["negro"])
+        pyxel.rect(self.posX+25, self.posY +2, self.ancho - 25, self.alto, COLORES["negro"])
+        # Paquetes dentro del camión
+        pyxel.rect(self.posX, self.posY - 5, self.ancho * (self.carga / 8), self.alto, COLORES["rosa"])
