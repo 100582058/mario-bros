@@ -18,11 +18,10 @@ class Fabrica:
         self.tiempoInicial = TIEMPO # tiempo del nivel
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
         self.tiempoPausado = TIEMPO
-        self.ultimo_spawn = time.time()
-        self.intervalos = [5, 8, 12, 7]  # distintos tiempos (La cantidad de paquetes aumenta cuanto más bajo el número)
-        self.indice_intervalo = 0   # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista
-                                    # ej [80, 40, 30, 40, 60, 20, 20, 60, 10, 10, 10, 30, 60]
-                                    # por cada numero en la lista se añade 1 paquete y ahora representan los segundos antes del anterior
+        self.ultimoSpawn = time.time()
+        self.intervalos = [7]  # segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
+        self.indiceIntervalo = 0   # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista
+                                    # (cuando la lista se acaba se repite)
         # self.dificultad = dificultad # 3 tipos
         # DEBUG: En __init__() ???
 
@@ -97,17 +96,17 @@ class Fabrica:
 
         # tiempo actual
         ahora = time.time() #tiempo actual, empezado a contar desde que se ejecuta
-        intervalo = self.intervalos[self.indice_intervalo]
+        intervalo = self.intervalos[self.indiceIntervalo]
         # ¿Ha pasado el tiempo necesario?
-        if ahora - self.ultimo_spawn >= intervalo:
+        if ahora - self.ultimoSpawn >= intervalo:
             self.paquetes.anadirPaqInicio()
 
             # reinicia el temporizador
-            self.ultimo_spawn = ahora
+            self.ultimoSpawn = ahora
             # pasar al siguiente intervalo
-            self.indice_intervalo += 1
-            if self.indice_intervalo == len(self.intervalos):
-                self.indice_intervalo = 0
+            self.indiceIntervalo += 1
+            if self.indiceIntervalo == len(self.intervalos):
+                self.indiceIntervalo = 0
 
     def draw(self, WIDTH, HEIGHT):
         # Muestra los personajes
