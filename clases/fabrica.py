@@ -29,8 +29,8 @@ class Fabrica:
         # Inicializamos los personajes
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
         controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-        self.luigi = Personaje("luigi", controlesLuigi, 45, 100, COLORES["verde"])
-        self.mario = Personaje("mario", controlesMario, 205, 100, COLORES["magenta"])
+        self.luigi = Personaje("luigi", controlesLuigi, 45, 99, COLORES["verde"])
+        self.mario = Personaje("mario", controlesMario, 205, 99, COLORES["magenta"])
 
         self.camion = Camion(10, 30,  30, 5, COLORES["marron"])
         # self.paquetes = Paquetes(60, 25, COLORES["naranja"], 140, POS_PAQ_CIN, NUM_CINTAS)
@@ -134,13 +134,13 @@ class Fabrica:
         pyxel.text(WIDTH - 20, 5, str(tiempo), COLORES["naranja"])
 
         # Muestra los fallos
-        pyxel.text(WIDTH - 110, 5, f"FALLOS: {self.fallos}", COLORES["amarillo"])
+        pyxel.text(110, 5, f"FALLOS: {self.fallos}", COLORES["magenta"])
 
         # Muesta los puntos
         pyxel.text(60, 5, f"PUNTOS: {self.puntos}", COLORES["amarillo"])
 
         # Muesta el tiempo para el siguiente paquete
-        pyxel.text(110, 5, f"TIEMPO PARA PAQUETE: {int(self.tiempoSigPaq)}", COLORES["amarillo"])
+        pyxel.text(WIDTH - 95, 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
 
     def anadirFallo(self):
         self.pausa = True
@@ -188,6 +188,7 @@ class Fabrica:
                 if self.paquetes.lista0[0] == 1:
                     if self.mario.planta != 0:
                         self.paquetes.lista0[0] = 0
+                        print("eliminado")
                         self.anadirFallo()
                     else:
                         self.puntos += 1

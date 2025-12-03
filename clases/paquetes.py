@@ -74,7 +74,8 @@ class Paquetes(Elemento):
 
     def crearlista0(self):
         self.lista0 = []
-        for x in range(self.longitudX):
+        #for x in range(self.longitudX):
+        for x in range(200): #no cambi mucho la velocidad, fíjate
             self.lista0.append(0)
         print("lista0", self.lista0)
 
@@ -168,13 +169,19 @@ class Paquetes(Elemento):
 
         ## Dibujamos la cinta 0
         pyxel.rect(self.cinta0_x, y, 200, self.altoCinta, self.colorCinta)
-        pyxel.rect(self.cinta0_x + 20, y - 10, 50, 10, COLORES["negro"])
+        pyxel.rect(self.cinta0_x + 30, y - 10, 50, 10, COLORES["negro"])
+        pyxel.rect(self.cinta0_x + 32, y - 8, 6, 5, COLORES["magenta"])
+        pyxel.rect(self.cinta0_x + 5, y , 40, 1, COLORES["gris"])
 
 
         # -- Dibujamos las cintas --
         y = self.posY
         for j in range(self.longitudY):
             pyxel.rect(self.posX, y, self.anchoCinta, self.altoCinta, self.colorCinta)
+            pyxel.rect(self.posX + 5, y , self.anchoCinta -10, self.altoCinta -3, COLORES["gris"])
+            pyxel.rect(self.posX - 15, y + 3, self.anchoCinta - 125, self.altoCinta - 3, COLORES["marron"])
+            pyxel.rect(self.posX + 140, y + 3, self.anchoCinta - 125, self.altoCinta - 3, COLORES["marron"])
+
             y += self.sepEntreCintas
 
         # -- Dibujamos los paquetes de la matriz --
