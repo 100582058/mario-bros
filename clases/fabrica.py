@@ -19,11 +19,12 @@ class Fabrica:
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
         self.tiempoPausado = TIEMPO
         self.ultimoSpawn = time.time()
-        self.intervalos = [2]  # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
+        self.intervalos = [7, 10, 13, 22]  # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
         # DEBUG: En __init__() ???
+        self.tiempoSigPaq = time.time()
 
         # Inicializamos los personajes
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
@@ -101,8 +102,12 @@ class Fabrica:
         # tiempo actual
         ahora = time.time() #tiempo actual, empezado a contar desde que se ejecuta
         intervalo = self.intervalos[self.indiceIntervalo]
-        # ¿Ha pasado el tiempo necesario?
+        print("ahora", ahora)
+        # Da el valor al contador regresivo de segundos para paquete
+        self.tiempoSigPaq = intervalo - (ahora - self.ultimoSpawn) # + 1 #Va un poco mal, igual necesita el +1
+
         if ahora - self.ultimoSpawn >= intervalo:
+            print("resta", ahora - self.ultimoSpawn)
             self.paquetes.anadirPaqInicio()
 
             # reinicia el temporizador
@@ -133,6 +138,9 @@ class Fabrica:
 
         # Muesta los puntos
         pyxel.text(60, 5, f"PUNTOS: {self.puntos}", COLORES["amarillo"])
+
+        # Muesta el tiempo para el siguiente paquete
+        pyxel.text(110, 5, f"TIEMPO PARA PAQUETE: {int(self.tiempoSigPaq)}", COLORES["amarillo"])
 
     def anadirFallo(self):
         self.pausa = True
@@ -176,3 +184,10 @@ class Fabrica:
                             self.paquetes.matriz[0][0] = 0
                     else:
                         self.anadirFallo()
+                #Elimina el paquete del final de la lista0 / o lo pasa y suma un punto
+                if self.paquetes.lista0[0] == 1:
+                    if self.mario.planta != 0:
+                        self.paquetes.lista0[0] = 0
+                        self.anadirFallo()
+                    else:
+                        self.puntos += 1
