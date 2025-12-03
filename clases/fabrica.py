@@ -18,12 +18,11 @@ class Fabrica:
         self.tiempoInicial = TIEMPO # tiempo del nivel
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
         self.tiempoPausado = TIEMPO
-        self.introNuevoPaq = 0   #Estos dos atributos aumentan el espacio entre paquetes y evitan su acople
-        self.tiempEntrePaq = 2
-        self.intervalos = [80, 80, 60, 60, 20, 20]  # distintos tiempos (La cantidad de paquetes aumenta cuanto más bajo el número)
+        self.ultimo_spawn = time.time()
+        self.intervalos = [5, 8, 12, 7]  # distintos tiempos (La cantidad de paquetes aumenta cuanto más bajo el número)
         self.indice_intervalo = 0   # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista
                                     # ej [80, 40, 30, 40, 60, 20, 20, 60, 10, 10, 10, 30, 60]
-                                    # por cada numero en la lista se añade 1 paquete
+                                    # por cada numero en la lista se añade 1 paquete y ahora representan los segundos antes del anterior
         # self.dificultad = dificultad # 3 tipos
         # DEBUG: En __init__() ???
 
@@ -96,16 +95,19 @@ class Fabrica:
             self.checkFallo()
             self.paquetes.actualizarPaquetes()
 
-        # Añade los paquetes y evita que se acoplen
-        if pyxel.frame_count % self.intervalos[self.indice_intervalo] == 0:
-            self.introNuevoPaq += 1
-            if self.introNuevoPaq > self.tiempEntrePaq:
-                self.paquetes.anadirPaqInicio()
-                self.introNuevoPaq = 0
-                # avanzar al siguiente intervalo
-                self.indice_intervalo += 1
-                if self.indice_intervalo == len(self.intervalos):
-                    self.indice_intervalo = 0
+        # tiempo actual
+        ahora = time.time() #tiempo actual, empezado a contar desde que se ejecuta
+        intervalo = self.intervalos[self.indice_intervalo]
+        # ¿Ha pasado el tiempo necesario?
+        if ahora - self.ultimo_spawn >= intervalo:
+            self.paquetes.anadirPaqInicio()
+
+            # reinicia el temporizador
+            self.ultimo_spawn = ahora
+            # pasar al siguiente intervalo
+            self.indice_intervalo += 1
+            if self.indice_intervalo == len(self.intervalos):
+                self.indice_intervalo = 0
 
     def draw(self, WIDTH, HEIGHT):
         # Muestra los personajes
