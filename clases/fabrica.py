@@ -19,7 +19,7 @@ class Fabrica:
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
         self.tiempoPausado = TIEMPO
         self.ultimoSpawn = time.time()
-        self.intervalos = [7, 10, 13, 22]  # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
+        self.intervalos = [7]  # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
@@ -31,7 +31,7 @@ class Fabrica:
     def crearJuego(self):
         controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
         controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-        self.luigi = Personaje("luigi", controlesLuigi, 45, 99, COLORES["verde"])
+        self.luigi = Personaje("luigi", controlesLuigi, 45, 99, COLORES["azulCeleste"])
         self.mario = Personaje("mario", controlesMario, 205, 99, COLORES["magenta"])
 
         self.camion = Camion(10, 30,  30, 5, COLORES["marron"])
@@ -41,7 +41,7 @@ class Fabrica:
             25,
             7,
             4,
-            COLORES["rosa"],
+            COLORES["azulMarino"],
             anchoCinta,
             altoCinta,
             NUM_PAQ_CIN,
@@ -114,7 +114,7 @@ class Fabrica:
         intervalo = self.intervalos[self.indiceIntervalo]
         print("ahora", ahora)
         # Da el valor al contador regresivo de segundos para paquete
-        self.tiempoSigPaq = intervalo - (ahora - self.ultimoSpawn) # + 1 #Va un poco mal, igual necesita el +1
+        self.tiempoSigPaq = (intervalo - (ahora - self.ultimoSpawn)) # + 1 #Va un poco mal, igual necesita el +1
 
         if ahora - self.ultimoSpawn >= intervalo:
             print("resta", ahora - self.ultimoSpawn)
@@ -141,17 +141,32 @@ class Fabrica:
         # Muestra el tiempo
         t = time.time()
         tiempo = int((t - self.tiempoInicial) / 1)
-        pyxel.text(WIDTH - 20, 5, str(tiempo), COLORES["naranja"])
+        #pyxel.text(WIDTH - 20, 5, f"TIEMPO DE JUEGO: {str(tiempo)}", COLORES["naranja"])
+        x = -40 #Mover el conjunto en x
+        y = -2 # Mover el conjunto en y
+        z = -20 #Mover en x las letras menos mario bros
+        w = 0 #Mover en x las letras
+
+        pyxel.rect(x + 40,y+2, 260, 11, COLORES["negro"])
+        #pyxel.rect(0, 119, 260, 11, COLORES["negro"]) #Le da inmersividad
+        pyxel.text(x+z+210,y+w+ 5, f"TIEMPO DE JUEGO: {str(tiempo)}", COLORES["naranja"])
 
         # Muesta los puntos
-        pyxel.text(60, 5, f"PUNTOS: {self.puntos}", COLORES["amarillo"])
 
-        # Muesta el tiempo para el siguiente paquete
-        pyxel.text(150, 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
+        pyxel.text(x+z+120,y+w+ 5, f"PUNTOS: {self.puntos}", COLORES["amarillo"])
 
+        pyxel.text(x + 49, y + w + 5, f"MARIO BROS", COLORES["blanco"])
         # Muestra los fallos
+        pyxel.text(x +z+ 165,y+w+ 5, f"FALLOS: {self.fallos}", COLORES["magenta"])
+        # Muesta el tiempo para el siguiente paquete
+        #pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
+        # Contador en lista0
+        pyxel.text(252, 99, f"{int(self.tiempoSigPaq)}", COLORES["azul"])
 
-        pyxel.text(105, 5, f"FALLOS: {self.fallos}", COLORES["magenta"])
+
+
+
+
 
     def anadirFallo(self):
         self.pausa = True

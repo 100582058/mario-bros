@@ -48,10 +48,10 @@ def draw():
     if pantallaInicio.activa:
         pyxel.cls(0)
     else:
-        pyxel.cls(7)
+        pyxel.cls(15)
     # Posicion del ratón
     txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
-    pyxel.text(5, 5, txt, 2)
+    pyxel.text(5, 120, txt, 2)
 
     # Pantalla inicial
     if pantallaInicio.activa:
