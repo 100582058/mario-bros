@@ -1,0 +1,155 @@
+import pyxel
+import random
+from utils.config import WIDTH, COLORES
+
+class PantallaInicio:
+    def __init__(self):
+        self.opciones = ["Facil", "Normal", "Dificil", "Crazy"]
+        self.colores = {
+            "Facil": COLORES["azulCeleste"],
+            "Normal": COLORES["amarillo"],
+            "Dificil": COLORES["naranja"],
+            "Crazy": COLORES["magenta"]
+}
+        self.seleccion = 0
+        self.activa = True
+        self.cancionJuego = True
+        self.dificultadSeleccionada = None
+        self.timerUp = 0
+        self.timerDown = 0
+        self.comparador = 4 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
+                            #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
+        self.parpadeoCol = 1
+        self.conpCancion = 0
+        self.contadorMusica = 1
+
+    def btnCheck(self):
+        if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
+            self.timerDown += 1
+            if self.timerDown > self.comparador:
+                self.timerDown = 0 #Aqui lo reinicia
+                return 1
+        elif pyxel.btn(pyxel.KEY_W) or pyxel.btn(pyxel.KEY_UP):
+            self.timerUp += 1
+            if self.timerUp > self.comparador:
+                self.timerUp = 0
+                return 2
+        else:
+            self.timerDown = 0
+
+        if self.activa == True and self.conpCancion == 0:
+            self.conpCancion += 1
+            pyxel.playm(1, loop=True)
+
+
+    def update(self):
+        #Mutear música POR ALGÚN MOTIVO NO FUNCIONA
+       # if pyxel.btnp(pyxel.KEY_M):
+        #    self.contadorMusica += 0
+         #   if self.contadorMusica % 2 == 0:
+          #      pyxel.stopm()
+           #     if self.activa == False:
+            #        pyxel.playm(0, loop=True)
+             #   else:
+              #      pyxel.playm(1, loop=True)
+
+        #seleccion por flechas y wasd
+
+        if pyxel.btnp(pyxel.KEY_S) or pyxel.btnp(pyxel.KEY_DOWN):
+            if self.seleccion != 3:
+                self.seleccion += 1
+            else:
+                self.seleccion = 0 # El mínimo
+            self.timerDown = 0
+
+        elif pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_UP):
+            if self.seleccion != 0:
+                self.seleccion -= 1
+            else:
+                self.seleccion = 3 # El máximo
+            self.timerUp = 0
+
+        else:
+            unoOdos = self.btnCheck()  # para que no halla problemas al llamar varias veces a la funcion en un solo frame
+            if unoOdos == 1:           # como dato curioso al presionar a la vez arriba y abajo el programa tiene preferencia con
+                                       # el hacia abajo por estar antes en el condicional. Pero no supone problema porque el usuario no debería tocar ambos botones a la vez, y aunque lo haga no va a ser terrible
+                    if self.seleccion != 3:
+                        self.seleccion += 1
+                    else:
+                        self.seleccion = 0  # El mínimo
+            elif unoOdos == 2:
+                    if self.seleccion != 0:
+                        self.seleccion -= 1
+                    else:
+                        self.seleccion = 3  # El máximo
+
+
+
+        #confirmación con ENTER
+        if pyxel.btnp(pyxel.KEY_RETURN) or pyxel.btnp(pyxel.KEY_SPACE): #Return es el enter
+            # Por ahora TODAS van a la dificultad fácil
+            self.activa = False
+            self.dificultadSeleccionada = "facil"
+            pyxel.playm(0, loop=True)
+
+            return "facil"
+        return self.dificultadSeleccionada
+
+
+
+
+
+    def draw(self):
+        #Título
+        if pyxel.frame_count % 3 == 0: #Para no dañar epilepticos(cambia de color cada 3 frames)
+            self.parpadeoCol = random.randint(1, 15)
+        #pyxel.text(WIDTH//2 - 45, 10, "BIENVENIDO A MARIO BROS", self.parpadeoCol)
+        x = 0
+        y = -20
+        pyxel.text(80+x, 20+y, """
+        
+M     M   AAAA   RRRR    III    OOOO        
+MM   MM   A  A   R  R     I    O    O      
+M M M M   A  A   R  R     I    O    O     
+M  M  M   AAAA   RRRR     I    O    O     
+M     M   A  A   R R      I    O    O    
+M     M   A  A   R  R     I    O    O  
+M     M   A  A   R   R   III    OOOO    
+""", self.parpadeoCol)
+        pyxel.text(80 +x, 80+y, """
+        
+BBBB   RRRR    OOOO   SSSS
+B   B  R  R   O    O  S
+B   B  R  R   O    O  S
+BBBB   RRRR   O    O   SSS
+B   B  R R    O    O      S
+B   B  R  R   O    O      S
+BBBB   R   R   OOOO   SSSS
+""", self.parpadeoCol)
+
+        # Para dibujar los botones
+        x = 12
+        y = 25
+
+        i = 0  #Es un contador, pero no me gustaba llamarlo contador
+        for nombre in self.opciones:     #Así hacemos que "nombre" represente el nombre de las dificultades en función de su posicion en la lista
+            color = self.colores[nombre] #utilizamos el diccionario para decidir el color del rectángulo
+
+            #Si está seleccionado...
+            if i == self.seleccion:
+                color_rect = 5  # para resaltar
+                borde = 10  #borde
+            else:
+                color_rect = color
+                borde = 0 #para que parezca que se elimina el borde, aunque solo se vuelve del color del fondo
+
+            pyxel.rect(x - 2, y - 2, 44, 18, borde)  # Rectángulo del borde (simplemente es un rectángulo más grande)
+            pyxel.rect(x, y, 40, 14, color_rect)  # Rectángulo del botón
+
+
+            #Texto del botón
+            pyxel.text(x + 6, y + 5, nombre, COLORES["negro"])
+
+            y += 22  # Separación de los rectángulos
+            i += 1  # Incrementamos el contador
+
