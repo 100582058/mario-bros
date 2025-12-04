@@ -26,6 +26,7 @@ class Fabrica:
         # self.dificultad = dificultad # 3 tipos
         self.tiempoSigPaq = time.time()
 
+
         # Inicializamos todos los objetos del juego
         self.crearJuego()
 
@@ -159,7 +160,7 @@ class Fabrica:
 
         pyxel.rect(x + 40,y+2, 260, 11, COLORES["negro"])
         #pyxel.rect(0, 119, 260, 11, COLORES["negro"]) #Le da inmersividad
-        pyxel.text(x+z+210,y+w+ 5, f"TIEMPO DE JUEGO: {str(tiempo)}", COLORES["naranja"])
+        pyxel.text(x+z+210,y+w+ 5, f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])
 
         # Muesta los puntos
 

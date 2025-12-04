@@ -16,7 +16,7 @@ class PantallaInicio:
         self.dificultadSeleccionada = None
         self.timerUp = 0
         self.timerDown = 0
-        self.comparador = 5 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
+        self.comparador = 4 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
                             #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
         self.parpadeoCol = 1
 

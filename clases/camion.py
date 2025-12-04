@@ -54,4 +54,8 @@ class Camion(Elemento):
         pyxel.rect(self.posX+25, self.posY +2, self.ancho - 25, self.alto, COLORES["negro"])
         pyxel.rect(self.posX + 27, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
         # Paquetes dentro del camión
-        pyxel.rect(self.posX, self.posY - 5, self.ancho * (self.carga / 8), self.alto, COLORES["azulMarino"])
+
+        if self.carga <= 4:
+            pyxel.rect(self.posX +2 , self.posY - 5, self.ancho * (self.carga / 8), self.alto, COLORES["azulMarino"])
+        elif self.carga > 4:
+            pyxel.rect(self.posX + 2, self.posY - 1, self.ancho * (self.carga / 8), self.alto, COLORES["azulMarino"])
