@@ -2,11 +2,12 @@ import pyxel
 import random
 import time
 
+import utils.config
 from clases.personaje import Personaje
 from clases.paquetes import Paquetes
 from clases.camion import Camion
 
-from utils.config import TIEMPO, NUM_CINTAS, SEP_ENTRE_CINTAS, NUM_PAQ_CIN, NUM_CINTAS, VIDAS, cintaPar, COLORES
+from utils.config import TIEMPO, NUM_CINTAS, SEP_ENTRE_CINTAS, NUM_PAQ_CIN, NUM_CINTAS, VIDAS, cintaPar, COLORES, ANCHO_PAQ, ALTO_PAQ
 
 class Fabrica:
     def __init__(self):
@@ -39,8 +40,8 @@ class Fabrica:
         self.paquetes = Paquetes(
             60,
             25,
-            7,
-            4,
+            ANCHO_PAQ,
+            ALTO_PAQ,
             COLORES["azulMarino"],
             anchoCinta,
             altoCinta,
@@ -109,16 +110,21 @@ class Fabrica:
             self.checkFallo()
             self.paquetes.actualizarPaquetes()
 
+        if pyxel.frame_count % 20 == 0:
+            self.checkFallo()
+            self.paquetes.actualizarLista0()
+
         # tiempo actual
         ahora = time.time() #tiempo actual, empezado a contar desde que se ejecuta
         intervalo = self.intervalos[self.indiceIntervalo]
-        print("ahora", ahora)
+        # print("ahora", ahora)
         # Da el valor al contador regresivo de segundos para paquete
         self.tiempoSigPaq = (intervalo - (ahora - self.ultimoSpawn)) # + 1 #Va un poco mal, igual necesita el +1
 
         if ahora - self.ultimoSpawn >= intervalo:
-            print("resta", ahora - self.ultimoSpawn)
+            # print("resta", ahora - self.ultimoSpawn)
             self.paquetes.anadirPaqInicio()
+            print("Añadido paquete")
 
             # reinicia el temporizador
             self.ultimoSpawn = ahora
@@ -141,7 +147,11 @@ class Fabrica:
         # Muestra el tiempo
         t = time.time()
         tiempo = int((t - self.tiempoInicial) / 1)
-        #pyxel.text(WIDTH - 20, 5, f"TIEMPO DE JUEGO: {str(tiempo)}", COLORES["naranja"])
+        tiempMin = 0
+
+        tiempoMins = tiempo // 60
+        tiempoSegs = int(tiempo - tiempoMins * 60)
+        #pyxel.text(WIDTH - 20, 5, f"TIEMPO DE JUEGO: {tiempo}", COLORES["naranja"])
         x = -40 #Mover el conjunto en x
         y = -2 # Mover el conjunto en y
         z = -20 #Mover en x las letras menos mario bros
@@ -167,11 +177,6 @@ class Fabrica:
 
 
 
-
-    def anadirFallo(self):
-        self.pausa = True
-        self.fallos += 1
-        self.tiempoPausado = time.time()
 
     # Función para ver si se cae un paquete
     # Cuando paquete en el final de las filas pares y no está Luigi, eliminar el paquete. Lo mismo para Mario
@@ -220,3 +225,9 @@ class Fabrica:
                         self.paquetes.matriz[-1][-1] = 1
                         self.puntos += 1
                     self.paquetes.lista0[0] = 0
+
+
+    def anadirFallo(self):
+        self.pausa = True
+        self.fallos += 1
+        self.tiempoPausado = time.time()

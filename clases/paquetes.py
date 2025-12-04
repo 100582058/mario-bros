@@ -38,8 +38,9 @@ class Paquetes(Elemento):
         # Creamos la matriz con los paquetes
         self.matriz = self.crearMatriz(longitudX, longitudY)
         # Creamos la lista de 1D con los paquetes de la cinta 0
+        self.len_cinta0 = 9
+        self.cinta0_x = 220 # 220
         self.crearlista0()
-        self.cinta0_x = 220
 
     @property
     def longitudX(self):
@@ -75,14 +76,19 @@ class Paquetes(Elemento):
     def crearlista0(self):
         self.lista0 = []
         #for x in range(self.longitudX):
-        for x in range(200): #no cambi mucho la velocidad, fíjate
+        for x in range(self.len_cinta0): #no cambi mucho la velocidad, fíjate
             self.lista0.append(0)
         print("lista0", self.lista0)
 
-    def moverPaquetesLista0(self):
+    def actualizarLista0(self):
         # Añade paquete
-        self.lista0[-1] = 1 #Añade un paquete en la posición de indice más grande de la lista0 (a la izquierda)
+        # self.lista0[-1] = 1 #Añade un paquete en la posición de indice más grande de la lista0 (a la izquierda)
 
+        # Comprueba indices donde hay unos y los mueve hacia la izquierda
+        for i in range(1, len(self.lista0)):
+            if self.lista0[i] == 1:
+                self.lista0[i] = 0
+                self.lista0[i - 1] = 1
 
     def actualizarPaquetes(self):
         # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
@@ -110,18 +116,6 @@ class Paquetes(Elemento):
                 filaActual.reverse()
             self.matriz[y] = filaActual
 
-        # -- Mover paquetes de la cinta 0 --
-        # Comprueba indices donde hay unos y los mueve hacia la izquierda
-        for i in range(1, len(self.lista0)):
-            if self.lista0[i] == 1:
-                self.lista0[i] = 0
-                self.lista0[i - 1] = 1
-
-        # # Comprobar si ya hay un paquete listo para entrar en la matriz
-        # if self.lista0[0] == 1:
-        #     self.lista0[0] = 0
-        #     self.matriz[-1][-1] = 1
-
     def moverDcha(self, fila, x, y):
         # -- Mueve un paquete a la siguiente posición --
         if x + 1 < self.longitudX:
@@ -148,14 +142,10 @@ class Paquetes(Elemento):
         # x = self.longitudX - 1
         # y = self.longitudY - 1
         # self.matriz[y][x] = 1
-        self.moverPaquetesLista0()
-        print(self.lista0)
+        # self.actualizarLista0()
+        self.lista0[-1] = 1
 
     def draw(self):
-        # minY = 25
-        # inicioCinta, finCinta = 60, 200
-        # altoCinta = 5
-        # y = minY + (self.longitudY - 1) * SEP_ENTRE_CINTAS
         # -- Dibujamos la lista 0 de paquetes --
         ## Dibujamos los paquetes de la lista 0
         x = self.cinta0_x

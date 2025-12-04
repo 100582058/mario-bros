@@ -9,7 +9,7 @@ class Personaje(Elemento):
         super().__init__(posX, posY, 10, 12, color)
         self.id = id  # Nombre del Personaje
         self.controles = controles  # Tupla con 2 strings para las teclas
-        self.planta = NUM_CINTAS - 1  # ?Planta en la que se encuentra
+        self.planta = NUM_CINTAS - 1  # Planta en la que se encuentra
         self.timerUp = 0       #Son temporizadores para la repetición del movimiento con btn
         self.timerDown = 0
         self.comparador = 4 #El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
@@ -61,6 +61,8 @@ class Personaje(Elemento):
         else:
             self.timerDown = 0
 
+    def estaEnPiso(self):
+        pass
 
     def draw(self):
         pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
