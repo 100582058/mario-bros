@@ -16,8 +16,8 @@ def main():
 
     pyxel.init(int(WIDTH), int(HEIGHT), title="Proyecto final - Mario Bros", display_scale=scl)
 
+    # pyxel.load("assets/my_resource.pyxres") # DEBUG Assets de Alejandro
     # pyxel.load("assets/PyxelPersonajes.pyxres")
-    pyxel.load("assets/my_resource.pyxres") # DEBUG Assets de Alejandro
     pyxel.load("assets/musicaFondo.pyxres")
 
     pyxel.mouse(True)
