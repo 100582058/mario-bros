@@ -67,6 +67,10 @@ class Personaje(Elemento):
     def draw(self):
         pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
 
+
+        tamanoImg, banco = 16, 0
+        pyxel.blt(self.posX + 20, self.posY, banco, 0, 0, tamanoImg, tamanoImg, scale=1)
+
         # y = 8
         # if self.id == "mario":
         #     y = 16
