@@ -22,7 +22,7 @@ class Fabrica:
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
         self.tiempoPausado = TIEMPO
         self.ultimoSpawn = time.time()
-        self.intervalos = [3]  # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
+        self.intervalos = [7]  # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
