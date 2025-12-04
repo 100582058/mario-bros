@@ -12,10 +12,12 @@ from utils.config import TIEMPO, NUM_CINTAS, SEP_ENTRE_CINTAS, NUM_PAQ_CIN, NUM_
 class Fabrica:
     def __init__(self):
         self.fallos = 0
+        self.compFallos = 0
         self.pausa = False
         # Cambian en función de la dificultad. DEBUG: Vidas o fallos?
         self.maxFallos = VIDAS
         self.puntos = 0
+        self.puntosComp = 0
         self.tiempoInicial = TIEMPO # tiempo del nivel
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
         self.tiempoPausado = TIEMPO
@@ -114,6 +116,22 @@ class Fabrica:
         if pyxel.frame_count % 20 == 0:
             self.checkFallo()
             self.paquetes.actualizarLista0()
+
+        #Sonido fallos
+        if self.compFallos < self.fallos:
+            self.compFallos += 1
+            pyxel.play(0, 14)
+
+        #Sonido puntos
+        if self.puntosComp < self.puntos - 9: #Puntos del camión
+            self.puntosComp += 10
+            pyxel.play(0, 6)
+        elif self.puntosComp < self.puntos:
+            self.puntosComp += 1
+            pyxel.play(0, 6)
+
+
+
 
         # tiempo actual
         ahora = time.time() #tiempo actual, empezado a contar desde que se ejecuta

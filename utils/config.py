@@ -8,7 +8,7 @@ WIDTH, HEIGHT = 1024 / scl, 512 / scl
 NUM_PAQ_CIN = 10  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
 DIFICULTAD = "facil"
 
-NUM_CINTAS = 5  # Depende de la dificultad #Con números múltiplos de 5 curiosamente luigi y mario se ponen exactamente en la plataforma
+NUM_CINTAS = 3  # Depende de la dificultad #Con números múltiplos de 5 curiosamente luigi y mario se ponen exactamente en la plataforma
 # Separación entre cintas
 SEP_ENTRE_CINTAS = (HEIGHT - 25) / NUM_CINTAS
 ANCHO_PAQ, ALTO_PAQ = 7, 4

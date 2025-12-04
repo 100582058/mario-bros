@@ -35,6 +35,7 @@ def update():
     # Si todavía estamos en la pantalla inicial
     # if pantallaInicio.activa:
     dificultad = pantallaInicio.update()
+
     if dificultad:
         # Inicializamos el juego real cuando se confirme
         juegoIniciado = True

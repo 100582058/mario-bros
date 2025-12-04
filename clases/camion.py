@@ -39,6 +39,7 @@ class Camion(Elemento):
 
             if self.posX < self.posicionCarga and self.dirMov == 1:
                 self.posX += self.velocidadCamionRetroceso
+                pyxel.play(0, 5) #sonido camión retroceso
             elif self.posX >= self.posicionCarga:
                 self.dirMov = 0
 

@@ -19,6 +19,7 @@ class PantallaInicio:
         self.comparador = 4 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
                             #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
         self.parpadeoCol = 1
+        self.contCancion = 0
 
     def btnCheck(self):
         if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
@@ -34,10 +35,15 @@ class PantallaInicio:
         else:
             self.timerDown = 0
 
+        if self.activa == True and self.contCancion == 0:
+            self.contCancion += 1
+            pyxel.playm(1, loop=True)
+
 
     def update(self):
 
         #seleccion por flechas y wasd
+
         if pyxel.btnp(pyxel.KEY_S) or pyxel.btnp(pyxel.KEY_DOWN):
             if self.seleccion != 3:
                 self.seleccion += 1
