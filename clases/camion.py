@@ -43,7 +43,8 @@ class Camion(Elemento):
 
                 if self.compSonidoRetroceso == 0:  #Para que el sonido se ejecute solo 1 vez
                     self.compSonidoRetroceso += 1
-                    pyxel.play(0, 5) #sonido camión retroceso
+                    pyxel.play(3, 5) #sonido camión retroceso (mismo canal que los fallos porque al no poder
+                                    # reproducirse a la vez no se puede glichear(así ahorramos un canal))
 
             elif self.posX >= self.posicionCarga:
                 self.dirMov = 0

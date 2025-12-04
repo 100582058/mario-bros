@@ -117,18 +117,18 @@ class Fabrica:
             self.checkFallo()
             self.paquetes.actualizarLista0()
 
-        #Sonido fallos
-        if self.compFallos < self.fallos:
-            self.compFallos += 1
-            pyxel.play(0, 14)
-
-        #Sonido puntos
+        #Sonido puntos (los reproducimos en el canal 2 para que no interfieran con la música)
         if self.puntosComp < self.puntos - 9: #Puntos del camión
             self.puntosComp += 10
-            pyxel.play(0, 6)
+            pyxel.play(2, 6)
         elif self.puntosComp < self.puntos:
             self.puntosComp += 1
-            pyxel.play(0, 6)
+            pyxel.play(2, 6)
+
+        # Sonido fallos (los reproducimos en el canal 3 para que no interfieran con la música)
+        if self.compFallos < self.fallos:
+            self.compFallos += 1
+            pyxel.play(3, 14)
 
 
 
