@@ -178,7 +178,7 @@ class Fabrica:
 
         pyxel.rect(x + 40,y+2, 260, 11, COLORES["negro"])
         #pyxel.rect(0, 119, 260, 11, COLORES["negro"]) #Le da inmersividad
-        pyxel.text(x+z+210,y+w+ 5, f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])
+        pyxel.text(x+z+220,y+w+ 5, f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])
 
         # Muesta los puntos
 
@@ -186,7 +186,7 @@ class Fabrica:
 
         pyxel.text(x + 49, y + w + 5, f"MARIO BROS", COLORES["blanco"])
         # Muestra los fallos
-        pyxel.text(x +z+ 165,y+w+ 5, f"FALLOS: {self.fallos}", COLORES["magenta"])
+        pyxel.text(x +z+ 170,y+w+ 5, f"FALLOS: {self.fallos}", COLORES["magenta"])
         # Muesta el tiempo para el siguiente paquete
         #pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
         # Contador en lista0
