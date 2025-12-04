@@ -75,6 +75,7 @@ class PantallaInicio:
             self.dificultadSeleccionada = "facil"
             return "facil"
 
+
         return self.dificultadSeleccionada
 
     def draw(self):
