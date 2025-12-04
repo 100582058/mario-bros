@@ -1,6 +1,6 @@
 import pyxel
 
-from utils.config import WIDTH, HEIGHT, NUM_CINTAS, NUM_PAQ_CIN, DIFICULTAD, TIEMPO, scl
+from utils.config import WIDTH, HEIGHT, NUM_CINTAS, NUM_PAQ_CIN, DIFICULTAD, COLORES, TIEMPO, scl
 from clases.fabrica import Fabrica
 
 from clases.pantallaInicio import PantallaInicio
@@ -26,7 +26,6 @@ def main():
 
 
 def update():
-    # global?
     juegoIniciado = False
 
     if pyxel.btnp(pyxel.KEY_Q):
@@ -46,22 +45,22 @@ def update():
 
 
 def draw():
-    # Pantalla del juego
-    # Fondo negro para la pantalla de inicio, blanco para el juego
+    # --- Dibujamos el contenido del juego ---
     if pantallaInicio.activa:
-        pyxel.cls(0)
+        # Fondo negro para la pantalla de inicio
+        pyxel.cls(COLORES["negro"])
+        pantallaInicio.draw()
     else:
-        pyxel.cls(15)
+        # Fondo claro para el juego
+        pyxel.cls(COLORES["carne"])
+        fabrica.draw(WIDTH, HEIGHT)
+
+
+
     # Posicion del ratón
     txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
     pyxel.text(5, 120, txt, 2)
 
-    # Pantalla inicial
-    if pantallaInicio.activa:
-        pantallaInicio.draw()
-        return
-
-    fabrica.draw(WIDTH, HEIGHT)
 
 
 
