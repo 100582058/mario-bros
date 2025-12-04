@@ -12,9 +12,10 @@ class Camion(Elemento):
         # Posición fuera de la pantalla, donde descarga los paquetes
         self.posicionDescarga = -40
         self.velocidadCamion = 3
-        self.velocidadCamionRetroceso = 1.5
+        self.velocidadCamionRetroceso = 1
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
         self.dirMov = 0
+        self.compSonidoRetroceso = 0
     @property
     def carga(self):
         return self.__carga
@@ -39,9 +40,14 @@ class Camion(Elemento):
 
             if self.posX < self.posicionCarga and self.dirMov == 1:
                 self.posX += self.velocidadCamionRetroceso
-                pyxel.play(0, 5) #sonido camión retroceso
+
+                if self.compSonidoRetroceso == 0:  #Para que el sonido se ejecute solo 1 vez
+                    self.compSonidoRetroceso += 1
+                    pyxel.play(0, 5) #sonido camión retroceso
+
             elif self.posX >= self.posicionCarga:
                 self.dirMov = 0
+                self.compSonidoRetroceso == 0
 
 
     

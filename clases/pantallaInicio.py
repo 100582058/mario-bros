@@ -13,13 +13,15 @@ class PantallaInicio:
 }
         self.seleccion = 0
         self.activa = True
+        self.cancionJuego = True
         self.dificultadSeleccionada = None
         self.timerUp = 0
         self.timerDown = 0
         self.comparador = 4 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
                             #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
         self.parpadeoCol = 1
-        self.contCancion = 0
+        self.conpCancion = 0
+        self.contadorMusica = 1
 
     def btnCheck(self):
         if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
@@ -35,12 +37,21 @@ class PantallaInicio:
         else:
             self.timerDown = 0
 
-        if self.activa == True and self.contCancion == 0:
-            self.contCancion += 1
+        if self.activa == True and self.conpCancion == 0:
+            self.conpCancion += 1
             pyxel.playm(1, loop=True)
 
 
     def update(self):
+        #Mutear música POR ALGÚN MOTIVO NO FUNCIONA
+       # if pyxel.btnp(pyxel.KEY_M):
+        #    self.contadorMusica += 0
+         #   if self.contadorMusica % 2 == 0:
+          #      pyxel.stopm()
+           #     if self.activa == False:
+            #        pyxel.playm(0, loop=True)
+             #   else:
+              #      pyxel.playm(1, loop=True)
 
         #seleccion por flechas y wasd
 
@@ -82,10 +93,11 @@ class PantallaInicio:
             pyxel.playm(0, loop=True)
 
             return "facil"
-
-
-
         return self.dificultadSeleccionada
+
+
+
+
 
     def draw(self):
         #Título
