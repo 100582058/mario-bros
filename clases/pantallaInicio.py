@@ -1,4 +1,5 @@
 import pyxel
+import random
 from utils.config import WIDTH, COLORES
 
 class PantallaInicio:
@@ -17,6 +18,7 @@ class PantallaInicio:
         self.timerDown = 0
         self.comparador = 5 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
                             #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
+        self.parpadeoCol = 1
 
     def btnCheck(self):
         if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
@@ -77,11 +79,35 @@ class PantallaInicio:
 
     def draw(self):
         #Título
-        pyxel.text(WIDTH//2 - 45, 10, "BIENVENIDO A MARIO BROS", pyxel.frame_count % 8)
+        if pyxel.frame_count % 3 == 0: #Para no dañar epilepticos(cambia de color cada 3 frames)
+            self.parpadeoCol = random.randint(1, 15)
+        #pyxel.text(WIDTH//2 - 45, 10, "BIENVENIDO A MARIO BROS", self.parpadeoCol)
+        x = 0
+        y = -20
+        pyxel.text(80+x, 20+y, """
+        
+M     M   AAAA   RRRR    III    OOOO        
+MM   MM   A  A   R  R     I    O    O      
+M M M M   A  A   R  R     I    O    O     
+M  M  M   AAAA   RRRR     I    O    O     
+M     M   A  A   R R      I    O    O    
+M     M   A  A   R  R     I    O    O  
+M     M   A  A   R   R   III    OOOO    
+""", self.parpadeoCol)
+        pyxel.text(80 +x, 80+y, """
+        
+BBBB   RRRR    OOOO   SSSS
+B   B  R  R   O    O  S
+B   B  R  R   O    O  S
+BBBB   RRRR   O    O   SSS
+B   B  R R    O    O      S
+B   B  R  R   O    O      S
+BBBB   R   R   OOOO   SSSS
+""", self.parpadeoCol)
 
         # Para dibujar los botones
         x = 12
-        y = 30
+        y = 25
 
         i = 0  #Es un contador, pero no me gustaba llamarlo contador
         for nombre in self.opciones:     #Así hacemos que "nombre" represente el nombre de las dificultades en función de su posicion en la lista
