@@ -73,7 +73,10 @@ class PantallaInicio:
             # Por ahora TODAS van a la dificultad fácil
             self.activa = False
             self.dificultadSeleccionada = "facil"
+            pyxel.playm(0, loop=True)
+
             return "facil"
+
 
 
         return self.dificultadSeleccionada
