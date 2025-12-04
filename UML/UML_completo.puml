@@ -1,0 +1,164 @@
+@startuml UML_Completo_Sprint4
+set namespaceSeparator none
+skinparam classAttributeIconSize 0
+skinparam class {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+    ArrowColor #A80036
+}
+
+package "" {
+  class "AnalizadorUML" as uml_completo_AnalizadorUML {
+    ruta: Path
+    clases: dict
+    dependencias: list
+    herencias: list
+    --
+    __init__(ruta_proyecto)
+    analizar_archivo(archivo)
+    analizar_clase(node, archivo, imports)
+    inferir_tipo(node)
+    analizar_proyecto()
+    detectar_herencias()
+    detectar_dependencias()
+    generar_plantuml()
+  }
+}
+
+package "clases" {
+  class "Camion" as camion_Camion {
+    carga: int
+    posicionCarga
+    posicionDescarga
+    velocidadCamion: int
+    velocidadCamionRetroceso: float
+    dirMov: int
+    --
+    __init__(posX, posY, ancho, alto, color)
+    carga()
+    carga(valor)
+    mover_y_descargar()
+    draw()
+  }
+  class "Elemento" as elemento_Elemento {
+    posX
+    posY
+    ancho
+    alto
+    color
+    --
+    __init__(x, y, ancho, alto, color)
+    posX()
+    posX(valor)
+    posY()
+    posY(valor)
+    ancho()
+    ancho(valor)
+    alto()
+    alto(valor)
+    color()
+    color(valor)
+  }
+  class "Fabrica" as fabrica_Fabrica {
+    fallos: int
+    pausa: bool
+    maxFallos
+    puntos: int
+    tiempoInicial
+    tiempoPausado
+    ultimoSpawn
+    intervalos: list
+    indiceIntervalo: int
+    tiempoSigPaq
+    --
+    __init__()
+    crearJuego()
+    fallos()
+    fallos(valor)
+    dificultad()
+    dificultad(valor)
+    __repr__()
+    juegoRun()
+    run()
+    moverPaquetes()
+    draw(WIDTH, HEIGHT)
+    checkFallo()
+    anadirFallo()
+  }
+  class "PantallaInicio" as pantallaInicio_PantallaInicio {
+    opciones: list
+    colores: dict
+    seleccion: int
+    activa: bool
+    dificultadSeleccionada: NoneType
+    timerUp: int
+    timerDown: int
+    comparador: int
+    parpadeoCol: int
+    --
+    __init__()
+    btnCheck()
+    update()
+    draw()
+  }
+  class "Paquetes" as paquetes_Paquetes {
+    longitudX
+    longitudY
+    anchoCinta
+    altoCinta
+    colorCinta
+    sepEntrePaqs
+    sepEntreCintas
+    matriz
+    len_cinta0: int
+    cinta0_x: int
+    --
+    __init__(inicioX, inicioY, anchoPaq, altoPaq, color, anchoCinta, altoCinta, longitudX, longitudY, SEP_ENTRE_CINTAS)
+    longitudX()
+    longitudX(valor)
+    longitudY()
+    longitudY(valor)
+    crearMatriz(longitudX, longitudY)
+    crearlista0()
+    actualizarLista0()
+    actualizarPaquetes()
+    moverDcha(fila, x, y)
+    subirPaquete(x, y)
+    anadirPaqInicio()
+    draw()
+    __paqsEnJuego()
+    __str__()
+    __repr__()
+  }
+  class "Personaje" as personaje_Personaje {
+    id
+    controles
+    planta
+    timerUp: int
+    timerDown: int
+    comparador: int
+    --
+    __init__(id, controles, posX, posY, color)
+    controles()
+    controles(valor)
+    mover()
+    estaEnPiso()
+    draw()
+    __repr__()
+  }
+}
+
+' === HERENCIAS ===
+elemento_Elemento <|-- camion_Camion
+elemento_Elemento <|-- paquetes_Paquetes
+elemento_Elemento <|-- personaje_Personaje
+
+' === DEPENDENCIAS ===
+camion_Camion ..> elemento_Elemento : usa
+fabrica_Fabrica ..> personaje_Personaje : usa
+fabrica_Fabrica ..> paquetes_Paquetes : usa
+fabrica_Fabrica ..> camion_Camion : usa
+paquetes_Paquetes ..> elemento_Elemento : usa
+personaje_Personaje ..> elemento_Elemento : usa
+
+@enduml
