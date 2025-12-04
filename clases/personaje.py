@@ -6,14 +6,13 @@ from utils.funciones import dibujar
 
 class Personaje(Elemento):
     def __init__(self, id, controles, posX, posY, color):
-        # 8, 11
         super().__init__(posX, posY, 10, 12, color)
         self.id = id  # Nombre del Personaje
         self.controles = controles  # Tupla con 2 strings para las teclas
         self.planta = NUM_CINTAS - 1  # ?Planta en la que se encuentra
         self.timerUp = 0       #Son temporizadores para la repetición del movimiento con btn
         self.timerDown = 0
-        self.comparador = 5 #El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
+        self.comparador = 4 #El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
     @property
     def controles(self):
         return self.__controles

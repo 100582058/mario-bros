@@ -20,6 +20,7 @@
  * Añadir pantalla de inicio y selector de dificultad
  * Comprobar que estén todos los property/setters (y elemento.py)
  * 'Globalizar' las variables de dibujar las cintas en config.py
+ * Añadir letra 'L' y 'M' a los personajes de Luigi y Mario
 
 # Sprint 1.A: Objetos e interfaz gráfica (13/11)
  - Crear una clase para cada elemento principal del juego: Personajes, Camión,

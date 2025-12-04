@@ -17,6 +17,7 @@ class PantallaInicio:
         self.timerDown = 0
         self.comparador = 5 #Esto hace variar cuan rapido se activa el btn (que es para mantener el botón presionado)
                             #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
+
     def btnCheck(self):
         if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
             self.timerDown += 1
@@ -66,7 +67,7 @@ class PantallaInicio:
 
 
         #confirmación con ENTER
-        if pyxel.btnp(pyxel.KEY_RETURN): #Return es el enter
+        if pyxel.btnp(pyxel.KEY_RETURN) or pyxel.btnp(pyxel.KEY_SPACE): #Return es el enter
             # Por ahora TODAS van a la dificultad fácil
             self.activa = False
             self.dificultadSeleccionada = "facil"

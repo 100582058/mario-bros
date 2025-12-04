@@ -74,14 +74,15 @@ class Paquetes(Elemento):
 
     def crearlista0(self):
         self.lista0 = []
-        for x in range(self.longitudX):
+        #for x in range(self.longitudX):
+        for x in range(200): #no cambi mucho la velocidad, fíjate
             self.lista0.append(0)
         print("lista0", self.lista0)
 
-    def anadirPaqLista0(self):
+    def moverPaquetesLista0(self):
         # Añade paquete
-        #self.lista0[-1] = 1 #Añade un paquete en la posición de indice más grande de la lista0 (a la izquierda)
-        self.lista0[-1] = 1
+        self.lista0[-1] = 1 #Añade un paquete en la posición de indice más grande de la lista0 (a la izquierda)
+
 
     def actualizarPaquetes(self):
         # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
@@ -147,7 +148,7 @@ class Paquetes(Elemento):
         # x = self.longitudX - 1
         # y = self.longitudY - 1
         # self.matriz[y][x] = 1
-        self.anadirPaqLista0()
+        self.moverPaquetesLista0()
         print(self.lista0)
 
     def draw(self):
@@ -167,8 +168,9 @@ class Paquetes(Elemento):
             x += self.sepEntrePaqs
 
         ## Dibujamos la cinta 0
-        pyxel.rect(self.cinta0_x, y, 45, self.altoCinta, self.colorCinta)
+        pyxel.rect(self.cinta0_x, y, 200, self.altoCinta, self.colorCinta)
         pyxel.rect(self.cinta0_x + 30, y - 10, 50, 10, COLORES["negro"])
+        pyxel.rect(self.cinta0_x + 32, y - 8, 6, 5, COLORES["magenta"])
         pyxel.rect(self.cinta0_x + 5, y , 40, 1, COLORES["gris"])
         pyxel.rect(self.cinta0_x - 5, y + 3, 5, 1, COLORES["marron"])
 
