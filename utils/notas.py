@@ -14,7 +14,6 @@ posiciones_cinta = 8
 
 # Añadir contador de puntos y fallos en el camión? En la máquina? O en main()?
 # Meter funciones en vez de bloques de código de más de 4-5 líneas
-# Hace falta añadir propiedades y setters a atributos asignados en innit?
 # Hacen falta setters para valores no mutables? Hace falta validar/comprobar errores?
 # Deberían ser atributos privados?
 # Valores fijos en mayúsculas como constantes?

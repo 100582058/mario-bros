@@ -78,7 +78,7 @@ class Paquetes(Elemento):
         #for x in range(self.longitudX):
         for x in range(self.len_cinta0): #no cambi mucho la velocidad, fíjate
             self.lista0.append(0)
-        print("lista0", self.lista0)
+        # print("lista0", self.lista0)
 
     def actualizarLista0(self):
         # Añade paquete

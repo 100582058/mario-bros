@@ -4,10 +4,12 @@ import time
 
 import utils.config
 from clases.personaje import Personaje
+from clases.mario import Mario
+from clases.luigi import Luigi
 from clases.paquetes import Paquetes
 from clases.camion import Camion
 
-from utils.config import TIEMPO, NUM_CINTAS, SEP_ENTRE_CINTAS, NUM_PAQ_CIN, NUM_CINTAS, VIDAS, cintaPar, COLORES, ANCHO_PAQ, ALTO_PAQ
+from utils.config import asignarDificultad, TIEMPO, CONTROLES_MARIO, CONTROLES_LUIGI, NUM_CINTAS, SEP_ENTRE_CINTAS, NUM_PAQ_CIN, NUM_CINTAS, VIDAS, cintaPar, COLORES, ANCHO_PAQ, ALTO_PAQ
 
 class Fabrica:
     def __init__(self):
@@ -18,9 +20,11 @@ class Fabrica:
         self.maxFallos = VIDAS
         self.puntos = 0
         self.puntosComp = 0
+
         self.tiempoInicial = TIEMPO # tiempo del nivel
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
         self.tiempoPausado = TIEMPO
+
         self.ultimoSpawn = time.time()
         self.intervalos = [7]  # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
@@ -28,15 +32,11 @@ class Fabrica:
         # self.dificultad = dificultad # 3 tipos
         self.tiempoSigPaq = time.time()
 
-
-        # Inicializamos todos los objetos del juego
         self.crearJuego()
 
     def crearJuego(self):
-        controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
-        controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-        self.luigi = Personaje("luigi", controlesLuigi, 45, 99, COLORES["azulCeleste"])
-        self.mario = Personaje("mario", controlesMario, 205, 99, COLORES["magenta"])
+        self.luigi = Luigi("L",45, 99, COLORES["azulCeleste"], CONTROLES_LUIGI)
+        self.mario = Mario("M",205, 99, COLORES["magenta"], CONTROLES_MARIO)
 
         self.camion = Camion(10, 30,  30, 5, COLORES["marron"])
         anchoCinta, altoCinta = 140, 4
@@ -54,6 +54,12 @@ class Fabrica:
         )
         # Añade un paquete en la posición inicial
         self.paquetes.anadirPaqInicio()
+
+    def seleccionarDificultad(self, dificultad):
+        # dificultad = asignarDificultad(dificultad)
+        # Inicializamos todos los objetos del juego
+        # self.crearJuego()
+        print("Dificultad no hace nada")
 
     @property
     def fallos(self):
@@ -73,14 +79,6 @@ class Fabrica:
     #         self.__tiempoInicial = valor
     #     else:
     #         raise TypeError("El tiempo no es un entero")
-
-    @property
-    def dificultad(self):
-        return self.__dificultad
-
-    @dificultad.setter
-    def dificultad(self, valor):
-        self.__dificultad = valor
 
     def __repr__(self):
         return f"Fabrica(vidas={self.fallos}, tiempo={self.tiempoInicial}, dificultad={self.dificultad}"
@@ -131,9 +129,6 @@ class Fabrica:
             pyxel.play(3, 14)
 
 
-
-
-        # tiempo actual
         ahora = time.time() #tiempo actual, empezado a contar desde que se ejecuta
         intervalo = self.intervalos[self.indiceIntervalo]
         # print("ahora", ahora)
@@ -192,11 +187,6 @@ class Fabrica:
         # Contador en lista0
         pyxel.text(252, 99, f"{int(self.tiempoSigPaq)}", COLORES["azul"])
 
-
-
-
-
-
     # Función para ver si se cae un paquete
     # Cuando paquete en el final de las filas pares y no está Luigi, eliminar el paquete. Lo mismo para Mario
     def checkFallo(self):
@@ -211,6 +201,7 @@ class Fabrica:
                         # Pausar juego
                         self.anadirFallo()
                         self.paquetes.matriz[y][0] = 0
+                        self.luigi.reganar()
                     else:
                         self.puntos += 1
                 # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
@@ -218,6 +209,7 @@ class Fabrica:
                     if self.mario.planta != y:
                         self.paquetes.matriz[y][x - 1] = 0
                         self.anadirFallo()
+                        self.mario.reganar()
                     else:
                         self.puntos += 1
 
@@ -239,6 +231,7 @@ class Fabrica:
                     if self.mario.planta != NUM_CINTAS - 1:
                         # Añadimos un fallo
                         self.anadirFallo()
+                        self.mario.reganar()
                     else:
                         # Añadimos el paquete a la matriz
                         self.paquetes.matriz[-1][-1] = 1

@@ -1,18 +1,25 @@
 import pyxel
+import time
 
-from utils.config import NUM_CINTAS, HEIGHT, SEP_ENTRE_CINTAS
+from utils.config import NUM_CINTAS, HEIGHT, SEP_ENTRE_CINTAS, COLORES
 from clases.elemento import Elemento
 from utils.funciones import dibujar
 
 class Personaje(Elemento):
-    def __init__(self, id, controles, posX, posY, color):
+    def __init__(self, id_personaje, posX, posY, color, controles=None):
         super().__init__(posX, posY, 10, 12, color)
-        self.id = id  # Nombre del Personaje
+        self.id = id_personaje  # Nombre del Personaje
         self.controles = controles  # Tupla con 2 strings para las teclas
         self.planta = NUM_CINTAS - 1  # Planta en la que se encuentra
         self.timerUp = 0       #Son temporizadores para la repetición del movimiento con btn
         self.timerDown = 0
         self.comparador = 4 #El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
+
+        self.estaReganado = False
+        # Le regaña durante self.tiempoMaxReganado segundos
+        self.tiempoReganado = 0
+        self.tiempoMaxReganado = 1.2
+
     @property
     def controles(self):
         return self.__controles
@@ -64,20 +71,35 @@ class Personaje(Elemento):
     def estaEnPiso(self):
         pass
 
+    def reganar(self):
+        self.estaReganado = True
+        # Guarda el tiempo en el que se empieza a regañar
+        self.tiempoReganado = time.time()
+
     def draw(self):
         pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
+        pyxel.text(self.posX + self.ancho / 4, self.posY + self.alto / 4, self.id, COLORES["blanco"])
+
+        # Pintamos el jefe
+        # >Parece que cambiando los números del frame count se consigue una animacion más chula
+        # De momento lo dejo así, casi va sincronizado con el sonido de regañar
+        if self.estaReganado and pyxel.frame_count % 16 >= 8:
+            pyxel.rect(self.posX - self.ancho, self.posY - self.alto / 2, self.ancho * 0.8, self.alto * 0.8, COLORES["negro"])
+            # REFACTOR cambiar de lugar
+            delta_t = time.time() - self.tiempoReganado
+            if delta_t >= self.tiempoMaxReganado:
+                self.estaReganado = False
+
+
 
         # tamanoImg, banco = 16, 0
         # pyxel.blt(self.posX + 20, self.posY, banco, 0, 0, tamanoImg, tamanoImg, scale=1)
 
-        # y = 8
-        # if self.id == "mario":
-        #     y = 16
+        # y = 18
+        # if self.id == "M":
+        #     y = 26
         # txt = f"{self.id} ({int(self.posX)}, {int(self.posY)})  Planta: {self.planta}"
         # pyxel.text(10, y, txt, 9)
 
         # Para dibujar al personaje DEBUG
         # dibujar(self, self.id)
-
-    def __repr__(self):
-        return f"Personaje(controles={self.controles}, posicion={self.posicion})"

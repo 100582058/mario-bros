@@ -7,6 +7,7 @@ WIDTH, HEIGHT = 1024 / scl, 512 / scl
 # Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
 NUM_PAQ_CIN = 10  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
 DIFICULTAD = "facil"
+TIEMPO = time.time()
 
 NUM_CINTAS = 5  # Depende de la dificultad #Con números múltiplos de 5 curiosamente luigi y mario se ponen exactamente en la plataforma
 # Separación entre cintas
@@ -51,17 +52,17 @@ def asignarDificultad(dificultad):
     VEL_CINTAS_IMPARES = 1
 
     if dificultad == "facil":
-        NUM_CINTAS = 6
+        NUM_CINTAS = 5
         ANADIR_PAQUETES_CADA = 50
         ELIMINA_FALLOS = 3
-    elif dificultad == "medio":
-        NUM_CINTAS = 8
+    elif dificultad == "normal":
+        NUM_CINTAS = 7
         VEL_CINTAS_PARES = 1
         VEL_CINTAS_IMPARES = 1.5
         ANADIR_PAQUETES_CADA = 30
         ELIMINA_FALLOS = 5
-    elif dificultad == "extremo":
-        NUM_CINTAS = 10
+    elif dificultad == "dificil":
+        NUM_CINTAS = 9
         VEL_CINTAS_PARES = 1.5
         VEL_CINTAS_IMPARES = 2
         ANADIR_PAQUETES_CADA = 30
@@ -69,13 +70,16 @@ def asignarDificultad(dificultad):
     elif dificultad == "crazy":
         CONTROLES_MARIO = (pyxel.KEY_DOWN, pyxel.KEY_UP)
         CONTROLES_LUIGI = (pyxel.KEY_S, pyxel.KEY_W)
-        NUM_CINTAS = 6
+        NUM_CINTAS = 5
         VEL_CINTAS_PARES = random.uniform(1, 2)
         VEL_CINTAS_IMPARES = random.uniform(1, 2)
         ANADIR_PAQUETES_CADA = 20
         ELIMINA_FALLOS = 10000
+    else:
+        raise ValueError("Dificultad seleccionada no válida")
+        return
 
     return CONTROLES_MARIO, CONTROLES_LUIGI, VEL_CINTA_0, VEL_CINTAS_PARES, VEL_CINTAS_IMPARES, NUM_CINTAS,VEL_CINTAS_PARES,VEL_CINTAS_IMPARES,ANADIR_PAQUETES_CADA, ELIMINA_FALLOS
 
 
-# CONTROLES_MARIO, CONTROLES_LUIGI, VEL_CINTA_0, VEL_CINTAS_PARES, VEL_CINTAS_IMPARES, NUM_CINTAS, VEL_CINTAS_PARES, VEL_CINTAS_IMPARES, ANADIR_PAQUETES_CADA, ELIMINA_FALLOS = asignarDificultad("facil")
+CONTROLES_MARIO, CONTROLES_LUIGI, VEL_CINTA_0, VEL_CINTAS_PARES, VEL_CINTAS_IMPARES, NUM_CINTAS, VEL_CINTAS_PARES, VEL_CINTAS_IMPARES, ANADIR_PAQUETES_CADA, ELIMINA_FALLOS = asignarDificultad("facil")

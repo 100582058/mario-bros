@@ -34,10 +34,12 @@ def update():
     # Si todavía estamos en la pantalla inicial
     # if pantallaInicio.activa:
     dificultad = pantallaInicio.update()
-
     if dificultad:
         # Inicializamos el juego real cuando se confirme
+        print("Dificultad", dificultad.lower(), "// se 'selecciona' la dificultad cada frame")
+        # fabrica.seleccionarDificultad(dificultad.lower())
         juegoIniciado = True
+
 
     # Lógica normal del juego
     if juegoIniciado:

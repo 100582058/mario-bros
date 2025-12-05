@@ -40,6 +40,8 @@ class PantallaInicio:
         if self.activa == True and self.conpCancion == 0:
             self.conpCancion += 1
             pyxel.playm(1, loop=True)
+        # Si no devuelve 1 o 2
+        return -1
 
 
     def update(self):
@@ -70,9 +72,9 @@ class PantallaInicio:
             self.timerUp = 0
 
         else:
-            unoOdos = self.btnCheck()  # para que no halla problemas al llamar varias veces a la funcion en un solo frame
-            if unoOdos == 1:           # como dato curioso al presionar a la vez arriba y abajo el programa tiene preferencia con
-                                       # el hacia abajo por estar antes en el condicional. Pero no supone problema porque el usuario no debería tocar ambos botones a la vez, y aunque lo haga no va a ser terrible
+            # para que no halla problemas al llamar varias veces a la funcion en un solo frame
+            unoOdos = self.btnCheck()
+            if unoOdos == 1:
                     if self.seleccion != 3:
                         self.seleccion += 1
                     else:
@@ -89,15 +91,10 @@ class PantallaInicio:
         if pyxel.btnp(pyxel.KEY_RETURN) or pyxel.btnp(pyxel.KEY_SPACE): #Return es el enter
             # Por ahora TODAS van a la dificultad fácil
             self.activa = False
-            self.dificultadSeleccionada = "facil"
+            self.dificultadSeleccionada = self.opciones[self.seleccion]
             pyxel.playm(0, loop=True)
 
-            return "facil"
         return self.dificultadSeleccionada
-
-
-
-
 
     def draw(self):
         #Título
