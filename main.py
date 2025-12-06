@@ -57,7 +57,7 @@ def draw():
     else:
         # -- Fase 2: Juego --
         pyxel.cls(COLORES["carne"])
-        fabrica.draw(WIDTH, HEIGHT)
+        fabrica.draw()
 
     # DEBUG: Posicion del ratón
     txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"

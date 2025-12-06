@@ -11,7 +11,6 @@ class Luigi(Personaje):
             # Los personajes solo están en la cinta 0
             # o en las pares (Luigi) o impares (Mario)
         cinta = (self.numCintas - 1) - self.planta
-        print("Pares (Luigi)", self.planta, cinta, direccion)
         # if cinta == 0 and direccion == "arriba":
         #     self.subir(2)
         # elif cinta == 2 and direccion == "abajo":
@@ -22,7 +21,6 @@ class Luigi(Personaje):
             self.subir(2)
         elif direccion == "abajo" and cinta - 2 >= 0:
             self.bajar(2)
-        print("Nueva:", self.planta, cinta)
 
     def estaEnPiso(self):
         pass

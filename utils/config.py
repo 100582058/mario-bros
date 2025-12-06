@@ -73,7 +73,7 @@ def asignarDificultad(dificultad: str)->ConfigNivel:
         raise ValueError("Dificultad seleccionada no válida")
 
     # Añadimos parámetros independientes a la dificultad
-    numPaqCinta = 30  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
+    numPaqCinta = 10  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
 
     sepEntreCintas = (HEIGHT - 25) / numCintas
     anchoPaq, altoPaq = 7, 4

@@ -87,7 +87,7 @@ class Paquetes(Elemento):
 
         # Comprueba indices donde hay unos y los mueve hacia la izquierda
         for i in range(1, len(self.lista0)):
-            if self.lista0[i] == 1:
+            if self.lista0[i] != 0:
                 self.lista0[i] = 0
                 self.lista0[i - 1] = 1
 
@@ -101,7 +101,7 @@ class Paquetes(Elemento):
                 filaActual.reverse()
             # Se evalúa primero el último elemento de la lista
             x = self.longitudX - 1
-            if filaActual[x] == 1:
+            if filaActual[x] != 0:
                 # Subimos el paquete al lado correcto
                 self.subirPaquete(x, y)
                 # Eliminamos la posición actual del paquete de la variable 'filaActual'
@@ -110,7 +110,7 @@ class Paquetes(Elemento):
             # Comprobamos cada posición de la fila y movemos los paquetes
             # Bucle inverso desde el penúltimo elemento hasta el primero (índice 0)
             for x in range(self.longitudX - 2, -1, -1):
-                if filaActual[x] == 1:
+                if filaActual[x] != 0:
                     filaActual = self.moverDcha(filaActual, x)
             # Le damos la vuelta otra vez, si es necesario
             if esCintaPar(y, self.numCintas):
@@ -140,7 +140,10 @@ class Paquetes(Elemento):
 
     # Añade un paquete al final de la cinta 0
     def anadirPaqInicio(self):
-        self.lista0[-1] = 1
+        if not self.__paqueteCercaPersonaje():
+            self.lista0[-1] = 1
+        else:
+            print("NO SE AÑADE")
 
     def draw(self):
         # -- Dibujamos la lista 0 de paquetes --
@@ -166,7 +169,7 @@ class Paquetes(Elemento):
             pyxel.rect(self.posX, y, self.anchoCinta,
                        self.altoCinta, self.colorCinta)
             pyxel.rect(self.posX + 5, y, self.anchoCinta - 10,
-                       self.altoCinta - 3, COLORES["gris"])            
+                       self.altoCinta - 3, COLORES["gris"])
             pyxel.rect(self.posX - 15, y + 3, self.anchoCinta -
                        125, self.altoCinta - 3, COLORES["marron"])
             pyxel.rect(self.posX + 140, y + 3, self.anchoCinta -
@@ -190,7 +193,6 @@ class Paquetes(Elemento):
                                flechasY + tamanoFlecha, color)
                     pyxel.line(flechasX, flechasY, flechasX - tamanoFlecha,
                                flechasY - tamanoFlecha, color)
-                    
 
             y += self.sepEntreCintas
 
@@ -200,7 +202,7 @@ class Paquetes(Elemento):
         for i in range(self.longitudX):
             y = self.posY
             for j in range(self.longitudY):
-                if self.matriz[j][i] == 1:
+                if self.matriz[j][i] != 0:
                     pyxel.rect(x, y - self.alto, self.ancho,
                                self.alto, self.color)
                 # else:
@@ -215,9 +217,33 @@ class Paquetes(Elemento):
         sum = 0
         for y in range(self.longitudY):
             for x in range(self.longitudX):
-                if self.matriz[y][x] == 1:
+                if self.matriz[y][x] != 0:
                     sum += 1
         return sum
+
+    # Devuelve si hay algun paquete a menos de 'distancia' distancia de los personajes
+    def __paqueteCercaPersonaje(self, distancia=2) -> bool:
+        # Comprobamos por la izquierda
+        for j in range(self.longitudY):
+            for i in range(0, distancia):
+                if self.matriz[j][i] != 0:
+                    print(j, i, "paquete en la izquierda\n", self)
+                    return True
+        # Comprobamos por la derecha
+        for j in range(self.longitudY):
+            for i in range(self.longitudX - distancia, self.longitudX):
+                if self.matriz[j][i] != 0:
+                    print(j, i, "paquete en la derecha\n", self)
+                    return True
+        # Comprobamos en la cinta 0
+        for i in range(distancia):
+            if self.lista0[i] != 0:
+                print(i, "paquete en la lista 0\n", self.lista0)
+                return True
+
+
+        # Si no, devuelve falso
+        return False
 
     def __str__(self):
         txt = ""

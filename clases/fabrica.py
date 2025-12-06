@@ -27,7 +27,7 @@ class Fabrica:
 
         self.ultimoSpawn = time.time()
         # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
-        self.intervalos = [7]
+        self.intervalos = [3]
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
@@ -111,7 +111,7 @@ class Fabrica:
         self.camion.mover_y_descargar()
 
     def moverPaquetes(self):
-        if pyxel.frame_count % 4 == 0:
+        if pyxel.frame_count % 12 == 0: #4
             self.checkFallo()
             self.paquetes.actualizarPaquetes()
 
@@ -142,7 +142,6 @@ class Fabrica:
         if ahora - self.ultimoSpawn >= intervalo:
             # print("resta", ahora - self.ultimoSpawn)
             self.paquetes.anadirPaqInicio()
-            print("Añadido paquete")
 
             # reinicia el temporizador
             self.ultimoSpawn = ahora
@@ -151,7 +150,7 @@ class Fabrica:
             if self.indiceIntervalo == len(self.intervalos):
                 self.indiceIntervalo = 0
 
-    def draw(self, WIDTH, HEIGHT):
+    def draw(self):
         # Muestra los personajes
         self.luigi.draw()
         self.mario.draw()
