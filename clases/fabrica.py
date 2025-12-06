@@ -59,11 +59,8 @@ class Fabrica:
             self.config
         )
 
-    def seleccionarDificultad(self, dificultad):
-        # dificultad = asignarDificultad(dificultad)
-        # Inicializamos todos los objetos del juego
-        # self.crearJuego()
-        print("Dificultad no hace nada")
+        # Añade un paquete al empezar
+        self.paquetes.anadirPaqInicio()
 
     @property
     def fallos(self):
