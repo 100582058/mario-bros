@@ -60,8 +60,8 @@ def draw():
 
 
     # DEBUG: Posicion del ratón
-    txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
-    pyxel.text(5, 120, txt, 2)
+    # txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
+    # pyxel.text(5, 120, txt, 2)
 
 
 
