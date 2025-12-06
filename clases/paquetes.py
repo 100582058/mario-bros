@@ -111,13 +111,13 @@ class Paquetes(Elemento):
             # Bucle inverso desde el penúltimo elemento hasta el primero (índice 0)
             for x in range(self.longitudX - 2, -1, -1):
                 if filaActual[x] == 1:
-                    filaActual = self.moverDcha(filaActual, x, y)
+                    filaActual = self.moverDcha(filaActual, x)
             # Le damos la vuelta otra vez, si es necesario
             if esCintaPar(y, self.numCintas):
                 filaActual.reverse()
             self.matriz[y] = filaActual
 
-    def moverDcha(self, fila, x, y):
+    def moverDcha(self, fila, x):
         # -- Mueve un paquete a la siguiente posición --
         if x + 1 < self.longitudX:
             # Movemos la posición del paquete de (x, y) a (x + 1, y)
@@ -129,16 +129,16 @@ class Paquetes(Elemento):
 
     def subirPaquete(self, x, y):
         if y != 0:
+            valorActual = self.matriz[y][x]
             self.matriz[y][x] = 0
-            # Subimos el paquete al lado que corresponde (a la izquierda en las pares, a la derecha en las impares)
+            # Subimos el paquete al lado que corresponde
+            # (a la izquierda en las pares, a la derecha en las impares)
             if esCintaPar(y - 1, self.numCintas):
-                self.matriz[y - 1][x] = 1
+                self.matriz[y - 1][x] = valorActual + 1
             else:
-                self.matriz[y - 1][0] = 1
-        # else:
-        #     print("=" * 10, "Paquete en la última posición, listo para entrar al camión", "=" * 10)
+                self.matriz[y - 1][0] = valorActual + 1
 
-    # Añade un paquete al final de la cinta0
+    # Añade un paquete al final de la cinta 0
     def anadirPaqInicio(self):
         self.lista0[-1] = 1
 

@@ -6,14 +6,18 @@ from clases.elemento import Elemento
 from utils.funciones import dibujar
 
 class Personaje(Elemento):
-    def __init__(self, id_personaje, posX, posY, ancho, alto, color, controles, config):
+    def __init__(self, id_personaje, posX, posY, ancho, alto, color, controles, plantasPosibles, config):
         y = posY
         # Movemos el personaje hasta la cinta 0
         y += config.sepEntreCintas * (config.numCintas - 1)
+
         super().__init__(posX, y, ancho, alto, color)
+
         self.id = id_personaje  # Nombre del Personaje
         self.controles = controles  # Tupla con 2 strings para las teclas
-        self.planta = config.numCintas - 1  # Planta en la que se encuentra
+        self.planta = config.numCintas - 1  # Planta en la que se encuentras
+        self.plantasPosibles = plantasPosibles # "pares" o "impares"
+
         self.timerUp = 0       #Son temporizadores para la repetición del movimiento con btn
         self.timerDown = 0
         self.comparador = 4 #El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
@@ -35,44 +39,44 @@ class Personaje(Elemento):
     def controles(self, valor):
         self.__controles = valor
 
+    def intentarCambiarPlanta(self, direccion):
+        # Se sobreescribe en los hijos (Luigi y Mario)
+        return
+
+    # Sube o baje 'mult' plantas
+    def subir(self, mult=1):
+        self.planta -= mult
+        self.posY -= self.sepEntreCintas * mult
+    def bajar(self, mult=1):
+        self.planta += mult
+        self.posY += self.sepEntreCintas * mult
+
     def mover(self):
         # self.controles[0] controla el movimiento de subida
         # self.controles[1] el de bajada
-        # Los personajes cogen paquetes en la cinta 0 en en las pares/impares (dependiendo del personaje)
         if pyxel.btnp(self.controles[0]):
-            # Mover hacia arriba si no está en la más alta
-            if self.planta > 0:
-                self.planta -= 1
-                self.posY -= self.sepEntreCintas
-            self.timerUp = 0  # reset para evitar doble salto *****
+            self.intentarCambiarPlanta("arriba")
+            self.timerUp = 0  # Reset para evitar doble salto
 
         if pyxel.btnp(self.controles[1]):
-            # Mover hacia abajo si no está en la inferior
-            if self.planta < self.numCintas - 1:
-                self.planta += 1
-                self.posY += self.sepEntreCintas
-            self.timerDown = 0 # reset para evitar doble salto *****
+            self.intentarCambiarPlanta("abajo")
+            self.timerDown = 0 # Reset para evitar doble salto
 
-            # Repetición al mantener pulsado arriba
-            #NOTA +(tengo que revisar que funcione)+(Me parece que podría funcionar incluso con solo 1 timer para simplificar)
+        # -- Mover varias plantas al mantener pulsado --
+        # NOTA +(tengo que revisar que funcione)+(Me parece que podría funcionar incluso con solo 1 timer para simplificar)
         if pyxel.btn(self.controles[0]):
             self.timerUp += 1
             if self.timerUp > self.comparador:
-                self.timerUp = 0 #Es importante asignarlo fuera por si se encuentra en el extremo de la lista
-                if self.planta > 0:
-                    self.planta -= 1
-                    self.posY -= self.sepEntreCintas
+                self.intentarCambiarPlanta("arriba")
+                self.timerUp = 0 # Es importante asignarlo fuera por si se encuentra en el extremo de la lista
         else:
             self.timerUp = 0
 
-        # Repetición al mantener pulsado abajo
         if pyxel.btn(self.controles[1]):
             self.timerDown += 1
             if self.timerDown > self.comparador:
-                self.timerDown = 0 #Es importante asignarlo fuera por si se encuentra en el extremo de la lista
-                if self.planta < self.numCintas - 1:
-                    self.planta += 1
-                    self.posY += self.sepEntreCintas
+                self.intentarCambiarPlanta("abajo")
+                self.timerDown = 0 # Es importante asignarlo fuera por si se encuentra en el extremo de la lista
         else:
             self.timerDown = 0
 
