@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="046654ba-fb77-453e-8cc8-fce1cdc29a2b" name="Changes" comment="cambioVolumen2" />
+    <list default="true" id="046654ba-fb77-453e-8cc8-fce1cdc29a2b" name="Changes" comment="lestras">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clases/camion.py" beforeDir="false" afterPath="$PROJECT_DIR$/clases/camion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clases/fabrica.py" beforeDir="false" afterPath="$PROJECT_DIR$/clases/fabrica.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clases/pantallaInicio.py" beforeDir="false" afterPath="$PROJECT_DIR$/clases/pantallaInicio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <list id="2a9a9e8a-f534-45d4-a85e-3fd62a3f61d6" name="Changes by marco" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,6 +210,8 @@
       <workItem from="1764883670732" duration="1698000" />
       <workItem from="1764885600432" duration="256000" />
       <workItem from="1764961989756" duration="298000" />
+      <workItem from="1764962781537" duration="595000" />
+      <workItem from="1765037530765" duration="2509000" />
     </task>
     <task id="LOCAL-00001" summary="Sin duplicados">
       <option name="closed" value="true" />
@@ -429,7 +437,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764885362335</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="lestras">
+      <option name="closed" value="true" />
+      <created>1764963043774</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1764963043774</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -471,7 +487,8 @@
     <MESSAGE value="MiniChanges" />
     <MESSAGE value="cambioVolumen" />
     <MESSAGE value="cambioVolumen2" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambioVolumen2" />
+    <MESSAGE value="lestras" />
+    <option name="LAST_COMMIT_MESSAGE" value="lestras" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -487,7 +504,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/mario_bros3$tiempo.coverage" NAME="tiempo Coverage Results" MODIFIED="1764766628314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/mario_bros3$fabrica.coverage" NAME="fabrica Coverage Results" MODIFIED="1764584910666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/clases" />
-    <SUITE FILE_PATH="coverage/mario_bros3$main.coverage" NAME="main Coverage Results" MODIFIED="1764962267516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/mario_bros3$main.coverage" NAME="main Coverage Results" MODIFIED="1765040898512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/mario_bros3$config.coverage" NAME="config Coverage Results" MODIFIED="1764515154118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/mario_bros3$paquetes.coverage" NAME="paquetes Coverage Results" MODIFIED="1764267631223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/clases" />
     <SUITE FILE_PATH="coverage/mario_bros3$camion.coverage" NAME="camion Coverage Results" MODIFIED="1764584834065" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/clases" />

@@ -119,22 +119,22 @@ class Fabrica:
         # Sonido puntos (los reproducimos en el canal 2 para que no interfieran con la música)
         if self.puntosComp < self.puntos - 9:  # Puntos del camión
             self.puntosComp += 10
-            pyxel.play(2, 6)
+            pyxel.play(2, 16)
         elif self.puntosComp < self.puntos:
             self.puntosComp += 1
-            pyxel.play(2, 6)
+            pyxel.play(2, 16)
 
         # Sonido fallos (los reproducimos en el canal 3 para que no interfieran con la música)
         if self.compFallos < self.fallos:
             self.compFallos += 1
-            pyxel.play(3, 14)
+            pyxel.play(3, 25)
 
         ahora = time.time()  # tiempo actual, empezado a contar desde que se ejecuta
         intervalo = self.intervalos[self.indiceIntervalo]
         # print("ahora", ahora)
         # Da el valor al contador regresivo de segundos para paquete
         # + 1 #Va un poco mal, igual necesita el +1
-        self.tiempoSigPaq = (intervalo - (ahora - self.ultimoSpawn))
+        self.tiempoSigPaq = (intervalo - (ahora - self.ultimoSpawn)) -3 #-3 para ajustarlo
 
         if ahora - self.ultimoSpawn >= intervalo:
             # print("resta", ahora - self.ultimoSpawn)
