@@ -1,10 +1,6 @@
-# from os.path import altsep
-#
-# from json.scanner import NUMBER_RE
-
 import pyxel
+import time
 
-# REFACTOR: Eliminar NUM_CINTAS y SEP_ENTRE_CINTAS? --> No importarlas, usarlas como atributos?
 from utils.config import COLORES, esCintaPar, minimo
 from clases.elemento import Elemento
 
@@ -39,7 +35,7 @@ class Paquetes(Elemento):
         # Creamos la matriz con los paquetes
         self.matriz = self.crearMatriz(longitudX, longitudY)
         # Creamos la lista de 1D con los paquetes de la cinta 0
-        self.len_cinta0 = 9
+        self.len_cinta0 = 9 * 2 # REFACTOR? 9 posiciones usadas, mas 9 por si hay paquetes cerca de los personajes
         self.cinta0_x = 220  # 220
         self.crearlista0()
 
@@ -77,7 +73,7 @@ class Paquetes(Elemento):
     def crearlista0(self):
         self.lista0 = []
         # for x in range(self.longitudX):
-        for x in range(self.len_cinta0):  # no cambi mucho la velocidad, fíjate
+        for x in range(self.len_cinta0):
             self.lista0.append(0)
         # print("lista0", self.lista0)
 
@@ -86,10 +82,17 @@ class Paquetes(Elemento):
         # self.lista0[-1] = 1 #Añade un paquete en la posición de indice más grande de la lista0 (a la izquierda)
 
         # Comprueba indices donde hay unos y los mueve hacia la izquierda
-        for i in range(1, len(self.lista0)):
+        for i in range(1, int(self.len_cinta0 / 2)):
             if self.lista0[i] != 0:
                 self.lista0[i] = 0
                 self.lista0[i - 1] = 1
+        # Para los paquetes más lejanos, solo los actualiza si no hay paquetes cerca
+        if not self.__paqueteCercaPersonaje():
+            for i in range(int(self.len_cinta0 / 2), self.len_cinta0):
+                if self.lista0[i] != 0:
+                    self.lista0[i] = 0
+                    self.lista0[i - 1] = 1
+        print(self.lista0)
 
     def actualizarPaquetes(self):
         # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
@@ -141,9 +144,10 @@ class Paquetes(Elemento):
     # Añade un paquete al final de la cinta 0
     def anadirPaqInicio(self):
         if not self.__paqueteCercaPersonaje():
-            self.lista0[-1] = 1
+            self.lista0[9] = 1
         else:
-            print("NO SE AÑADE")
+            print("SE AÑADE MÁS LEJOS")
+            self.lista0[-1] = 1
 
     def draw(self):
         # -- Dibujamos la lista 0 de paquetes --

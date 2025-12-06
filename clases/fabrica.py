@@ -27,7 +27,7 @@ class Fabrica:
 
         self.ultimoSpawn = time.time()
         # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
-        self.intervalos = [3]
+        self.intervalos = [4]
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
@@ -95,7 +95,7 @@ class Fabrica:
             # Se mueven los paquetes si el juego no está en pausa
             self.moverPaquetes()
         else:
-            # Esperar 't' segundos hasta volver a reanudar el juego
+            # Esperar 't' segundos hasta volver a reanudar el juego REFACTOR: time.sleep(t)
             t = 2
             tiempoActual = time.time()
             tiempoPausado = tiempoActual - self.tiempoPausado
