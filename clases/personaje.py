@@ -6,8 +6,11 @@ from clases.elemento import Elemento
 from utils.funciones import dibujar
 
 class Personaje(Elemento):
-    def __init__(self, id_personaje, posX, posY, color, controles, config):
-        super().__init__(posX, posY, 10, 12, color)
+    def __init__(self, id_personaje, posX, posY, ancho, alto, color, controles, config):
+        y = posY
+        # Movemos el personaje hasta la cinta 0
+        y += config.sepEntreCintas * (config.numCintas - 1)
+        super().__init__(posX, y, ancho, alto, color)
         self.id = id_personaje  # Nombre del Personaje
         self.controles = controles  # Tupla con 2 strings para las teclas
         self.planta = config.numCintas - 1  # Planta en la que se encuentra
@@ -35,6 +38,7 @@ class Personaje(Elemento):
     def mover(self):
         # self.controles[0] controla el movimiento de subida
         # self.controles[1] el de bajada
+        # Los personajes cogen paquetes en la cinta 0 en en las pares/impares (dependiendo del personaje)
         if pyxel.btnp(self.controles[0]):
             # Mover hacia arriba si no está en la más alta
             if self.planta > 0:

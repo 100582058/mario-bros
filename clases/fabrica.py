@@ -41,16 +41,19 @@ class Fabrica:
     def crearJuego(self):
         # Pasamos el objeto ConfigNivel a los objetos
         # para que extraigan la información necesaria de la configuración
+        yInicial = 25 # Indica la altura máxima a la que llegarían los personajes
+        ancho, alto = 10, 12
+        yPersonajes = yInicial - alto + self.config.altoCinta
         self.luigi = Luigi(
-            "L", 45, 99, COLORES["azulCeleste"], self.config.controlesLuigi, self.config)
+            "L", 45, yPersonajes, ancho, alto, COLORES["azulCeleste"], self.config.controlesLuigi, self.config)
         self.mario = Mario(
-            "M", 205, 99, COLORES["magenta"], self.config.controlesMario, self.config)
+            "M", 205, yPersonajes, ancho, alto, COLORES["magenta"], self.config.controlesMario, self.config)
 
         self.camion = Camion(10, 30,  30, 5, COLORES["marron"])
 
         self.paquetes = Paquetes(
             60,
-            25,
+            yInicial,
             self.config.anchoPaq,
             self.config.altoPaq,
             COLORES["azulMarino"],

@@ -88,10 +88,11 @@ class PantallaInicio:
 
 
         #confirmación con ENTER
-        if pyxel.btnp(pyxel.KEY_RETURN) or pyxel.btnp(pyxel.KEY_SPACE):
+        if pyxel.btnp(pyxel.KEY_RETURN) or pyxel.btnp(pyxel.KEY_SPACE) or False:
             # Por ahora TODAS van a la dificultad fácil
             self.activa = False
             self.dificultadSeleccionada = self.opciones[self.seleccion]
+            # self.dificultadSeleccionada = self.opciones[2]
             pyxel.playm(2, loop=True)
 
         return self.dificultadSeleccionada

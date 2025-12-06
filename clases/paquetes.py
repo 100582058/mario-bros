@@ -5,7 +5,7 @@
 import pyxel
 
 # REFACTOR: Eliminar NUM_CINTAS y SEP_ENTRE_CINTAS? --> No importarlas, usarlas como atributos?
-from utils.config import COLORES, esCintaPar
+from utils.config import COLORES, esCintaPar, minimo
 from clases.elemento import Elemento
 
 
@@ -40,7 +40,7 @@ class Paquetes(Elemento):
         self.matriz = self.crearMatriz(longitudX, longitudY)
         # Creamos la lista de 1D con los paquetes de la cinta 0
         self.len_cinta0 = 9
-        self.cinta0_x = 220 # 220
+        self.cinta0_x = 220  # 220
         self.crearlista0()
 
     @property
@@ -76,8 +76,8 @@ class Paquetes(Elemento):
 
     def crearlista0(self):
         self.lista0 = []
-        #for x in range(self.longitudX):
-        for x in range(self.len_cinta0): #no cambi mucho la velocidad, fíjate
+        # for x in range(self.longitudX):
+        for x in range(self.len_cinta0):  # no cambi mucho la velocidad, fíjate
             self.lista0.append(0)
         # print("lista0", self.lista0)
 
@@ -138,19 +138,15 @@ class Paquetes(Elemento):
         # else:
         #     print("=" * 10, "Paquete en la última posición, listo para entrar al camión", "=" * 10)
 
-    # Añade un paquete al principio de las cintas
+    # Añade un paquete al final de la cinta0
     def anadirPaqInicio(self):
-        # x = self.longitudX - 1
-        # y = self.longitudY - 1
-        # self.matriz[y][x] = 1
-        # self.actualizarLista0()
         self.lista0[-1] = 1
 
     def draw(self):
         # -- Dibujamos la lista 0 de paquetes --
-        ## Dibujamos los paquetes de la lista 0
+        # Dibujamos los paquetes de la lista 0
         x = self.cinta0_x
-        ## La lista 0 debe estar a la altura de la última cinta de paquetes
+        # La lista 0 debe estar a la altura de la última cinta de paquetes
         y = self.posY + (self.longitudY - 1) * self.sepEntreCintas
         for i in range(len(self.lista0)):
             paq = self.lista0[i]
@@ -158,32 +154,55 @@ class Paquetes(Elemento):
                 pyxel.rect(x, y - self.alto, self.ancho, self.alto, self.color)
             x += self.sepEntrePaqs
 
-        ## Dibujamos la cinta 0
+        # Dibujamos la cinta 0
         pyxel.rect(self.cinta0_x, y, 200, self.altoCinta, self.colorCinta)
         pyxel.rect(self.cinta0_x + 30, y - 10, 50, 10, COLORES["negro"])
-        pyxel.rect(self.cinta0_x + 5, y , 40, 1, COLORES["gris"])
+        pyxel.rect(self.cinta0_x + 5, y, 40, 1, COLORES["gris"])
         pyxel.rect(self.cinta0_x - 5, y + 3, 5, 1, COLORES["marron"])
-
-
 
         # -- Dibujamos las cintas --
         y = self.posY
         for j in range(self.longitudY):
-            pyxel.rect(self.posX, y, self.anchoCinta, self.altoCinta, self.colorCinta)
-            pyxel.rect(self.posX + 5, y , self.anchoCinta -10, self.altoCinta -3, COLORES["gris"])
-            pyxel.rect(self.posX - 15, y + 3, self.anchoCinta - 125, self.altoCinta - 3, COLORES["marron"])
-            pyxel.rect(self.posX + 140, y + 3, self.anchoCinta - 125, self.altoCinta - 3, COLORES["marron"])
+            pyxel.rect(self.posX, y, self.anchoCinta,
+                       self.altoCinta, self.colorCinta)
+            pyxel.rect(self.posX + 5, y, self.anchoCinta - 10,
+                       self.altoCinta - 3, COLORES["gris"])            
+            pyxel.rect(self.posX - 15, y + 3, self.anchoCinta -
+                       125, self.altoCinta - 3, COLORES["marron"])
+            pyxel.rect(self.posX + 140, y + 3, self.anchoCinta -
+                       125, self.altoCinta - 3, COLORES["marron"])
+            # Dibujamos una flecha indicando la direccion de la cinta
+            flechasTotales = 3
+            flechasX = self.posX
+            flechasY = y - 7
+            tamanoFlecha, color = 3, COLORES["marron"]
+            for i in range(flechasTotales):
+                flechasX += (self.anchoCinta / (flechasTotales + 1))
+                if esCintaPar(j, self.numCintas):
+                    # Flecha hacia la derecha
+                    pyxel.line(flechasX - tamanoFlecha, flechasY, flechasX,
+                               flechasY + tamanoFlecha, color)
+                    pyxel.line(flechasX - tamanoFlecha, flechasY, flechasX,
+                               flechasY - tamanoFlecha, color)
+                else:
+                    # Flecha hacia la izquierda
+                    pyxel.line(flechasX, flechasY, flechasX - tamanoFlecha,
+                               flechasY + tamanoFlecha, color)
+                    pyxel.line(flechasX, flechasY, flechasX - tamanoFlecha,
+                               flechasY - tamanoFlecha, color)
+                    
 
             y += self.sepEntreCintas
 
         # -- Dibujamos los paquetes de la matriz --
-        ## Cada paquete puede estar en una posición de la matriz, de dimensiones (longitudX, longitudY)
+        # Cada paquete puede estar en una posición de la matriz, de dimensiones (longitudX, longitudY)
         x = self.posX
         for i in range(self.longitudX):
             y = self.posY
             for j in range(self.longitudY):
                 if self.matriz[j][i] == 1:
-                    pyxel.rect(x, y - self.alto, self.ancho, self.alto, self.color)
+                    pyxel.rect(x, y - self.alto, self.ancho,
+                               self.alto, self.color)
                 # else:
                 #     pyxel.rectb(x, y - self.alto, self.ancho, self.alto, self.color)
                 # Pasamos a dibujar el siguiente paquete (de arriba a abajo, el inferior)
@@ -191,7 +210,6 @@ class Paquetes(Elemento):
             # Después de recorrer toda la columna, pasar a la siguiente (de izquiera a derecha)
             x += self.sepEntrePaqs
 
-    
     def __paqsEnJuego(self):
         # Cuenta cuantos paquetes hay actualmente en juego
         sum = 0

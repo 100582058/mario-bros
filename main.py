@@ -1,6 +1,6 @@
 import pyxel
 
-from utils.config import WIDTH, HEIGHT,scl, COLORES, asignarDificultad
+from utils.config import WIDTH, HEIGHT, scl, COLORES, asignarDificultad
 from clases.fabrica import Fabrica
 
 from clases.pantallaInicio import PantallaInicio
@@ -12,16 +12,17 @@ juegoIniciado = False
 
 
 def main():
-    pyxel.init(int(WIDTH), int(HEIGHT), title="Proyecto final - Mario Bros", display_scale=scl)
+    pyxel.init(int(WIDTH), int(HEIGHT),
+               title="Proyecto final - Mario Bros", display_scale=scl)
 
     # pyxel.load("assets/my_resource.pyxres") # DEBUG Assets de Alejandro
     # pyxel.load("assets/PyxelPersonajes.pyxres")
-    #pyxel.load("assets/musicaFondo.pyxres")
+    # pyxel.load("assets/musicaFondo.pyxres")
     pyxel.load("assets/musicas_y_sonidos.pyxres")
 
+    # DEBUG
     pyxel.mouse(True)
     pyxel.run(update, draw)
-
 
 
 def update():
@@ -42,7 +43,6 @@ def update():
             fabrica = Fabrica(configDificultad)
             print("Dificultad", dificultad.lower(), "Iniciamos el juego!")
 
-
     # -- Fase 2: Juego --
     if not pantallaInicio.activa:
         fabrica.juegoRun()
@@ -59,12 +59,9 @@ def draw():
         pyxel.cls(COLORES["carne"])
         fabrica.draw(WIDTH, HEIGHT)
 
-
     # DEBUG: Posicion del ratón
-    # txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
-    # pyxel.text(5, 120, txt, 2)
-
-
+    txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
+    pyxel.text(5, 120, txt, 2)
 
 
 if __name__ == "__main__":
