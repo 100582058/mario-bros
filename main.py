@@ -16,7 +16,8 @@ def main():
 
     # pyxel.load("assets/my_resource.pyxres") # DEBUG Assets de Alejandro
     # pyxel.load("assets/PyxelPersonajes.pyxres")
-    pyxel.load("assets/musicaFondo.pyxres")
+    #pyxel.load("assets/musicaFondo.pyxres")
+    pyxel.load("assets/musicas_y_sonidos.pyxres")
 
     pyxel.mouse(True)
     pyxel.run(update, draw)

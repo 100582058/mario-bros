@@ -39,7 +39,7 @@ class PantallaInicio:
 
         if self.activa == True and self.conpCancion == 0:
             self.conpCancion += 1
-            pyxel.playm(1, loop=True)
+            pyxel.playm(0, loop=True)
         # Si no devuelve 1 o 2
         return -1
 
@@ -92,7 +92,7 @@ class PantallaInicio:
             # Por ahora TODAS van a la dificultad fácil
             self.activa = False
             self.dificultadSeleccionada = self.opciones[self.seleccion]
-            pyxel.playm(0, loop=True)
+            pyxel.playm(2, loop=True)
 
         return self.dificultadSeleccionada
 
