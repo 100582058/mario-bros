@@ -1,6 +1,6 @@
 import pyxel
 import random
-from utils.config import WIDTH, COLORES
+from utils.config import COLORES
 
 class PantallaInicio:
     def __init__(self):
@@ -88,7 +88,7 @@ class PantallaInicio:
 
 
         #confirmación con ENTER
-        if pyxel.btnp(pyxel.KEY_RETURN) or pyxel.btnp(pyxel.KEY_SPACE): #Return es el enter
+        if pyxel.btnp(pyxel.KEY_RETURN) or pyxel.btnp(pyxel.KEY_SPACE):
             # Por ahora TODAS van a la dificultad fácil
             self.activa = False
             self.dificultadSeleccionada = self.opciones[self.seleccion]
@@ -97,10 +97,9 @@ class PantallaInicio:
         return self.dificultadSeleccionada
 
     def draw(self):
-        #Título
-        if pyxel.frame_count % 3 == 0: #Para no dañar epilepticos(cambia de color cada 3 frames)
+        # -- Título --
+        if pyxel.frame_count % 3 == 0: #Para no dañar epilepticos (cambia de color cada 3 frames)
             self.parpadeoCol = random.randint(1, 15)
-        #pyxel.text(WIDTH//2 - 45, 10, "BIENVENIDO A MARIO BROS", self.parpadeoCol)
         x = 0
         y = -20
         pyxel.text(80+x, 20+y, """
@@ -128,20 +127,20 @@ BBBB   R   R   OOOO   SSSS
         x = 12
         y = 25
 
-        i = 0  #Es un contador, pero no me gustaba llamarlo contador
+        i = 0  # REFACTOR: Es un contador, pero no me gustaba llamarlo contador
         for nombre in self.opciones:     #Así hacemos que "nombre" represente el nombre de las dificultades en función de su posicion en la lista
             color = self.colores[nombre] #utilizamos el diccionario para decidir el color del rectángulo
 
             #Si está seleccionado...
             if i == self.seleccion:
-                color_rect = 5  # para resaltar
+                colorRect = 5  # para resaltar
                 borde = 10  #borde
             else:
-                color_rect = color
+                colorRect = color
                 borde = 0 #para que parezca que se elimina el borde, aunque solo se vuelve del color del fondo
 
             pyxel.rect(x - 2, y - 2, 44, 18, borde)  # Rectángulo del borde (simplemente es un rectángulo más grande)
-            pyxel.rect(x, y, 40, 14, color_rect)  # Rectángulo del botón
+            pyxel.rect(x, y, 40, 14, colorRect)  # Rectángulo del botón
 
 
             #Texto del botón

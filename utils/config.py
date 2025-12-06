@@ -2,20 +2,14 @@ import time
 import pyxel
 import random
 
+from clases.configNivel import ConfigNivel
+
 scl = 4
 WIDTH, HEIGHT = 1024 / scl, 512 / scl
 # Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
-NUM_PAQ_CIN = 10  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
-DIFICULTAD = "facil"
-TIEMPO = time.time()
 
-NUM_CINTAS = 5  # Depende de la dificultad #Con números múltiplos de 5 curiosamente luigi y mario se ponen exactamente en la plataforma
+# Depende de la dificultad # DEBUG: Con números múltiplos de 5 curiosamente luigi y mario se ponen exactamente en la plataforma
 # Separación entre cintas
-SEP_ENTRE_CINTAS = (HEIGHT - 25) / NUM_CINTAS
-ANCHO_PAQ, ALTO_PAQ = 7, 4
-
-TIEMPO, VIDAS = time.time(), 3
-# NUM_CINTAS, TIEMPO, VIDAS, VEL = asignarValores(DIFICULTAD)
 
 COLORES = {
     "negro": 0,
@@ -37,49 +31,65 @@ COLORES = {
 }
 
 
-def cintaPar(indice):
-    # El último índice (self.longitudY - 1) siempre is impar (num = 0)
-    # DEBUG: self.longitudY == NUM_CINTAS ??
-    nuevoIndice = (NUM_CINTAS - 1) - indice
+def esCintaPar(indice, numCintas):
+    # El último índice (self.longitudY - 1) siempre debe ser impar (num = 0)
+    nuevoIndice = (numCintas - 1) - indice
     return nuevoIndice % 2 == 0
 
-
-def asignarDificultad(dificultad):
-    CONTROLES_MARIO = (pyxel.KEY_UP, pyxel.KEY_DOWN)
-    CONTROLES_LUIGI = (pyxel.KEY_W, pyxel.KEY_S)
-    VEL_CINTA_0 = 1
-    VEL_CINTAS_PARES = 1
-    VEL_CINTAS_IMPARES = 1
+# Devuelve un objeto ConfigNivel
+def asignarDificultad(dificultad: str)->ConfigNivel:
+    # Valores por defecto
+    controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
+    controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
+    velCinta0 = 1
+    velCintasPares = 1
+    velCintasImpares = 1
 
     if dificultad == "facil":
-        NUM_CINTAS = 5
-        ANADIR_PAQUETES_CADA = 50
-        ELIMINA_FALLOS = 3
+        numCintas = 5
+        anadirPaquetesCada = 50
+        eliminaFallos = 3
     elif dificultad == "normal":
-        NUM_CINTAS = 7
-        VEL_CINTAS_PARES = 1
-        VEL_CINTAS_IMPARES = 1.5
-        ANADIR_PAQUETES_CADA = 30
-        ELIMINA_FALLOS = 5
+        numCintas = 7
+        velCintasPares = 1
+        velCintasImpares = 1.5
+        anadirPaquetesCada = 30
+        eliminaFallos = 5
     elif dificultad == "dificil":
-        NUM_CINTAS = 9
-        VEL_CINTAS_PARES = 1.5
-        VEL_CINTAS_IMPARES = 2
-        ANADIR_PAQUETES_CADA = 30
-        ELIMINA_FALLOS = 5
+        numCintas = 9
+        velCintasPares = 1.5
+        velCintasImpares = 2
+        anadirPaquetesCada = 30
+        eliminaFallos = 5
     elif dificultad == "crazy":
-        CONTROLES_MARIO = (pyxel.KEY_DOWN, pyxel.KEY_UP)
-        CONTROLES_LUIGI = (pyxel.KEY_S, pyxel.KEY_W)
-        NUM_CINTAS = 5
-        VEL_CINTAS_PARES = random.uniform(1, 2)
-        VEL_CINTAS_IMPARES = random.uniform(1, 2)
-        ANADIR_PAQUETES_CADA = 20
-        ELIMINA_FALLOS = 10000
+        controlesMario = (pyxel.KEY_DOWN, pyxel.KEY_UP)
+        controlesLuigi = (pyxel.KEY_S, pyxel.KEY_W)
+        numCintas = 5
+        velCintasPares = random.uniform(1, 2)
+        velCintasImpares = random.uniform(1, 2)
+        anadirPaquetesCada = 20
+        eliminaFallos = 10000
     else:
         raise ValueError("Dificultad seleccionada no válida")
-        return
 
-    return CONTROLES_MARIO, CONTROLES_LUIGI, VEL_CINTA_0, VEL_CINTAS_PARES, VEL_CINTAS_IMPARES, NUM_CINTAS,VEL_CINTAS_PARES,VEL_CINTAS_IMPARES,ANADIR_PAQUETES_CADA, ELIMINA_FALLOS
+    # Añadimos parámetros independientes a la dificultad
+    numPaqCinta = 10  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
+
+    sepEntreCintas = (HEIGHT - 25) / numCintas
+    anchoPaq, altoPaq = 7, 4
 
 
-CONTROLES_MARIO, CONTROLES_LUIGI, VEL_CINTA_0, VEL_CINTAS_PARES, VEL_CINTAS_IMPARES, NUM_CINTAS, VEL_CINTAS_PARES, VEL_CINTAS_IMPARES, ANADIR_PAQUETES_CADA, ELIMINA_FALLOS = asignarDificultad("facil")
+    return ConfigNivel(
+        controlesMario, 
+        controlesLuigi, 
+        velCinta0, 
+        velCintasPares, 
+        velCintasImpares, 
+        numCintas, 
+        anadirPaquetesCada, 
+        eliminaFallos,
+        numPaqCinta,
+        sepEntreCintas,
+        anchoPaq,
+        altoPaq
+    )

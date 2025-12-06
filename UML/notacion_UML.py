@@ -4,6 +4,8 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
+print("="*20, "\nAñadir notación de tipo de argumentos y que devuelve cada funcion antes de calcular\n", "="*20)
+
 class AnalizadorUML:
     def __init__(self, ruta_proyecto='.'):
         self.ruta = Path(ruta_proyecto)

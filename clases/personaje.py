@@ -1,16 +1,16 @@
 import pyxel
 import time
 
-from utils.config import NUM_CINTAS, HEIGHT, SEP_ENTRE_CINTAS, COLORES
+from utils.config import COLORES
 from clases.elemento import Elemento
 from utils.funciones import dibujar
 
 class Personaje(Elemento):
-    def __init__(self, id_personaje, posX, posY, color, controles=None):
+    def __init__(self, id_personaje, posX, posY, color, controles, config):
         super().__init__(posX, posY, 10, 12, color)
         self.id = id_personaje  # Nombre del Personaje
         self.controles = controles  # Tupla con 2 strings para las teclas
-        self.planta = NUM_CINTAS - 1  # Planta en la que se encuentra
+        self.planta = config.numCintas - 1  # Planta en la que se encuentra
         self.timerUp = 0       #Son temporizadores para la repetición del movimiento con btn
         self.timerDown = 0
         self.comparador = 4 #El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
@@ -19,6 +19,10 @@ class Personaje(Elemento):
         # Le regaña durante self.tiempoMaxReganado segundos
         self.tiempoReganado = 0
         self.tiempoMaxReganado = 1.2
+
+        # Atributos de la configuración del nivel
+        self.sepEntreCintas = config.sepEntreCintas
+        self.numCintas = config.numCintas
 
     @property
     def controles(self):
@@ -35,14 +39,14 @@ class Personaje(Elemento):
             # Mover hacia arriba si no está en la más alta
             if self.planta > 0:
                 self.planta -= 1
-                self.posY -= SEP_ENTRE_CINTAS
+                self.posY -= self.sepEntreCintas
             self.timerUp = 0  # reset para evitar doble salto *****
 
         if pyxel.btnp(self.controles[1]):
             # Mover hacia abajo si no está en la inferior
-            if self.planta < NUM_CINTAS - 1:
+            if self.planta < self.numCintas - 1:
                 self.planta += 1
-                self.posY += SEP_ENTRE_CINTAS
+                self.posY += self.sepEntreCintas
             self.timerDown = 0 # reset para evitar doble salto *****
 
             # Repetición al mantener pulsado arriba
@@ -53,7 +57,7 @@ class Personaje(Elemento):
                 self.timerUp = 0 #Es importante asignarlo fuera por si se encuentra en el extremo de la lista
                 if self.planta > 0:
                     self.planta -= 1
-                    self.posY -= SEP_ENTRE_CINTAS
+                    self.posY -= self.sepEntreCintas
         else:
             self.timerUp = 0
 
@@ -62,9 +66,9 @@ class Personaje(Elemento):
             self.timerDown += 1
             if self.timerDown > self.comparador:
                 self.timerDown = 0 #Es importante asignarlo fuera por si se encuentra en el extremo de la lista
-                if self.planta < NUM_CINTAS - 1:
+                if self.planta < self.numCintas - 1:
                     self.planta += 1
-                    self.posY += SEP_ENTRE_CINTAS
+                    self.posY += self.sepEntreCintas
         else:
             self.timerDown = 0
 

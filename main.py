@@ -1,19 +1,17 @@
 import pyxel
 
-from utils.config import WIDTH, HEIGHT, NUM_CINTAS, NUM_PAQ_CIN, DIFICULTAD, COLORES, TIEMPO, scl
+from utils.config import WIDTH, HEIGHT,scl, COLORES, asignarDificultad
 from clases.fabrica import Fabrica
 
 from clases.pantallaInicio import PantallaInicio
 
-
-# REFACTOR: Fabrica debería tener algunos parámetros
-fabrica = Fabrica()
+# Creamos la variable global sin asignarle ningún objeto, no sabemos la dificultad todavía
+fabrica = None
 pantallaInicio = PantallaInicio()
+juegoIniciado = False
 
 
 def main():
-    print("JUEGO INICIADO!")
-
     pyxel.init(int(WIDTH), int(HEIGHT), title="Proyecto final - Mario Bros", display_scale=scl)
 
     # pyxel.load("assets/my_resource.pyxres") # DEBUG Assets de Alejandro
@@ -26,40 +24,42 @@ def main():
 
 
 def update():
-    juegoIniciado = False
+    # Necesario para usar variables globales dentro de una función
+    global fabrica
 
     if pyxel.btnp(pyxel.KEY_Q):
         pyxel.quit()
 
-    # Si todavía estamos en la pantalla inicial
-    # if pantallaInicio.activa:
-    dificultad = pantallaInicio.update()
-    if dificultad:
+    # -- Fase 1: Pantallad de inicio --
+    if pantallaInicio.activa:
+        dificultad = pantallaInicio.update()
         # Inicializamos el juego real cuando se confirme
-        print("Dificultad", dificultad.lower(), "// se 'selecciona' la dificultad cada frame")
-        # fabrica.seleccionarDificultad(dificultad.lower())
-        juegoIniciado = True
+        if dificultad:
+            # Conseguimos la información de ese nivel
+            configDificultad = asignarDificultad(dificultad.lower())
+            # Instanciamos la Fábrica con esa configuración
+            fabrica = Fabrica(configDificultad)
+            print("Dificultad", dificultad.lower(), "Iniciamos el juego!")
 
 
-    # Lógica normal del juego
-    if juegoIniciado:
+    # -- Fase 2: Juego --
+    if not pantallaInicio.activa:
         fabrica.juegoRun()
 
 
 def draw():
-    # --- Dibujamos el contenido del juego ---
+    # -- Fase 1: Pantallad de inicio --
     if pantallaInicio.activa:
         # Fondo negro para la pantalla de inicio
         pyxel.cls(COLORES["negro"])
         pantallaInicio.draw()
     else:
-        # Fondo claro para el juego
+        # -- Fase 2: Juego --
         pyxel.cls(COLORES["carne"])
         fabrica.draw(WIDTH, HEIGHT)
 
 
-
-    # Posicion del ratón
+    # DEBUG: Posicion del ratón
     txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
     pyxel.text(5, 120, txt, 2)
 

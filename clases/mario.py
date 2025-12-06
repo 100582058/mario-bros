@@ -1,8 +1,8 @@
 from clases.personaje import Personaje
 
 class Mario(Personaje):
-    def __init__(self, id_personaje, posX, posY, color, controles):
-        super().__init__(id_personaje, posX, posY, color, controles)
+    def __init__(self, id_personaje, posX, posY, color, controles, config):
+        super().__init__(id_personaje, posX, posY, color, controles, config)
 
     def mover(self):
         super().mover()

@@ -5,12 +5,12 @@
 import pyxel
 
 # REFACTOR: Eliminar NUM_CINTAS y SEP_ENTRE_CINTAS? --> No importarlas, usarlas como atributos?
-from utils.config import cintaPar, WIDTH, HEIGHT, NUM_CINTAS, COLORES
+from utils.config import COLORES, esCintaPar
 from clases.elemento import Elemento
 
 
 class Paquetes(Elemento):
-    def __init__(self, inicioX, inicioY, anchoPaq, altoPaq, color, anchoCinta, altoCinta, longitudX, longitudY, SEP_ENTRE_CINTAS):
+    def __init__(self, inicioX, inicioY, anchoPaq, altoPaq, color, longitudX, longitudY, config):
         """
         En este caso, los atributos heredados de Elemento indican lo siguiente:
         - posX: posicion en el eje X donde se empiezan a dibujar las cintas/paquetes
@@ -25,15 +25,16 @@ class Paquetes(Elemento):
         # inicioCinta, finCinta = 60, 200
         self.longitudX = longitudX
         self.longitudY = longitudY
+        self.numCintas = longitudY
 
         # self.anchoPaq = 7
         # self.altoPaq = 4
-        self.anchoCinta = anchoCinta
-        self.altoCinta = altoCinta
+        self.anchoCinta = config.anchoCinta
+        self.altoCinta = config.altoCinta
         self.colorCinta = COLORES["naranja"]
 
-        self.sepEntrePaqs = (anchoCinta - self.ancho) / self.longitudX
-        self.sepEntreCintas = SEP_ENTRE_CINTAS
+        self.sepEntrePaqs = (config.anchoCinta - self.ancho) / self.longitudX
+        self.sepEntreCintas = config.sepEntreCintas
 
         # Creamos la matriz con los paquetes
         self.matriz = self.crearMatriz(longitudX, longitudY)
@@ -95,7 +96,7 @@ class Paquetes(Elemento):
         for y in range(self.longitudY):
             filaActual = self.matriz[y]
             # Movemos las cintas hacia la 'derecha'. Para eso, revertimos las cintas pares (se mueven hacia la izquierda)
-            if cintaPar(y):
+            if esCintaPar(y, self.numCintas):
                 # Cinta par
                 filaActual.reverse()
             # Se evalúa primero el último elemento de la lista
@@ -112,7 +113,7 @@ class Paquetes(Elemento):
                 if filaActual[x] == 1:
                     filaActual = self.moverDcha(filaActual, x, y)
             # Le damos la vuelta otra vez, si es necesario
-            if cintaPar(y):
+            if esCintaPar(y, self.numCintas):
                 filaActual.reverse()
             self.matriz[y] = filaActual
 
@@ -130,7 +131,7 @@ class Paquetes(Elemento):
         if y != 0:
             self.matriz[y][x] = 0
             # Subimos el paquete al lado que corresponde (a la izquierda en las pares, a la derecha en las impares)
-            if cintaPar(y - 1):
+            if esCintaPar(y - 1, self.numCintas):
                 self.matriz[y - 1][x] = 1
             else:
                 self.matriz[y - 1][0] = 1

@@ -1,6 +1,6 @@
 import pyxel
 
-from utils.config import NUM_CINTAS, COLORES
+from utils.config import COLORES
 from clases.elemento import Elemento
 
 class Camion(Elemento):
@@ -16,6 +16,8 @@ class Camion(Elemento):
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
         self.dirMov = 0
         self.compSonidoRetroceso = 0
+
+
     @property
     def carga(self):
         return self.__carga
