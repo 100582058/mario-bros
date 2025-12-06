@@ -105,13 +105,13 @@ class PantallaInicio:
         y = -20
         pyxel.text(80+x, 20+y, """
         
-M     M   AAAA   RRRR    III    OOOO        
-MM   MM   A  A   R  R     I    O    O      
-M M M M   A  A   R  R     I    O    O     
-M  M  M   AAAA   RRRR     I    O    O     
-M     M   A  A   R R      I    O    O    
-M     M   A  A   R  R     I    O    O  
-M     M   A  A   R   R   III    OOOO    
+M     M   AAAA   RRRR   III   OOOO        
+MM   MM   A  A   R  R    I   O    O      
+M M M M   A  A   R  R    I   O    O     
+M  M  M   AAAA   RRRR    I   O    O     
+M     M   A  A   R R     I   O    O    
+M     M   A  A   R  R    I   O    O  
+M     M   A  A   R   R  III   OOOO    
 """, self.parpadeoCol)
         pyxel.text(80 +x, 80+y, """
         
