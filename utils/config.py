@@ -42,7 +42,7 @@ def asignarDificultad(dificultad: str)->ConfigNivel:
     controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
     controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
     velCinta0 = 1
-    velCintasPares = 1
+    velCintasPares = 8
     velCintasImpares = 1
 
     if dificultad == "facil":
@@ -73,7 +73,7 @@ def asignarDificultad(dificultad: str)->ConfigNivel:
         raise ValueError("Dificultad seleccionada no válida")
 
     # Añadimos parámetros independientes a la dificultad
-    numPaqCinta = 10  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
+    numPaqCinta = 40  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
 
     sepEntreCintas = (HEIGHT - 25) / numCintas
     anchoPaq, altoPaq = 7, 4

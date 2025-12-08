@@ -5,9 +5,9 @@ import os
 print("=== Combinador de archivos .pyxres ===\n")
 
 # Archivos de entrada
-archivo_musica = "musicaFondo.pyxres"
+archivo_musica = "musicas_y_sonidos.pyxres"
 archivo_imagenes = "PyxelPersonajes.pyxres"
-archivo_salida = "recursos_combinados.pyxres"
+archivo_salida = "my_resources.pyxres"
 
 # Crear carpetas temporales
 carpeta_musica = "temp_musica"

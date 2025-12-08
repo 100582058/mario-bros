@@ -15,10 +15,8 @@ def main():
     pyxel.init(int(WIDTH), int(HEIGHT),
                title="Proyecto final - Mario Bros", display_scale=scl)
 
-    # pyxel.load("assets/my_resource.pyxres") # DEBUG Assets de Alejandro
-    # pyxel.load("assets/PyxelPersonajes.pyxres")
-    # pyxel.load("assets/musicaFondo.pyxres")
-    pyxel.load("assets/musicas_y_sonidos.pyxres")
+    # Cargamos los archivos de música e imágenes
+    pyxel.load("assets/my_resources.pyxres")
 
     # DEBUG
     pyxel.mouse(True)
@@ -57,11 +55,19 @@ def draw():
     else:
         # -- Fase 2: Juego --
         pyxel.cls(COLORES["carne"])
+        # Funcionamiento .bltm -> Dibuja un mapa de mosaicos (tilemap) en la pantalla.
+        # Los parámetros son:
+        # x, y: Coordenadas en la pantalla donde se dibuja el mapa.
+        # tm: Índice del tilemap a usar (en este caso, 2).
+        # u, v: Coordenadas en el tilemap desde donde se empieza a dibujar.
+        # w, h: Ancho y alto del área a dibujar en mosaicos (tiles).
+        # pyxel.bltm(0, 0, tm=0, u=0, v=0, w=WIDTH, h=HEIGHT)
         fabrica.draw()
 
     # DEBUG: Posicion del ratón
     txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
     pyxel.text(5, 120, txt, 2)
+
 
 
 if __name__ == "__main__":

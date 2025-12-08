@@ -26,7 +26,7 @@ class Fabrica:
         self.tiempoPausado = time.time()
 
         self.ultimoSpawn = time.time()
-        # 7 segundos desde el spawn del ultimo paquete #Con 7 buena experiencia
+        # 7 segundos desde el spawn del ultimo paquete
         self.intervalos = [4]
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
@@ -111,11 +111,15 @@ class Fabrica:
         self.camion.mover_y_descargar()
 
     def moverPaquetes(self):
-        if pyxel.frame_count % 12 == 0: #4
+        # Actualizamos las cintas pares e impares por su cuenta
+        if pyxel.frame_count % 2 / self.config.velCintasPares == 0:
             self.checkFallo()
-            self.paquetes.actualizarPaquetes()
+            self.paquetes.actualizarPaquetes("pares")
+        if pyxel.frame_count % 2 / self.config.velCintasImpares == 0:
+            self.checkFallo()
+            self.paquetes.actualizarPaquetes("impares")
 
-        if pyxel.frame_count % 20 == 0:
+        if pyxel.frame_count % 20 / self.config.velCinta0 == 0:
             self.checkFallo()
             self.paquetes.actualizarLista0()
 
@@ -206,14 +210,12 @@ class Fabrica:
                     if self.luigi.planta != y:  # luigi es el de la izq
                         # Pausar juego
                         self.anadirFallo()
-                        self.paquetes.matriz[y][0] = 0
                         self.luigi.reganar()
                     else:
                         self.puntos += 1
                 # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
                 elif self.paquetes.matriz[y][x - 1] == 1 and not esCintaPar(y, self.numCintas):
                     if self.mario.planta != y:
-                        self.paquetes.matriz[y][x - 1] = 0
                         self.anadirFallo()
                         self.mario.reganar()
                     else:
@@ -228,6 +230,8 @@ class Fabrica:
                             self.tiempoPausado = time.time()
                             self.pausa = True
                             self.puntos += 10
+                            # Eliminamos los paquetes al final de las cintas
+                            self.paquetes.eliminPaquetesBorde()
                         # Eliminamos el paquete de la cinta
                         self.paquetes.matriz[0][0] = 0
                     else:
@@ -248,3 +252,5 @@ class Fabrica:
         self.pausa = True
         self.fallos += 1
         self.tiempoPausado = time.time()
+        # Eliminamos los paquetes cerca de los jugadores al fallar
+        self.paquetes.eliminPaquetesBorde()

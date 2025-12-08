@@ -5,8 +5,9 @@ from utils.config import COLORES
 from clases.elemento import Elemento
 from utils.funciones import dibujar
 
+
 class Personaje(Elemento):
-    def __init__(self, id_personaje, posX, posY, ancho, alto, color, controles, plantasPosibles, config):
+    def __init__(self, id_personaje, posX, posY, ancho, alto, color, controles, config):
         y = posY
         # Movemos el personaje hasta la cinta 0
         y += config.sepEntreCintas * (config.numCintas - 1)
@@ -16,16 +17,16 @@ class Personaje(Elemento):
         self.id = id_personaje  # Nombre del Personaje
         self.controles = controles  # Tupla con 2 strings para las teclas
         self.planta = config.numCintas - 1  # Planta en la que se encuentras
-        self.plantasPosibles = plantasPosibles # "pares" o "impares"
 
-        self.timerUp = 0       #Son temporizadores para la repetición del movimiento con btn
-        self.timerDown = 0
-        self.comparador = 4 #El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
+        self.__timerUp = 0  # Son temporizadores para la repetición del movimiento con btn
+        self.__timerDown = 0
+        # El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
+        self.__comparador = 4
 
-        self.estaReganado = False
+        self.__estaReganado = False
         # Le regaña durante self.tiempoMaxReganado segundos
-        self.tiempoReganado = 0
-        self.tiempoMaxReganado = 1.2
+        self.__tiempoReganado = 0
+        self.__tiempoMaxReganado = 1.2
 
         # Atributos de la configuración del nivel
         self.sepEntreCintas = config.sepEntreCintas
@@ -39,6 +40,39 @@ class Personaje(Elemento):
     def controles(self, valor):
         self.__controles = valor
 
+    @property
+    def id(self):
+        return self.__id
+
+    @id.setter
+    def id(self, valor):
+        if isinstance(valor, str):
+            self.__id = valor
+        else:
+            raise TypeError()
+
+    @property
+    def sepEntreCintas(self):
+        return self.__sepEntreCintas
+
+    @sepEntreCintas.setter
+    def sepEntreCintas(self, valor):
+        if isinstance(valor, int) or isinstance(valor, float):
+            self.__sepEntreCintas = valor
+        else:
+            raise TypeError()
+
+    @property
+    def numCintas(self):
+        return self.__numCintas
+
+    @numCintas.setter
+    def numCintas(self, valor):
+        if isinstance(valor, int):
+            self.__numCintas = valor
+        else:
+            raise TypeError()
+
     def intentarCambiarPlanta(self, direccion):
         # Se sobreescribe en los hijos (Luigi y Mario)
         return
@@ -47,6 +81,7 @@ class Personaje(Elemento):
     def subir(self, mult=1):
         self.planta -= mult
         self.posY -= self.sepEntreCintas * mult
+
     def bajar(self, mult=1):
         self.planta += mult
         self.posY += self.sepEntreCintas * mult
@@ -56,53 +91,55 @@ class Personaje(Elemento):
         # self.controles[1] el de bajada
         if pyxel.btnp(self.controles[0]):
             self.intentarCambiarPlanta("arriba")
-            self.timerUp = 0  # Reset para evitar doble salto
+            self.__timerUp = 0  # Reset para evitar doble salto
 
         if pyxel.btnp(self.controles[1]):
             self.intentarCambiarPlanta("abajo")
-            self.timerDown = 0 # Reset para evitar doble salto
+            self.__timerDown = 0  # Reset para evitar doble salto
 
         # -- Mover varias plantas al mantener pulsado --
         # NOTA +(tengo que revisar que funcione)+(Me parece que podría funcionar incluso con solo 1 timer para simplificar)
         if pyxel.btn(self.controles[0]):
-            self.timerUp += 1
-            if self.timerUp > self.comparador:
+            self.__timerUp += 1
+            if self.__timerUp > self.__comparador:
                 self.intentarCambiarPlanta("arriba")
-                self.timerUp = 0 # Es importante asignarlo fuera por si se encuentra en el extremo de la lista
+                # Es importante asignarlo fuera por si se encuentra en el extremo de la lista
+                self.__timerUp = 0
         else:
-            self.timerUp = 0
+            self.__timerUp = 0
 
         if pyxel.btn(self.controles[1]):
-            self.timerDown += 1
-            if self.timerDown > self.comparador:
+            self.__timerDown += 1
+            if self.__timerDown > self.__comparador:
                 self.intentarCambiarPlanta("abajo")
-                self.timerDown = 0 # Es importante asignarlo fuera por si se encuentra en el extremo de la lista
+                # Es importante asignarlo fuera por si se encuentra en el extremo de la lista
+                self.__timerDown = 0
         else:
-            self.timerDown = 0
+            self.__timerDown = 0
 
     def estaEnPiso(self):
         pass
 
     def reganar(self):
-        self.estaReganado = True
+        self.__estaReganado = True
         # Guarda el tiempo en el que se empieza a regañar
-        self.tiempoReganado = time.time()
+        self.__tiempoReganado = time.time()
 
     def draw(self):
         pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
-        pyxel.text(self.posX + self.ancho / 4, self.posY + self.alto / 4, self.id, COLORES["blanco"])
+        pyxel.text(self.posX + self.ancho / 4, self.posY +
+                   self.alto / 4, self.id, COLORES["blanco"])
 
         # Pintamos el jefe
         # >Parece que cambiando los números del frame count se consigue una animacion más chula
         # De momento lo dejo así, casi va sincronizado con el sonido de regañar
-        if self.estaReganado and pyxel.frame_count % 16 >= 8:
-            pyxel.rect(self.posX - self.ancho, self.posY - self.alto / 2, self.ancho * 0.8, self.alto * 0.8, COLORES["negro"])
+        if self.__estaReganado and pyxel.frame_count % 16 >= 8:
+            pyxel.rect(self.posX - self.ancho, self.posY - self.alto / 2,
+                       self.ancho * 0.8, self.alto * 0.8, COLORES["negro"])
             # REFACTOR cambiar de lugar
-            delta_t = time.time() - self.tiempoReganado
-            if delta_t >= self.tiempoMaxReganado:
-                self.estaReganado = False
-
-
+            delta_t = time.time() - self.__tiempoReganado
+            if delta_t >= self.__tiempoMaxReganado:
+                self.__estaReganado = False
 
         # tamanoImg, banco = 16, 0
         # pyxel.blt(self.posX + 20, self.posY, banco, 0, 0, tamanoImg, tamanoImg, scale=1)
