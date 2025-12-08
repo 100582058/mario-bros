@@ -27,7 +27,7 @@ class Fabrica:
 
         self.ultimoSpawn = time.time()
         # 7 segundos desde el spawn del ultimo paquete
-        self.intervalos = [4]
+        self.intervalos = [1]
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
@@ -41,7 +41,7 @@ class Fabrica:
     def crearJuego(self):
         # Pasamos el objeto ConfigNivel a los objetos
         # para que extraigan la información necesaria de la configuración
-        yInicial = 25 # Indica la altura máxima a la que llegarían los personajes
+        yInicial = 25  # Indica la altura máxima a la que llegarían los personajes
         ancho, alto = 10, 12
         yPersonajes = yInicial - alto + self.config.altoCinta
         self.luigi = Luigi(
@@ -112,16 +112,25 @@ class Fabrica:
 
     def moverPaquetes(self):
         # Actualizamos las cintas pares e impares por su cuenta
-        if pyxel.frame_count % 2 / self.config.velCintasPares == 0:
-            self.checkFallo()
+        velocidadInicial = 4
+        velPar = velocidadInicial / self.config.velCintasPares
+        velImpar = velocidadInicial / self.config.velCintasImpares
+        vel0 = velocidadInicial / self.config.velCinta0
+        # REFACTOR: En que posición va?
+        self.checkFallo()
+
+        if pyxel.frame_count % int(velPar) == 0:
+            # self.checkFallo()
             self.paquetes.actualizarPaquetes("pares")
-        if pyxel.frame_count % 2 / self.config.velCintasImpares == 0:
-            self.checkFallo()
+        if pyxel.frame_count % int(velImpar) == 0:
+            # self.checkFallo()
             self.paquetes.actualizarPaquetes("impares")
 
-        if pyxel.frame_count % 20 / self.config.velCinta0 == 0:
-            self.checkFallo()
+        if pyxel.frame_count % int(vel0) == 0:
+            # self.checkFallo()
             self.paquetes.actualizarLista0()
+
+
 
         # Sonido puntos (los reproducimos en el canal 2 para que no interfieran con la música)
         if self.puntosComp < self.puntos - 9:  # Puntos del camión
@@ -141,7 +150,8 @@ class Fabrica:
         # print("ahora", ahora)
         # Da el valor al contador regresivo de segundos para paquete
         # + 1 #Va un poco mal, igual necesita el +1
-        self.tiempoSigPaq = (intervalo - (ahora - self.ultimoSpawn)) -3 #-3 para ajustarlo
+        # -3 para ajustarlo
+        self.tiempoSigPaq = (intervalo - (ahora - self.ultimoSpawn)) - 3
 
         if ahora - self.ultimoSpawn >= intervalo:
             # print("resta", ahora - self.ultimoSpawn)
@@ -200,57 +210,71 @@ class Fabrica:
     # Función para ver si se cae un paquete
     # Cuando paquete en el final de las filas pares y no está Luigi, eliminar el paquete. Lo mismo para Mario
     def checkFallo(self):
-        x = self.paquetes.longitudX
-        for y in range(self.numCintas):
-            if y != 0:
-                # Comprueba si se cae un paquete en las filas intermedias
-                # REFACTOR: --> Parece que ya está mejor?  Fernando dice que son muchos condicionales y se lee mal
-                # QUIZÁS: self.paquetes.paqueteEn(x, y) and cintaIzda() and not self.luigi.enPlanta(y)
-                if self.paquetes.matriz[y][0] == 1 and esCintaPar(y, self.numCintas):
-                    if self.luigi.planta != y:  # luigi es el de la izq
-                        # Pausar juego
-                        self.anadirFallo()
-                        self.luigi.reganar()
-                    else:
-                        self.puntos += 1
-                # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
-                elif self.paquetes.matriz[y][x - 1] == 1 and not esCintaPar(y, self.numCintas):
-                    if self.mario.planta != y:
-                        self.anadirFallo()
-                        self.mario.reganar()
-                    else:
-                        self.puntos += 1
+        # print("-"*10, "FALLO", "-"*10)
+        x = self.paquetes.longitudX - 1
+        # Comprueba si se cae un paquete en las filas intermedias
+        for y in range(1, self.numCintas):
+            # REFACTOR: --> Parece que ya está mejor?  Fernando dice que son muchos condicionales y se lee mal
+            # QUIZÁS: self.paquetes.paqueteEn(x, y) and cintaIzda() and not self.luigi.enPlanta(y)
+            if self.paquetes.matriz[y][0] != 0 and esCintaPar(y, self.numCintas):
+                if self.luigi.planta != y:  # luigi es el de la izda
+                    # print(self.paquetes)
+                    print("Luigi falla", x, y)
+                    self.anadirFalloYElimPaq(0, y)
+                    # print(self.paquetes)
+                    self.luigi.reganar()
+                else:
+                    self.puntos += 1
+            # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
+            if self.paquetes.matriz[y][x] != 0 and not esCintaPar(y, self.numCintas):
+                if self.mario.planta != y:
+                    # print(self.paquetes)
+                    print("Mario falla",  x, y)
+                    self.anadirFalloYElimPaq(x, y)
+                    # print(self.paquetes)
+                    self.mario.reganar()
+                else:
+                    self.puntos += 1
 
-                # Comprueba que esté Luigi en la cinta del camión
-                if self.paquetes.matriz[0][0] == 1:
-                    if self.luigi.planta == 0:
-                        self.camion.carga += 1
-                        # Controla cuando se llena el camión para pausar el juego
-                        if self.camion.carga >= 8:
-                            self.tiempoPausado = time.time()
-                            self.pausa = True
-                            self.puntos += 10
-                            # Eliminamos los paquetes al final de las cintas
-                            self.paquetes.eliminPaquetesBorde()
-                        # Eliminamos el paquete de la cinta
-                        self.paquetes.matriz[0][0] = 0
-                    else:
-                        self.anadirFallo()
-                # Comprueba si hay un paquete en la lista0 listo para ser añadido a la matriz
-                if self.paquetes.lista0[0] == 1:
-                    if self.mario.planta != self.numCintas - 1:
-                        # Añadimos un fallo
-                        self.anadirFallo()
-                        self.mario.reganar()
-                    else:
-                        # Añadimos el paquete a la matriz
-                        self.paquetes.matriz[-1][-1] = 1
-                        self.puntos += 1
-                    self.paquetes.lista0[0] = 0
+        # Comprueba que esté Luigi en la cinta del camión
+        if self.paquetes.matriz[0][0] != 0:
+            if self.luigi.planta == 0:
+                self.camion.carga += 1
+                # Controla cuando se llena el camión para pausar el juego
+                if self.camion.carga >= 8:
+                    self.tiempoPausado = time.time()
+                    self.pausa = True
+                    self.puntos += 10
+                    # Eliminamos los paquetes al final de las cintas
+                    self.paquetes.eliminPaquetesBorde()
+                # Eliminamos el paquete de la cinta
+                self.paquetes.matriz[0][0] = 0
+            else:
+                self.anadirFalloYElimPaq(0, 0)
+        # Comprueba si hay un paquete en la lista0 listo para ser añadido a la matriz
+        if self.paquetes.lista0[0] != 0:
+            if self.mario.planta != self.numCintas - 1:
+                # Añadimos un fallo y eliminamos el paquete
+                self.anadirFalloYElimPaq(0)
+                self.mario.reganar()
+                print("Mario falla lista 0")
+            else:
+                # Añadimos el paquete a la matriz
+                self.paquetes.matriz[-1][-1] = 1
+                self.puntos += 1
+            self.paquetes.lista0[0] = 0
 
-    def anadirFallo(self):
+    def anadirFalloYElimPaq(self, x=None, y=None):
         self.pausa = True
         self.fallos += 1
         self.tiempoPausado = time.time()
+        # Eliminamos el paquete de la matriz
+        if x != None and y != None:
+            self.paquetes.matriz[y][x] = 0
+            self.paquetes.animar(x, y)
+        else:
+            # Eliminamos el paquete de la lista 0
+            self.paquetes.lista0[x] = 0
+            self.paquetes.animar(x)
         # Eliminamos los paquetes cerca de los jugadores al fallar
         self.paquetes.eliminPaquetesBorde()

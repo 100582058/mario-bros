@@ -131,7 +131,7 @@ class Personaje(Elemento):
                    self.alto / 4, self.id, COLORES["blanco"])
 
         # Pintamos el jefe
-        # >Parece que cambiando los números del frame count se consigue una animacion más chula
+        # REFACTOR: Parece que cambiando los números del frame count se consigue una animacion más chula
         # De momento lo dejo así, casi va sincronizado con el sonido de regañar
         if self.__estaReganado and pyxel.frame_count % 16 >= 8:
             pyxel.rect(self.posX - self.ancho, self.posY - self.alto / 2,
@@ -140,15 +140,3 @@ class Personaje(Elemento):
             delta_t = time.time() - self.__tiempoReganado
             if delta_t >= self.__tiempoMaxReganado:
                 self.__estaReganado = False
-
-        # tamanoImg, banco = 16, 0
-        # pyxel.blt(self.posX + 20, self.posY, banco, 0, 0, tamanoImg, tamanoImg, scale=1)
-
-        # y = 18
-        # if self.id == "M":
-        #     y = 26
-        # txt = f"{self.id} ({int(self.posX)}, {int(self.posY)})  Planta: {self.planta}"
-        # pyxel.text(10, y, txt, 9)
-
-        # Para dibujar al personaje DEBUG
-        # dibujar(self, self.id)

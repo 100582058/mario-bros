@@ -22,8 +22,5 @@ class Luigi(Personaje):
         elif direccion == "abajo" and cinta - 2 >= 0:
             self.bajar(2)
 
-    def estaEnPiso(self):
-        pass
-
     def draw(self):
         super().draw()
