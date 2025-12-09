@@ -29,3 +29,5 @@ class ConfigNivel:
         self.tiempoInicial = time.time()
 
         self.dificultad = dificultad
+
+        self.pausaFallo = 5
