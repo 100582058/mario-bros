@@ -196,26 +196,46 @@ class Paquetes(Elemento):
         # else:
         #     print("No se añade paquete, hay uno cerca del borde")
 
+    def __dibujarPaq(self, x, y, nivelPaquete=1):
+        # Dibujamos el paquete básico
+        pyxel.rect(x, y, self.ancho, self.alto, self.color)
+
+        # Si está en otro nivel, dibujamos las botellas
+        if nivelPaquete == 2:
+            for i in range(0, int(self.ancho / 2), 2):
+                pyxel.pset(x + i, y - 1, self.color)
+        elif nivelPaquete == 3:
+            for i in range(0, self.ancho, 2):
+                pyxel.pset(x + i, y - 1, self.color)
+        elif nivelPaquete == 4:
+            for i in range(0, self.ancho, 2):
+                pyxel.pset(x + i, y - 1, self.color)
+                if i + 1 < self.ancho:
+                    pyxel.pset(x + i + 1, y - 2, self.color)
+        elif nivelPaquete == 5:
+            # Forma de paquete
+            w = int(self.ancho * 0.2)
+            h = int(self.alto * 0.4)
+            pyxel.rect(x, y + h, self.ancho, 1, COLORES["blanco"])
+        elif nivelPaquete >= 6:
+            # Dibujamos el paquete nivel 5
+            w = int(self.ancho * 0.2)
+            h = int(self.alto * 0.4)
+            pyxel.rect(x, y + h, self.ancho, 1, COLORES["blanco"])
+            # Y otra linea para completar el 'lazo'
+            pyxel.rect(x + w, y, 1, self.alto, COLORES["blanco"])
+
     def draw(self):
         # -- Dibujamos la cinta 0 de paquetes --
         # Dibujamos los paquetes de la cinta 0
-        # ///////////////
-        x = self.posX
-        y = self.posY + self.longitudY * self.sepEntreCintas
-        for i in range(len(self.lista0)):
-            paq = self.lista0[i]
-            if paq != 0:
-                pyxel.rect(x, y - self.alto, self.ancho, self.alto, self.color)
-
-            x += self.sepEntrePaqs
-        # ///////////////
         x = self.cinta0_x
         # La lista 0 debe estar a la altura de la última cinta de paquetes
         y = self.posY + (self.longitudY - 1) * self.sepEntreCintas
         for i in range(len(self.lista0)):
             paq = self.lista0[i]
             if paq != 0:
-                pyxel.rect(x - 5, y - self.alto, self.ancho, self.alto, self.color)
+                # pyxel.rect(x - 5, y - self.alto, self.ancho, self.alto, self.color)
+                self.__dibujarPaq(x - 5, y - self.alto)
             x += self.sepEntrePaqs
 
         # Dibujamos los elementos visuales de la cinta 0
@@ -264,9 +284,7 @@ class Paquetes(Elemento):
             y = self.posY
             for j in range(self.longitudY):
                 if self.matriz[j][i] != 0:
-                    pyxel.rect(x, y - self.alto, self.ancho, self.alto, self.color)
-                # else:
-                #     pyxel.rectb(x, y - self.alto, self.ancho, self.alto, self.color)
+                    self.__dibujarPaq(x, y - self.alto, self.matriz[j][i])
                 # Pasamos a dibujar el siguiente paquete (de arriba a abajo, el inferior)
                 y += self.sepEntreCintas
             # Después de recorrer toda la columna, pasar a la siguiente (de izquiera a derecha)
@@ -281,21 +299,22 @@ class Paquetes(Elemento):
 
     # REFACTOR: fusionar con cinta0
     def __animacionPaqMatriz(self):
-        x, y = self.paqBorrandose[0], self.paqBorrandose[1]
-        x = self.posX + x * self.sepEntrePaqs
-        y = self.posY + y * self.sepEntreCintas - self.altoCinta
+        i, j = self.paqBorrandose[0], self.paqBorrandose[1]
+        x = self.posX + i * self.sepEntrePaqs
+        y = self.posY + j * self.sepEntreCintas - self.altoCinta
 
         tiempoTranscurrido = time.time() - self.inicioAnimacion
         if tiempoTranscurrido < self.totalAnimacion:
             t = tiempoTranscurrido % (self.tiemoInvisible + self.tiempoVisible)
             if t < self.tiempoVisible:
-                pyxel.rect(x, y, self.ancho, self.alto, self.color)
+                self.__dibujarPaq(x, y, self.numCintas - j)
+                print("borrandose", i, j, "-->", self.numCintas - j)
         else:
             # Se acaba la animación
             self.paqBorrandose = []
     
     def __animacionPaqCinta0(self):
-        x = self.paqBorrandose0
+        j = self.paqBorrandose0
         x = self.cinta0_x
         y = self.posY + (self.numCintas - 1) * self.sepEntreCintas - self.altoCinta
 
@@ -303,7 +322,7 @@ class Paquetes(Elemento):
         if tiempoTranscurrido < self.totalAnimacion:
             t = tiempoTranscurrido % (self.tiemoInvisible + self.tiempoVisible)
             if t < self.tiempoVisible:
-                pyxel.rect(x, y, self.ancho, self.alto, self.color)
+                self.__dibujarPaq(x, y)
         else:
             # Se acaba la animación
             self.paqBorrandose0 = None

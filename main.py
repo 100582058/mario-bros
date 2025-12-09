@@ -16,7 +16,7 @@ def main():
                title="Proyecto final - Mario Bros", display_scale=scl)
 
     # Cargamos los archivos de música e imágenes
-    pyxel.load("assets/musicas_y_sonidos.pyxres")
+    pyxel.load("assets/my_resources.pyxres")
 
     # DEBUG
     pyxel.mouse(True)

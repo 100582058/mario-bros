@@ -27,7 +27,7 @@ class Fabrica:
 
         self.ultimoSpawn = time.time()
         # 7 segundos desde el spawn del ultimo paquete
-        self.intervalos = [1]
+        self.intervalos = [4]
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
