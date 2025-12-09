@@ -13,7 +13,7 @@ class Camion(Elemento):
         self.__posicionCarga = posX
         # Posición fuera de la pantalla, donde descarga los paquetes
         self.__posicionDescarga = -40
-        self.__velocidadCamion = 3
+        self.__velocidadCamion = 2
         self.__velocidadCamionRetroceso = 1
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
         self.__dirMov = 0 
@@ -75,15 +75,16 @@ class Camion(Elemento):
     def draw(self):
         # -- Pinta el camión y los paquetes --
         # Camión
-        pyxel.rect(self.posX, self.posY, self.ancho, self.alto, COLORES["gris"])
+        pyxel.rect(self.posX, self.posY, self.ancho, self.alto, COLORES["azulMarino"])
         # Ruedas
         pyxel.rect(self.posX +1, self.posY +2, self.ancho -25, self.alto, COLORES["negro"])
         pyxel.rect(self.posX + 3, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
         pyxel.rect(self.posX+25, self.posY +2, self.ancho - 25, self.alto, COLORES["negro"])
         pyxel.rect(self.posX + 27, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
-        pyxel.rect(self.posX, self.posY - 10, self.ancho - 20, self.alto+ 5, COLORES["gris"])
-        pyxel.rect(self.posX, self.posY - 7, self.ancho - 24, self.alto, COLORES["azul"])
+        pyxel.rect(self.posX, self.posY - 10, self.ancho - 20, self.alto+ 5, COLORES["azulMarino"])
+        pyxel.rect(self.posX, self.posY - 7, self.ancho - 24, self.alto, COLORES["azulCeleste"])
         pyxel.rect(self.posX, self.posY, self.ancho, self.alto - 4, COLORES["azul"])
+        pyxel.rect(self.posX + 28, self.posY - 4, self.ancho - 28, self.alto, COLORES["azul"])
 
         # Paquetes dentro del camión
 
