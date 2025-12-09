@@ -126,7 +126,7 @@ class Personaje(Elemento):
         self.__tiempoReganado = time.time()
 
     def draw(self):
-        pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
+        pyxel.rect(self.posX, self.posY -1, self.ancho, self.alto -1, self.color)
         pyxel.text(self.posX + self.ancho / 4, self.posY +
                    self.alto / 4, self.id, COLORES["blanco"])
 

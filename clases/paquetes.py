@@ -222,7 +222,26 @@ class Paquetes(Elemento):
         pyxel.rect(self.cinta0_x, y, 200, self.altoCinta, self.colorCinta)
         pyxel.rect(self.cinta0_x + 30, y - 10, 50, 10, COLORES["negro"])
         pyxel.rect(self.cinta0_x + 5, y, 40, 1, COLORES["gris"])
-        pyxel.rect(self.cinta0_x - 5, y + 3, 5, 1, COLORES["marron"])
+        pyxel.rect(self.cinta0_x - 25, y + 3, 25, 1, COLORES["marron"])
+     #   pyxel.rect(self.cinta0_x - 18, y -70, 1, 75, COLORES["azul"])
+     #   pyxel.rect(self.cinta0_x - 5, y - 70, 1, 75, COLORES["azul"])
+        pyxel.rect(self.cinta0_x - 18, y , 16, 3, COLORES["marron"])
+        pyxel.rect(self.cinta0_x - 16, y, 12, 2, COLORES["morado"])
+
+        #plataforma jefe
+        # z es la x para mover la plataforma facil e w es la y
+        z = 5
+        w = -10
+        for i in range(2):
+            if i != 1: #plataforma jefe mario
+                pyxel.rect(self.cinta0_x + 3 + z, y - 30 + w, 26, 3, COLORES["marron"])
+                pyxel.rect(self.cinta0_x + 5 + z, y - 30 + w, 22, 2, COLORES["verde"])
+            else: #plataforma jefe luigi
+                z = -215
+                w = 40
+                pyxel.rect(self.cinta0_x + 3 + z, y - 30 + w, 26, 3, COLORES["marron"])
+                pyxel.rect(self.cinta0_x + 5 + z, y - 30 + w, 22, 2, COLORES["verde"])
+
 
         # -- Dibujamos las cintas --
         y = self.posY
@@ -231,10 +250,23 @@ class Paquetes(Elemento):
                        self.altoCinta, self.colorCinta)
             pyxel.rect(self.posX + 5, y, self.anchoCinta - 10,
                        self.altoCinta - 3, COLORES["gris"])
-            pyxel.rect(self.posX - 15, y + 3, self.anchoCinta -
-                       125, self.altoCinta - 3, COLORES["marron"])
-            pyxel.rect(self.posX + 140, y + 3, self.anchoCinta -
-                       125, self.altoCinta - 3, COLORES["marron"])
+            if j % 2 == 0 and j != 0:
+                pyxel.rect(self.posX - 18, y + 3, self.anchoCinta -
+                       122, self.altoCinta - 3, COLORES["marron"])
+                pyxel.rect(self.cinta0_x - 178, y, 16, 3, COLORES["marron"])
+                pyxel.rect(self.cinta0_x - 176, y, 12, 2, COLORES["azul12"])
+
+            if j == 0:
+                pyxel.rect(self.posX - 18, y + 3, self.anchoCinta -
+                           122, self.altoCinta - 3, COLORES["marron"])
+                pyxel.rect(self.cinta0_x - 178, y, 16, 3, COLORES["marron"])
+                pyxel.rect(self.cinta0_x - 176, y, 12, 2, COLORES["morado"])
+
+            if j % 2 == 1:
+                pyxel.rect(self.posX + 140, y + 3, self.anchoCinta -
+                       122, self.altoCinta - 3, COLORES["marron"])
+                pyxel.rect(self.cinta0_x - 18, y, 16, 3, COLORES["marron"])
+                pyxel.rect(self.cinta0_x - 16, y, 12, 2, COLORES["azul12"])
             # Dibujamos una flecha indicando la direccion de la cinta
             flechasTotales = 3
             flechasX = self.posX

@@ -165,12 +165,14 @@ class Fabrica:
                 self.indiceIntervalo = 0
 
     def draw(self):
-        # Muestra los personajes
-        self.luigi.draw()
-        self.mario.draw()
+
 
         # Muestra las cintas y los paquetes
         self.paquetes.draw()
+
+        # Muestra los personajes
+        self.luigi.draw()
+        self.mario.draw()
 
         # Muestra el camión
         self.camion.draw()
