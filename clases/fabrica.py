@@ -207,7 +207,7 @@ class Fabrica:
             z = -20  # Mover en x las letras menos mario bros
             w = 0  # Mover en x las letras
 
-            pyxel.rect(x + 40, y+2, 260, 11, COLORES["negro"])
+            pyxel.rect(x + 40, y+2, 253, 11, COLORES["negro"])
             # pyxel.rect(0, 119, 260, 11, COLORES["negro"]) #Le da inmersividad
             pyxel.text(x+z+220, y+w + 5,
                     f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])

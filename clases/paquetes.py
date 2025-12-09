@@ -303,6 +303,7 @@ class Paquetes(Elemento):
             #Soporte plataformas de castigo
             pyxel.rect(0, 117, 33, 2, COLORES["marron"])
             pyxel.rect(225, 77, 33, 2, COLORES["marron"])
+            pyxel.rect(253, 0, 3, 78, COLORES["marron"])
             # Dibujamos una flecha indicando la direccion de la cinta
             flechasTotales = 3
             flechasX = self.posX
