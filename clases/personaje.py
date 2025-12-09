@@ -138,3 +138,6 @@ class Personaje(Elemento):
                 delta_t = time.time() - self.__tiempoReganado
                 if delta_t >= self.__tiempoMaxReganado:
                     self.__estaReganado = False
+
+            pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
+            pyxel.text(self.posX + self.ancho / 4, self.posY + self.alto / 4, self.id, COLORES["blanco"])

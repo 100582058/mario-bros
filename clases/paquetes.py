@@ -270,6 +270,7 @@ class Paquetes(Elemento):
                        self.altoCinta, self.colorCinta)
             pyxel.rect(self.posX + 5, y, self.anchoCinta - 10,
                        self.altoCinta - 3, COLORES["gris"])
+            # Dibujamos las plataformas donde se apoyan los personajes REFACTOR, usar método self.__dibujarPlataforma()
             if j % 2 == 0 and j != 0:
                 pyxel.rect(self.posX - 18, y + 3, self.anchoCinta -
                        122, self.altoCinta - 3, COLORES["marron"])

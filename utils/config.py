@@ -48,7 +48,7 @@ def asignarDificultad(dificultad: str) -> ConfigNivel:
     velCintasImpares = 1
 
     if dificultad == "facil":
-        numCintas = 5
+        numCintas = 3
         anadirPaquetesCada = 50
         eliminaFallos = 3
     elif dificultad == "normal":
