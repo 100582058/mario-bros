@@ -121,8 +121,10 @@ class Fabrica:
 
         # Elimina un fallo si se hacen 'repartosHastaElimFallo' repartos
         if self.camion.numRepartos == self.__repartosHastaElimFallo and self.fallos >= 1:
+            pyxel.play(1, 17) #sonido vida extra
             self.fallos -= 1
             self.camion.numRepartos = 0
+
 
     def moverPaquetes(self):
         # Actualizamos las cintas pares e impares por su cuenta

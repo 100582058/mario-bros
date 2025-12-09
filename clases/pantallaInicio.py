@@ -46,14 +46,14 @@ class PantallaInicio:
 
     def update(self):
         #Mutear música POR ALGÚN MOTIVO NO FUNCIONA
-        if pyxel.btnp(pyxel.KEY_M):
+        if pyxel.btnp(pyxel.KEY_M) and self.activa == False:
             self.contadorMusica += 1
             if self.contadorMusica % 2 == 0:
                 pyxel.stop()
-                if self.activa == False:
-                    pyxel.playm(0, loop=True)
-                else:
-                    pyxel.playm(1, loop=True)
+                print("se para la musica")
+            else:
+                pyxel.playm(0, loop=True)
+                print("vuelve la musica")
 
         #seleccion por flechas y wasd
 

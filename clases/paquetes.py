@@ -192,7 +192,8 @@ class Paquetes(Elemento):
 
     # Añade un paquete al final de la cinta 0
     def anadirPaqInicio(self):
-        self.lista0[-1] = 1
+        self.matriz[0][5] = 1
+        #self.lista0[-1] = 1
         # # print("cerca", self.__paqueteCercaPersonaje())
         # if not self.__paqueteCercaDcha(distancia=int(self.len_cinta0 / 2))[0]:
         # #     self.lista0[9] = 1

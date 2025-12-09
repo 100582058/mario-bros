@@ -55,7 +55,7 @@ class Camion(Elemento):
         if self.__dirMov != 0:
             if self.posX > self.__posicionDescarga and self.__dirMov == -1: #por ejemplo (tiene que estar fuera de la pantalla)
                 self.posX -= self.__velocidadCamion #Izquierda. En funcion de esto irá mas o menos rápido
-            elif self.posX <= self.posicionDescarga:
+            elif self.posX <= self.__posicionDescarga:
                 self.carga = 0
                 self.__dirMov = 1
 
