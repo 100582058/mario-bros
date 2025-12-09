@@ -1,5 +1,6 @@
 import pyxel
 import time
+import random
 
 from clases.mario import Mario
 from clases.luigi import Luigi
@@ -20,6 +21,9 @@ class Fabrica:
         self.maxFallos = 3
         self.puntos = 0
         self.puntosComp = 0
+        self.fuego1 = 0
+        self.fuego2 = 0
+        self.fuego3 = 0
 
         self.tiempoInicial = time.time()
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
@@ -207,7 +211,10 @@ class Fabrica:
         # Muesta el tiempo para el siguiente paquete
         # pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
         # Contador en lista0
-        pyxel.text(252, 99, f"{int(self.tiempoSigPaq)}", COLORES["azul"])
+        #pyxel.text(252, 99, f"{int(self.tiempoSigPaq)}", COLORES["azul"])
+
+
+
 
     # Función para ver si se cae un paquete
     # Cuando paquete en el final de las filas pares y no está Luigi, eliminar el paquete. Lo mismo para Mario
@@ -241,6 +248,7 @@ class Fabrica:
         # Comprueba que esté Luigi en la cinta del camión
         if self.paquetes.matriz[0][0] != 0:
             if self.luigi.planta == 0:
+                self.puntos += 1
                 self.camion.carga += 1
                 # Controla cuando se llena el camión para pausar el juego
                 if self.camion.carga >= 8:

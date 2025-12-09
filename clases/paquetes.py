@@ -1,5 +1,6 @@
 import pyxel
 import time
+import random
 
 from utils.config import COLORES, esCintaPar, minimo
 from clases.elemento import Elemento
@@ -45,6 +46,11 @@ class Paquetes(Elemento):
         self.len_cinta0 = longitudX
         self.cinta0_x = 220  # 220
         self.crearlista0()
+
+        #horno
+        self.fuego1 = 0
+        self.fuego2 = 0
+        self.fuego3 = 0
 
     @property
     def longitudX(self):
@@ -186,7 +192,9 @@ class Paquetes(Elemento):
 
     # Añade un paquete al final de la cinta 0
     def anadirPaqInicio(self):
-        self.lista0[-1] = 1
+        self.matriz[0][0] = 1
+
+        #self.lista0[-1] = 1
         # # print("cerca", self.__paqueteCercaPersonaje())
         # if not self.__paqueteCercaDcha(distancia=int(self.len_cinta0 / 2))[0]:
         # #     self.lista0[9] = 1
@@ -240,13 +248,32 @@ class Paquetes(Elemento):
 
         # Dibujamos los elementos visuales de la cinta 0
         pyxel.rect(self.cinta0_x, y, 200, self.altoCinta, self.colorCinta)
-        pyxel.rect(self.cinta0_x + 30, y - 10, 50, 10, COLORES["negro"])
         pyxel.rect(self.cinta0_x + 5, y, 40, 1, COLORES["gris"])
         pyxel.rect(self.cinta0_x - 25, y + 3, 25, 1, COLORES["marron"])
      #   pyxel.rect(self.cinta0_x - 18, y -70, 1, 75, COLORES["azul"])
      #   pyxel.rect(self.cinta0_x - 5, y - 70, 1, 75, COLORES["azul"])
         pyxel.rect(self.cinta0_x - 18, y , 16, 3, COLORES["marron"])
         pyxel.rect(self.cinta0_x - 16, y, 12, 2, COLORES["morado"])
+
+        #Fuego del horno
+        if pyxel.frame_count % 1 == 0:  # Para no dañar epilepticos (cambia de color cada 3 frames)
+            self.fuego1 = random.randint(0, 9)
+            self.fuego2 = random.randint(0, 9)
+            self.fuego3 = random.randint(0, 9)
+            z = 30
+            w = -8
+            pyxel.rect(self.cinta0_x -3 + z, y - 3 + w, 9, 11, COLORES["negro"])
+            pyxel.rect(self.cinta0_x -1 + z, y - 1+ w, 5, 7, COLORES["gris"])
+            pyxel.rect(self.cinta0_x +z, y +w, 3, 5, random.randint(8, 10))
+            pyxel.text(self.cinta0_x +z, y +w, f"{self.fuego1}", random.randint(8, 10))# del 8 al 10 son el naranja, amarillo y rojo
+            pyxel.text(self.cinta0_x +z, y +w, f"{self.fuego2}", random.randint(8, 10))
+            pyxel.text(self.cinta0_x +z, y +w, f"{self.fuego3}", random.randint(8, 10))
+            #chimenea
+            pyxel.rect(self.cinta0_x + z, y - 10 + w, 3, 7, COLORES["gris"])
+            pyxel.rect(self.cinta0_x + z, y - 10 + w, 7, 3, COLORES["gris"])
+            pyxel.rect(self.cinta0_x + 4 + z, y - 10 + w, 1, 3, COLORES["azulMarino"])
+            pyxel.rect(self.cinta0_x + z, y - 6 + w, 3, 1, COLORES["azulMarino"])
+
 
         #plataforma jefe
         # z es la x para mover la plataforma facil e w es la y
