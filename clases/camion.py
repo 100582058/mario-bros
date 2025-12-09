@@ -81,6 +81,7 @@ class Camion(Elemento):
         pyxel.rect(20, 49, 3, 1, COLORES["azulMarino"])
         pyxel.rect(0, 52, 23, 3, COLORES["gris"])
         pyxel.rect(17, 52, 1, 3, COLORES["azulMarino"])
+        pyxel.rect(0, 39, 3, 100, COLORES["marron"])
         #Core camion
         pyxel.rect(self.posX, self.posY, self.ancho, self.alto, COLORES["azulMarino"])
         # Ruedas

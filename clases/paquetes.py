@@ -299,6 +299,10 @@ class Paquetes(Elemento):
                        122, self.altoCinta - 3, COLORES["marron"])
                 pyxel.rect(self.cinta0_x - 18, y, 16, 3, COLORES["marron"])
                 pyxel.rect(self.cinta0_x - 16, y, 12, 2, COLORES["azul12"])
+
+            #Soporte plataformas de castigo
+            pyxel.rect(0, 117, 33, 2, COLORES["marron"])
+            pyxel.rect(225, 77, 33, 2, COLORES["marron"])
             # Dibujamos una flecha indicando la direccion de la cinta
             flechasTotales = 3
             flechasX = self.posX
