@@ -49,7 +49,7 @@ class Fabrica:
         self.mario = Mario(
             "M", 205, yPersonajes, ancho, alto, COLORES["magenta"], self.config.controlesMario, self.config)
 
-        self.camion = Camion(10, 30,  30, 5, COLORES["marron"])
+        self.camion = Camion(10, 30,  30, 5, COLORES["marron"], self.config)
 
         self.paquetes = Paquetes(
             60,
@@ -175,7 +175,7 @@ class Fabrica:
         # Muestra el camión
         self.camion.draw()
 
-        # Muestra el tiempo
+        # -- Muestra el texto superior con informacion
         t = time.time()
         tiempo = int((t - self.tiempoInicial) / 1)
         tiempMin = 0

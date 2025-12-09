@@ -4,9 +4,15 @@ from utils.config import COLORES
 from clases.elemento import Elemento
 
 class Camion(Elemento):
-    def __init__(self, posX, posY, ancho, alto, color):
+    def __init__(self, posX, posY, ancho, alto, color, config):
         super().__init__(posX, posY, ancho, alto, color)
+
         self.carga = 0
+
+        # Matriz para dibujar los paquetes
+        self.matrizPaqs = []
+        self.__anadirPaqsMatriz()
+
         # Posición inicial, donde carga los paquetes
         self.posicionCarga = posX
         # Posición fuera de la pantalla, donde descarga los paquetes
@@ -14,8 +20,11 @@ class Camion(Elemento):
         self.velocidadCamion = 3
         self.velocidadCamionRetroceso = 1
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
-        self.dirMov = 0
+        self.dirMov = 0 
         self.compSonidoRetroceso = 0
+
+        # Atributos de la configuración del nivel
+        self.config = config
 
 
     @property
@@ -52,6 +61,20 @@ class Camion(Elemento):
                 self.dirMov = 0
                 self.compSonidoRetroceso == 0
 
+        # Añade los paquetes a la matriz para que se dibujen correctamente
+        self.__anadirPaqsMatriz()
+
+    def __anadirPaqsMatriz(self):
+        # Inicializamos la matriz vacía
+        self.matrizPaqs = []
+        for i in range(2):
+            self.matrizPaqs.append([0, 0, 0, 0])
+        # Añadimos cada paquete por orden a la matriz
+        for paq in range(self.carga):
+            print(paq)
+
+        print(self.matrizPaqs)
+
 
     
     def draw(self):
@@ -63,9 +86,17 @@ class Camion(Elemento):
         pyxel.rect(self.posX + 3, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
         pyxel.rect(self.posX+25, self.posY +2, self.ancho - 25, self.alto, COLORES["negro"])
         pyxel.rect(self.posX + 27, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
-        # Paquetes dentro del camión
 
-        if self.carga <= 4:
-            pyxel.rect(self.posX +2 , self.posY - 5, self.ancho * (self.carga / 8), self.alto, COLORES["azulMarino"])
-        elif self.carga > 4:
-            pyxel.rect(self.posX + 2, self.posY - 1, self.ancho * (self.carga / 8), self.alto, COLORES["azulMarino"])
+        # Dibujamos los paquetes
+        x, y = self.posX, self.posY
+
+
+
+    # Dibujamos los paquete (nivel 5) en el camión
+    def __dibujarPaquete(self, x, y):
+        w = int(self.config.anchoPaq * 0.2)
+        h = int(self.config.altoPaq * 0.4)
+        pyxel.rect(x, y + h, self.ancho, 1, COLORES["blanco"])
+        # Y otra linea para completar el 'lazo'
+        pyxel.rect(x + w, y, 1, self.alto, COLORES["blanco"])
+
