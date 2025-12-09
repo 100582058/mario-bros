@@ -21,7 +21,7 @@ class PantallaInicio:
                             #Tócalo para cambiar los fps del Btn (por debajo de 3 el jugador pierde precisión)(5 está bien)
         self.parpadeoCol = 1
         self.conpCancion = 0
-        self.contadorMusica = 1
+        self.contadorMusica = 0
 
     def btnCheck(self):
         if pyxel.btn(pyxel.KEY_S) or pyxel.btn(pyxel.KEY_DOWN):
@@ -43,17 +43,11 @@ class PantallaInicio:
         # Si no devuelve 1 o 2
         return -1
 
-
     def update(self):
-        #Mutear música POR ALGÚN MOTIVO NO FUNCIONA
-        if pyxel.btnp(pyxel.KEY_M) and self.activa == False:
-            self.contadorMusica += 1
-            if self.contadorMusica % 2 == 0:
-                pyxel.stop()
-                print("se para la musica")
-            else:
-                pyxel.playm(0, loop=True)
-                print("vuelve la musica")
+        # Mute a la M
+
+
+
 
         #seleccion por flechas y wasd
 

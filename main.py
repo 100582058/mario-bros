@@ -45,6 +45,21 @@ def update():
     if not pantallaInicio.activa and fabrica.activa:
         fabrica.juegoRun()
 
+    # Mute a la M
+    if pyxel.btnp(pyxel.KEY_M) and not pantallaInicio.activa:
+        pantallaInicio.contadorMusica += 1
+        if pantallaInicio.contadorMusica == 2:
+            pantallaInicio.contadorMusica = 0
+
+        if pantallaInicio.contadorMusica == 1:
+            pyxel.stop()
+            print("se para la musica")
+
+        else:
+            pyxel.stop()
+            pyxel.playm(2, loop=True)
+
+
 
 def draw():
     # -- Fase 1: Pantallad de inicio --

@@ -5,6 +5,7 @@ from clases.mario import Mario
 from clases.luigi import Luigi
 from clases.paquetes import Paquetes
 from clases.camion import Camion
+from clases.pantallaInicio import PantallaInicio
 
 from utils.config import esCintaPar, COLORES, WIDTH, HEIGHT
 
@@ -16,6 +17,8 @@ class Fabrica:
         
         self.fallos = 0
         self.compFallos = 0
+        self.compMute = 1
+        self.compVida = 0
         self.pausa = False
         self.maxFallos = 30 # DEBUG
         self.activa = True
@@ -121,8 +124,12 @@ class Fabrica:
 
         # Elimina un fallo si se hacen 'repartosHastaElimFallo' repartos
         if self.camion.numRepartos == self.__repartosHastaElimFallo and self.fallos >= 1:
+            if self.compFallos+1 > self.fallos:
+                self.compFallos -= 1
+                pyxel.play(3, 17)
             self.fallos -= 1
             self.camion.numRepartos = 0
+
 
     def moverPaquetes(self):
         # Actualizamos las cintas pares e impares por su cuenta
@@ -199,6 +206,8 @@ class Fabrica:
             # Muestra el camión
             self.camion.draw()
 
+
+
             # -- Muestra el texto superior con informacion
             tiempo = int(time.time() - self.tiempoInicial)
             tiempoMins = tiempo // 60
@@ -211,8 +220,10 @@ class Fabrica:
 
             pyxel.rect(x + 40, y+2, 260, 11, COLORES["negro"])
             # pyxel.rect(0, 119, 260, 11, COLORES["negro"]) #Le da inmersividad
-            pyxel.text(x+z+220, y+w + 5,
-                    f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])
+            pyxel.text(x+z+220, y+w + 5, f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])
+
+
+                    #f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])
 
             # Muesta los puntos
 
@@ -223,6 +234,15 @@ class Fabrica:
             # Muestra los fallos
             pyxel.text(x + z + 170, y+w + 5,
                     f"FALLOS: {self.fallos}", COLORES["magenta"])
+            #Muestra como mutear
+            if pyxel.btnp(pyxel.KEY_M):
+                self.compMute += 1
+            if self.compMute % 2 == 0:
+                pyxel.rect(x + 254, y + w + 14, 37, 12, COLORES["azul"])
+
+            pyxel.rect(x + 255 , y + w + 15, 35, 10, COLORES["negro"])
+            pyxel.text(x + 259, y + w + 17, f"MUTE: M", COLORES["azul"])
+
             # Muesta el tiempo para el siguiente paquete
             # pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
             # Contador en lista0
