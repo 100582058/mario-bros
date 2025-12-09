@@ -251,6 +251,7 @@ class Fabrica:
         if self.paquetes.matriz[0][0] != 0:
             if self.luigi.planta == 0:
                 self.camion.carga += 1
+                self.puntos += 1
                 # Controla cuando se llena el camión para pausar el juego
                 if self.camion.carga >= 8:
                     self.tiempoPausado = time.time()
