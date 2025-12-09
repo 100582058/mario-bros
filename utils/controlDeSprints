@@ -22,6 +22,8 @@
  * 'Globalizar' las variables de dibujar las cintas en config.py
  * Añadir letra 'L' y 'M' a los personajes de Luigi y Mario
 
+ * NOTAS: Descontrol con 0 == False y 0 != None
+
 # Sprint 1.A: Objetos e interfaz gráfica (13/11)
  - Crear una clase para cada elemento principal del juego: Personajes, Camión,
 Paquetes, Fabrica

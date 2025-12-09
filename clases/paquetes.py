@@ -15,27 +15,34 @@ class Paquetes(Elemento):
         - alto: Altura total del conjunto de paquetes
         - color: Color de las paquetes
         """
-        # altoCintas = NUM_CINTAS * SEP_ENTRE_CINTAS
         super().__init__(inicioX, inicioY, anchoPaq, altoPaq, color)
-        # minY = 25
-        # inicioCinta, finCinta = 60, 200
         self.longitudX = longitudX
         self.longitudY = longitudY
         self.numCintas = longitudY
 
-        # self.anchoPaq = 7
-        # self.altoPaq = 4
         self.anchoCinta = config.anchoCinta
         self.altoCinta = config.altoCinta
         self.colorCinta = COLORES["naranja"]
 
-        self.sepEntrePaqs = (config.anchoCinta - self.ancho) / self.longitudX
+        self.sepEntrePaqs = (config.anchoCinta + self.ancho / 2) / self.longitudX
         self.sepEntreCintas = config.sepEntreCintas
+
+        # -- Animación del paquete borrándose --
+        # Guarda la posicion (x, y) del paquete
+        self.paqBorrandose = []
+        self.inicioAnimacion = time.time()
+        self.tiempoVisible = 0.2
+        self.tiemoInvisible = 0.15
+        self.totalAnimacion = 2
+        # Guarda la posicion x del paquete en la cinta 0
+        # Mismos tiempos de animación que el resto de paquetes
+        self.paqBorrandose0 = None
 
         # Creamos la matriz con los paquetes
         self.matriz = self.crearMatriz(longitudX, longitudY)
         # Creamos la lista de 1D con los paquetes de la cinta 0
-        self.len_cinta0 = 9 * 2 # REFACTOR? 9 posiciones usadas, mas 9 por si hay paquetes cerca de los personajes
+        # REFACTOR? 9 posiciones usadas, mas 9 por si hay paquetes cerca de los personajes
+        self.len_cinta0 = longitudX
         self.cinta0_x = 220  # 220
         self.crearlista0()
 
@@ -60,10 +67,11 @@ class Paquetes(Elemento):
             self.__longitudY = valor
         else:
             raise TypeError("LongitudY debe ser un entero positivo")
-        
+
     @property
     def numCintas(self):
         return self.__numCintas
+
     @numCintas.setter
     def numCintas(self, valor):
         if isinstance(valor, int) and valor > 0:
@@ -88,25 +96,36 @@ class Paquetes(Elemento):
         # print("lista0", self.lista0)
 
     def actualizarLista0(self):
-        # Añade paquete
-        # self.lista0[-1] = 1 #Añade un paquete en la posición de indice más grande de la lista0 (a la izquierda)
-
         # Comprueba indices donde hay unos y los mueve hacia la izquierda
-        for i in range(1, int(self.len_cinta0 / 2)):
+        for i in range(1, self.len_cinta0):
             if self.lista0[i] != 0:
                 self.lista0[i] = 0
                 self.lista0[i - 1] = 1
-        # Para los paquetes más lejanos, solo los actualiza si no hay paquetes cerca
-        if not self.__paqueteCercaPersonaje()[0]:
-            for i in range(int(self.len_cinta0 / 2), self.len_cinta0):
-                if self.lista0[i] != 0:
-                    self.lista0[i] = 0
-                    self.lista0[i - 1] = 1
-        # print(self.lista0)
+        # for i in range(1, int(self.len_cinta0 / 2)):
+        #     if self.lista0[i] != 0:
+        #         self.lista0[i] = 0
+        #         self.lista0[i - 1] = 1
+        # # Para los paquetes más lejanos, solo los actualiza si no hay paquetes cerca
+        # if not self.__paqueteCercaDcha(distancia=1)[0]:
+        #     for i in range(int(self.len_cinta0 / 2), self.len_cinta0):
+        #         if self.lista0[i] != 0:
+        #             self.lista0[i] = 0
+        #             self.lista0[i - 1] = 1
+        # else:
+        #     print("No actualizamos, paquetes cerca personajes:",
+        #           self.__paqueteCercaDcha(distancia=1))
+        #     txt = ""
+        #     for i in range(len(self.matriz)):
+        #         txt += str(self.matriz[i])
+        #         if i == self.__paqueteCercaDcha(distancia=1)[1]:
+        #             txt += " <---"
+        #         txt += "\n"
+        #     print(txt)
+        # # print(self.lista0)
 
     # Actualiza los paquetes del grupo de cintas seleccionado
     def actualizarPaquetes(self, grupo):
-        self.__paquetesSincronizados()
+        # self.__paquetesSincronizados()
         # Creamos una lista de índices por los que iterará el bucle, dependiendo del grupo seleccionado
         indices = []
         if grupo == "pares":
@@ -118,7 +137,7 @@ class Paquetes(Elemento):
                 if not esCintaPar(i, self.__numCintas):
                     indices.append(i)
 
-        # Busca los paquetes (unos) dentro de la matriz y los mueve a su siguiente posición
+        # Busca los paquetes dentro de la matriz y los mueve a su siguiente posición
         for y in indices:
             filaActual = self.matriz[y]
             # Movemos todas las cintas hacia la 'derecha'. Para eso, revertimos las cintas pares (se mueven hacia la izquierda)
@@ -147,8 +166,9 @@ class Paquetes(Elemento):
         # -- Mueve un paquete a la siguiente posición --
         if x + 1 < self.longitudX:
             # Movemos la posición del paquete de (x, y) a (x + 1, y)
+            valorActual = fila[x]
             fila[x] = 0
-            fila[x + 1] = 1
+            fila[x + 1] = valorActual
         else:
             print("ERROR: Paquete al final, se debería haber subido")
         return fila
@@ -166,26 +186,39 @@ class Paquetes(Elemento):
 
     # Añade un paquete al final de la cinta 0
     def anadirPaqInicio(self):
-        # print("cerca", self.__paqueteCercaPersonaje())
-        if not self.__paqueteCercaPersonaje()[0]:
-            self.lista0[9] = 1
-        else:
-            # print("SE AÑADE MÁS LEJOS")
-            self.lista0[-1] = 1
+        self.lista0[-1] = 1
+        # # print("cerca", self.__paqueteCercaPersonaje())
+        # if not self.__paqueteCercaDcha(distancia=int(self.len_cinta0 / 2))[0]:
+        # #     self.lista0[9] = 1
+        # # else:
+        #     # print("SE AÑADE MÁS LEJOS")
+        #     self.lista0[-1] = 1
+        # else:
+        #     print("No se añade paquete, hay uno cerca del borde")
 
     def draw(self):
-        # -- Dibujamos la lista 0 de paquetes --
-        # Dibujamos los paquetes de la lista 0
+        # -- Dibujamos la cinta 0 de paquetes --
+        # Dibujamos los paquetes de la cinta 0
+        # ///////////////
+        x = self.posX
+        y = self.posY + self.longitudY * self.sepEntreCintas
+        for i in range(len(self.lista0)):
+            paq = self.lista0[i]
+            if paq != 0:
+                pyxel.rect(x, y - self.alto, self.ancho, self.alto, self.color)
+
+            x += self.sepEntrePaqs
+        # ///////////////
         x = self.cinta0_x
         # La lista 0 debe estar a la altura de la última cinta de paquetes
         y = self.posY + (self.longitudY - 1) * self.sepEntreCintas
         for i in range(len(self.lista0)):
             paq = self.lista0[i]
-            if paq == 1:
-                pyxel.rect(x, y - self.alto, self.ancho, self.alto, self.color)
+            if paq != 0:
+                pyxel.rect(x - 5, y - self.alto, self.ancho, self.alto, self.color)
             x += self.sepEntrePaqs
 
-        # Dibujamos la cinta 0
+        # Dibujamos los elementos visuales de la cinta 0
         pyxel.rect(self.cinta0_x, y, 200, self.altoCinta, self.colorCinta)
         pyxel.rect(self.cinta0_x + 30, y - 10, 50, 10, COLORES["negro"])
         pyxel.rect(self.cinta0_x + 5, y, 40, 1, COLORES["gris"])
@@ -231,14 +264,50 @@ class Paquetes(Elemento):
             y = self.posY
             for j in range(self.longitudY):
                 if self.matriz[j][i] != 0:
-                    pyxel.rect(x, y - self.alto, self.ancho,
-                               self.alto, self.color)
+                    pyxel.rect(x, y - self.alto, self.ancho, self.alto, self.color)
                 # else:
                 #     pyxel.rectb(x, y - self.alto, self.ancho, self.alto, self.color)
                 # Pasamos a dibujar el siguiente paquete (de arriba a abajo, el inferior)
                 y += self.sepEntreCintas
             # Después de recorrer toda la columna, pasar a la siguiente (de izquiera a derecha)
             x += self.sepEntrePaqs
+
+        # Dibujamos los paquetes borrándose
+        if len(self.paqBorrandose) > 0:
+            self.__animacionPaqMatriz()
+        # Si es distinto de None
+        if self.paqBorrandose0 != None:
+            self.__animacionPaqCinta0()
+
+    # REFACTOR: fusionar con cinta0
+    def __animacionPaqMatriz(self):
+        x, y = self.paqBorrandose[0], self.paqBorrandose[1]
+        x = self.posX + x * self.sepEntrePaqs
+        y = self.posY + y * self.sepEntreCintas - self.altoCinta
+
+        tiempoTranscurrido = time.time() - self.inicioAnimacion
+        if tiempoTranscurrido < self.totalAnimacion:
+            t = tiempoTranscurrido % (self.tiemoInvisible + self.tiempoVisible)
+            if t < self.tiempoVisible:
+                pyxel.rect(x, y, self.ancho, self.alto, self.color)
+        else:
+            # Se acaba la animación
+            self.paqBorrandose = []
+    
+    def __animacionPaqCinta0(self):
+        x = self.paqBorrandose0
+        x = self.cinta0_x
+        y = self.posY + (self.numCintas - 1) * self.sepEntreCintas - self.altoCinta
+
+        tiempoTranscurrido = time.time() - self.inicioAnimacion
+        if tiempoTranscurrido < self.totalAnimacion:
+            t = tiempoTranscurrido % (self.tiemoInvisible + self.tiempoVisible)
+            if t < self.tiempoVisible:
+                pyxel.rect(x, y, self.ancho, self.alto, self.color)
+        else:
+            # Se acaba la animación
+            self.paqBorrandose0 = None
+
 
     def __paqsEnJuego(self):
         # Cuenta cuantos paquetes hay actualmente en juego (no tiene en cuenta la última fila, ya que ese paquete va a desaparecer pronto)
@@ -250,8 +319,8 @@ class Paquetes(Elemento):
         return sum
 
     # Comprueba si hay algun paquete a menos de 'distancia' distancia de los personajes cuando ocurre un fallo
-    # Devuelve la posición del paquete en forma de tupla (equivalente a True) o False REFACTOR
-    def __paqueteCercaPersonaje(self, distancia=8): # 2
+    # Devuelve la posición del paquete en forma de tupla (equivalente a True) o False REFACTOR -> Solo para DEBUG?
+    def __paqueteCercaPersonaje(self, distancia=8):  # 2
         # Comprobamos por la izquierda
         for j in range(self.longitudY):
             for i in range(0, distancia):
@@ -271,18 +340,50 @@ class Paquetes(Elemento):
                 # Truco barato para saber que hay que eliminar un paquete de la cinta 0
                 return (i, None)
 
+        # Si no, devuelve falso (en forma de tupla para seguir con el formato)
+        return (False, False)
+
+    def __paqueteCercaDcha(self, distancia=3):  # 2
+        # Comprobamos por la derecha
+        for j in range(self.longitudY):
+            for i in range(self.longitudX - distancia, self.longitudX):
+                if self.matriz[j][i] != 0:
+                    # print(i, j, "Paquete cerca borde dcho")
+                    return (i, j)
+            for i in range(distancia):
+                if self.matriz[j][i] != 0:
+                    # print(i, j, "Paquete cerca borde dcho")
+                    return (i, j)
 
         # Si no, devuelve falso (en forma de tupla para seguir con el formato)
         return (False, False)
 
-    def __paquetesSincronizados(self):
-    # Comprueba y elimina paquetes sincronizados cerca del borde
+    # Comprueba si la distancia horizontal entre 2 paquetes en el borde es menor o igual que 'distEntrePaqs'
+
+    def __paquetesSincronizados(self, distEntrePaqs=3):
+        # Comprueba y elimina paquetes sincronizados cerca del borde
         # Comprobamos por la izquierda
+        distAlBorde = 2
+        paqX, paqY = self.__paqueteCercaPersonaje(distAlBorde)
+        if paqX and paqY:
+            # Izquierda
+            for j in range(self.longitudY):
+                for i in range(distAlBorde - distEntrePaqs, distEntrePaqs):
+                    if self.matriz[j][i] != 0:
+                        contadorPaquetesBorde += 1
+            # Si hay varios paquetes en el borde, borramos todos
+            if contadorPaquetesBorde >= 2:
+                for j in range(self.longitudY):
+                    self.matriz[j][0] = 0
+                print("paquete sincronizado, eliminados todos izda")
+                print("Por que solo izda???")
+
         contadorPaquetesBorde = 0
         for j in range(self.longitudY):
-                if self.matriz[j][0] != 0:
+            for i in range(0, distEntrePaqs):
+                if self.matriz[j][i] != 0:
                     contadorPaquetesBorde += 1
-        # Si hay varios paquetes en el borde, borramos todos 
+        # Si hay varios paquetes en el borde, borramos todos
         if contadorPaquetesBorde >= 2:
             for j in range(self.longitudY):
                 self.matriz[j][0] = 0
@@ -302,15 +403,40 @@ class Paquetes(Elemento):
             print("paquete sincronizado, eliminados todos dcha")
 
     def eliminPaquetesBorde(self):
-        i, j = self.__paqueteCercaPersonaje()
-        if not j and i:
-            # Si 'j' no está definida pero 'i' sí, es la cinta 0
-            self.cinta0[i] = 0
-            print(j, i, "Paquete borrado, cinta 0")
-        elif i and j:
+        d = 3
+        i, j = self.__paqueteCercaPersonaje(d)
+        print("Paquetes borde:", i, j)
+        if i != None and j != None:
             # Si 'i' y 'j' están definidas -> Hay que quitar un paquete de la matriz
-            print(j, i, "Paquete borrado matriz, estaba cerca del borde")
-            self.matriz[j][i] = 0
+            distDcha = i
+            distIzda = self.longitudX - i
+            # Eliminamos si está en el borde izquierdo en las cintas pares
+            if esCintaPar(j, self.numCintas) and distDcha >= distIzda:
+                print("Borrándose izda (par)", i, j)
+                # Reproducimos la animacion y borramos el paquete
+                self.animar(i, j)
+                self.matriz[j][i] = 0
+            elif not esCintaPar(j, self.numCintas) and distDcha <= distIzda:
+                print("Borrándose dcha (impar)", i, j)
+                # Reproducimos la animacion y borramos el paquete
+                self.animar(i, j)
+                self.matriz[j][i] = 0
+            else:
+                print("Paquete NO se borra", i, j)
+        elif j == None and i != None:
+            # Si 'j' no está definida pero 'i' sí -> Es la cinta 0
+            print(i, "Paquete BORRÁNDOSE, cinta 0")
+            # Reproducimos la animacion y borramos el paquete
+            self.lista0[i] = 0
+            self.animar(i)
+            
+
+    def animar(self, x, y=None):
+        if y != None:
+            self.paqBorrandose = [x, y]
+        else:
+            self.paqBorrandose0 = x
+        self.inicioAnimacion = time.time()
 
 
     def __str__(self):

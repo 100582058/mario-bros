@@ -37,12 +37,14 @@ def esCintaPar(indice, numCintas):
     return nuevoIndice % 2 == 0
 
 # Devuelve un objeto ConfigNivel
-def asignarDificultad(dificultad: str)->ConfigNivel:
+
+
+def asignarDificultad(dificultad: str) -> ConfigNivel:
     # Valores por defecto
     controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
     controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
     velCinta0 = 1
-    velCintasPares = 8
+    velCintasPares = 1
     velCintasImpares = 1
 
     if dificultad == "facil":
@@ -73,20 +75,19 @@ def asignarDificultad(dificultad: str)->ConfigNivel:
         raise ValueError("Dificultad seleccionada no válida")
 
     # Añadimos parámetros independientes a la dificultad
-    numPaqCinta = 40  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
+    numPaqCinta = 20  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
 
     sepEntreCintas = (HEIGHT - 25) / numCintas
     anchoPaq, altoPaq = 7, 4
 
-
     return ConfigNivel(
-        controlesMario, 
-        controlesLuigi, 
-        velCinta0, 
-        velCintasPares, 
-        velCintasImpares, 
-        numCintas, 
-        anadirPaquetesCada, 
+        controlesMario,
+        controlesLuigi,
+        velCinta0,
+        velCintasPares,
+        velCintasImpares,
+        numCintas,
+        anadirPaquetesCada,
         eliminaFallos,
         numPaqCinta,
         sepEntreCintas,
@@ -95,6 +96,8 @@ def asignarDificultad(dificultad: str)->ConfigNivel:
     )
 
 # Devuelve el menor valor
+
+
 def minimo(a, b):
     if a > b:
         return b
