@@ -64,7 +64,7 @@ class Camion(Elemento):
 
                 if self.__compSonidoRetroceso == 0:  #Para que el sonido se ejecute solo 1 vez
                     self.__compSonidoRetroceso += 1
-                    pyxel.play(3, 15) #sonido camión retroceso (mismo canal que los fallos porque al no poder
+                    pyxel.play(1, 15) #sonido camión retroceso (mismo canal que los fallos porque al no poder
                                     # reproducirse a la vez no se puede glichear(así ahorramos un canal))
 
             elif self.posX >= self.__posicionCarga:
@@ -75,6 +75,13 @@ class Camion(Elemento):
     def draw(self):
         # -- Pinta el camión y los paquetes --
         # Camión
+        #PlataformaCamion
+        pyxel.rect(0, 39, 40, 5, COLORES["marron"])
+        pyxel.rect(20, 44, 3, 11, COLORES["gris"])
+        pyxel.rect(20, 49, 3, 1, COLORES["azulMarino"])
+        pyxel.rect(0, 52, 23, 3, COLORES["gris"])
+        pyxel.rect(17, 52, 1, 3, COLORES["azulMarino"])
+        #Core camion
         pyxel.rect(self.posX, self.posY, self.ancho, self.alto, COLORES["azulMarino"])
         # Ruedas
         pyxel.rect(self.posX +1, self.posY +2, self.ancho -25, self.alto, COLORES["negro"])
