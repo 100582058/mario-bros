@@ -127,18 +127,17 @@ class Personaje(Elemento):
 
     def draw(self):
         # Dibujamos las plataformas del jefe
+        anchoPlataforma, altoPlataforma = 26, 3
         if self.id == "M":
             x = 225
             y = 75
-            w = -self.ancho
-            pyxel.rect(x, y, 26, 3, COLORES["marron"])
-            pyxel.rect(x + 2, y, 22, 2, COLORES["verde"])
+            pyxel.rect(x, y, anchoPlataforma, altoPlataforma, COLORES["marron"])
+            pyxel.rect(x + 2, y, anchoPlataforma - 4, altoPlataforma - 1, COLORES["verde"])
         elif self.id == "L":
             x = 7
             y = 115
-            w = self.ancho
-            pyxel.rect(x, y, 26, 3, COLORES["marron"])
-            pyxel.rect(x + 2, y, 22, 2, COLORES["verde"])
+            pyxel.rect(x, y, anchoPlataforma, altoPlataforma, COLORES["marron"])
+            pyxel.rect(x + 2, y, anchoPlataforma - 4, altoPlataforma - 1, COLORES["verde"])
 
 
         if not self.__estaReganado:
@@ -146,14 +145,16 @@ class Personaje(Elemento):
             pyxel.text(self.posX + self.ancho / 4, self.posY + self.alto / 4, self.id, COLORES["blanco"])
         else:
             # Pintamos al personaje en otro sitio y añadimos al jefe
+            posX = x + anchoPlataforma - self.ancho
             if pyxel.frame_count % 16 >= 8:
                 # Pintamos al jefe
-                pyxel.rect(x + w, y - self.alto / 2,
-                        self.ancho * 0.8, self.alto * 0.8, COLORES["negro"])
+                anchoJefe = self.ancho * 1.2
+                pyxel.rect(posX - anchoJefe - 5, y - self.alto * 1.2,
+                        anchoJefe, self.alto * 1.2, COLORES["negro"])
 
             # Pintamos al personaje
-            pyxel.rect(x, y, self.ancho, self.alto, self.color)
-            pyxel.text(x + self.ancho / 4, y + self.alto / 4, self.id, COLORES["blanco"])
+            pyxel.rect(posX, y - self.alto, self.ancho, self.alto, self.color)
+            pyxel.text(posX + self.ancho / 4, y + self.alto / 4 - self.alto, self.id, COLORES["blanco"])
 
             delta_t = time.time() - self.__tiempoReganado
             if delta_t >= self.__tiempoMaxReganado:

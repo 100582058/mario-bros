@@ -17,7 +17,7 @@ class Fabrica:
         self.fallos = 0
         self.compFallos = 0
         self.pausa = False
-        self.maxFallos = 3
+        self.maxFallos = 30 # DEBUG
         self.activa = True
 
         self.__repartosHastaElimFallo = config.eliminaFallos
