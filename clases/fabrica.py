@@ -19,7 +19,6 @@ class Fabrica:
         self.compFallos = 0
         self.compMute = 1
         self.colorMute = COLORES["gris"]
-        self.compVida = 0
         self.pausa = False
         self.maxFallos = 30 # DEBUG
         self.activa = True
