@@ -70,8 +70,15 @@ class Camion(Elemento):
         for i in range(2):
             self.matrizPaqs.append([0, 0, 0, 0])
         # Añadimos cada paquete por orden a la matriz
+        y = 0
         for paq in range(self.carga):
-            print(paq)
+            # Primero comprobamos si hay posiciones vacias
+            if self.matrizPaqs[y].count(0) == 0:
+                # Si no, pasamos a la siguiente planta
+                y += 1
+            siguientePosVacia = self.matrizPaqs[y].index(0)
+            self.matrizPaqs[y][siguientePosVacia] = 1
+
 
         print(self.matrizPaqs)
 
@@ -88,15 +95,20 @@ class Camion(Elemento):
         pyxel.rect(self.posX + 27, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
 
         # Dibujamos los paquetes
-        x, y = self.posX, self.posY
+        x, y = self.posX, self.posY - self.config.altoPaq
+        for i in range(len(self.matrizPaqs)):
+            for j in range(len(self.matrizPaqs[i])):
+                if self.matrizPaqs[i][j] != 0:
+                    self.__dibujarPaquete(x + j * (self.config.anchoPaq + 1),  y - i * self.config.altoPaq)
 
 
 
     # Dibujamos los paquete (nivel 5) en el camión
     def __dibujarPaquete(self, x, y):
+        pyxel.rect(x, y, self.config.anchoPaq, self.config.altoPaq, COLORES["azulMarino"])
         w = int(self.config.anchoPaq * 0.2)
         h = int(self.config.altoPaq * 0.4)
-        pyxel.rect(x, y + h, self.ancho, 1, COLORES["blanco"])
+        pyxel.rect(x, y + h, self.config.anchoPaq, 1, COLORES["blanco"])
         # Y otra linea para completar el 'lazo'
-        pyxel.rect(x + w, y, 1, self.alto, COLORES["blanco"])
+        pyxel.rect(x + w, y, 1, self.config.altoPaq, COLORES["blanco"])
 

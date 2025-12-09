@@ -49,7 +49,8 @@ class Fabrica:
         self.mario = Mario(
             "M", 205, yPersonajes, ancho, alto, COLORES["magenta"], self.config.controlesMario, self.config)
 
-        self.camion = Camion(10, 30,  30, 5, COLORES["marron"], self.config)
+        anchoCamion = (self.config.anchoPaq + 1) * 4
+        self.camion = Camion(10, 30, anchoCamion, 5, COLORES["marron"], self.config)
 
         self.paquetes = Paquetes(
             60,
@@ -165,12 +166,14 @@ class Fabrica:
                 self.indiceIntervalo = 0
 
     def draw(self):
-        # Muestra los personajes
-        self.luigi.draw()
-        self.mario.draw()
+
 
         # Muestra las cintas y los paquetes
         self.paquetes.draw()
+
+        # Muestra los personajes
+        self.luigi.draw()
+        self.mario.draw()
 
         # Muestra el camión
         self.camion.draw()

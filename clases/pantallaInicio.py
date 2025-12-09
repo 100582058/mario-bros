@@ -47,7 +47,7 @@ class PantallaInicio:
     def update(self):
         #Mutear música POR ALGÚN MOTIVO NO FUNCIONA
        # if pyxel.btnp(pyxel.KEY_M):
-        #    self.contadorMusica += 0
+        #    self.contadorMusica += 1
          #   if self.contadorMusica % 2 == 0:
           #      pyxel.stopm()
            #     if self.activa == False:
