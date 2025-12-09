@@ -65,14 +65,7 @@ class Camion(Elemento):
         pyxel.rect(self.posX + 27, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
         # Paquetes dentro del camión
 
-        paqAnchoEnCamion = 8 #Uno más para que haya separación después
-
-        for i in range(self.carga):
-            fila = i // 2  # 4 niveles (entre dos porque es de dos en dos)
-            columna = i % 2  # asignar la izquierda o la derecha (1 y 0)
-
-            x = self.posX + 12 + columna * paqAnchoEnCamion #si la columna es 0 no influye
-            y = self.posY - 5 - fila * self.alto
-
-            pyxel.rect(x, y+1, paqAnchoEnCamion - 1, self.alto - 1, COLORES["azulMarino"])
-
+        if self.carga <= 4:
+            pyxel.rect(self.posX +2 , self.posY - 5, self.ancho * (self.carga / 8), self.alto, COLORES["azulMarino"])
+        elif self.carga > 4:
+            pyxel.rect(self.posX + 2, self.posY - 1, self.ancho * (self.carga / 8), self.alto, COLORES["azulMarino"])

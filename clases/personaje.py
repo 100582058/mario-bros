@@ -126,17 +126,15 @@ class Personaje(Elemento):
         self.__tiempoReganado = time.time()
 
     def draw(self):
-        pyxel.rect(self.posX, self.posY -1, self.ancho, self.alto -1, self.color)
-        pyxel.text(self.posX + self.ancho / 4, self.posY +
-                   self.alto / 4, self.id, COLORES["blanco"])
-
-        # Pintamos el jefe
-        # REFACTOR: Parece que cambiando los números del frame count se consigue una animacion más chula
-        # De momento lo dejo así, casi va sincronizado con el sonido de regañar
-        if self.__estaReganado and pyxel.frame_count % 16 >= 8:
-            pyxel.rect(self.posX - self.ancho, self.posY - self.alto / 2,
-                       self.ancho * 0.8, self.alto * 0.8, COLORES["negro"])
-            # REFACTOR cambiar de lugar
-            delta_t = time.time() - self.__tiempoReganado
-            if delta_t >= self.__tiempoMaxReganado:
-                self.__estaReganado = False
+        if not self.__estaReganado:
+            pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
+            pyxel.text(self.posX + self.ancho / 4, self.posY + self.alto / 4, self.id, COLORES["blanco"])
+        else:
+            # Pintamos al personaje en otro sitio y añadimos al jefe
+            if pyxel.frame_count % 16 >= 8:
+                pyxel.rect(self.posX - self.ancho, self.posY - self.alto / 2,
+                        self.ancho * 0.8, self.alto * 0.8, COLORES["negro"])
+                # REFACTOR cambiar de lugar
+                delta_t = time.time() - self.__tiempoReganado
+                if delta_t >= self.__tiempoMaxReganado:
+                    self.__estaReganado = False

@@ -42,7 +42,7 @@ def update():
             print("Dificultad", dificultad.lower(), "Iniciamos el juego!")
 
     # -- Fase 2: Juego --
-    if not pantallaInicio.activa:
+    if not pantallaInicio.activa and fabrica.activa:
         fabrica.juegoRun()
 
 
@@ -52,21 +52,14 @@ def draw():
         # Fondo negro para la pantalla de inicio
         pyxel.cls(COLORES["negro"])
         pantallaInicio.draw()
-    else:
+    elif fabrica.activa:
         # -- Fase 2: Juego --
         pyxel.cls(COLORES["carne"])
-        # Funcionamiento .bltm -> Dibuja un mapa de mosaicos (tilemap) en la pantalla.
-        # Los parámetros son:
-        # x, y: Coordenadas en la pantalla donde se dibuja el mapa.
-        # tm: Índice del tilemap a usar (en este caso, 2).
-        # u, v: Coordenadas en el tilemap desde donde se empieza a dibujar.
-        # w, h: Ancho y alto del área a dibujar en mosaicos (tiles).
-        # pyxel.bltm(0, 0, tm=0, u=0, v=0, w=WIDTH, h=HEIGHT)
+        # DEBUG: Posicion del ratón
+        txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
+        pyxel.text(5, 120, txt, 2)
         fabrica.draw()
 
-    # DEBUG: Posicion del ratón
-    txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
-    pyxel.text(5, 120, txt, 2)
 
 
 
