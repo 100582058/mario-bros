@@ -57,7 +57,7 @@ def update():
 
         else:
             pyxel.stop()
-            pyxel.playm(2, loop=True)
+            pyxel.playm(0, loop=True)
 
 
 

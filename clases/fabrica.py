@@ -18,6 +18,7 @@ class Fabrica:
         self.fallos = 0
         self.compFallos = 0
         self.compMute = 1
+        self.colorMute = COLORES["gris"]
         self.compVida = 0
         self.pausa = False
         self.maxFallos = 30 # DEBUG
@@ -238,10 +239,14 @@ class Fabrica:
             if pyxel.btnp(pyxel.KEY_M):
                 self.compMute += 1
             if self.compMute % 2 == 0:
+                self.colorMute = COLORES["azul"]
                 pyxel.rect(x + 254, y + w + 14, 37, 12, COLORES["azul"])
+            else:
+                self.colorMute = COLORES["gris"]
+
 
             pyxel.rect(x + 255 , y + w + 15, 35, 10, COLORES["negro"])
-            pyxel.text(x + 259, y + w + 17, f"MUTE: M", COLORES["azul"])
+            pyxel.text(x + 259, y + w + 17, f"MUTE: M", self.colorMute)
 
             # Muesta el tiempo para el siguiente paquete
             # pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
