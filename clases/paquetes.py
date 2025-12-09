@@ -192,9 +192,7 @@ class Paquetes(Elemento):
 
     # Añade un paquete al final de la cinta 0
     def anadirPaqInicio(self):
-        self.matriz[0][0] = 1
-
-        #self.lista0[-1] = 1
+        self.lista0[-1] = 1
         # # print("cerca", self.__paqueteCercaPersonaje())
         # if not self.__paqueteCercaDcha(distancia=int(self.len_cinta0 / 2))[0]:
         # #     self.lista0[9] = 1
@@ -273,21 +271,6 @@ class Paquetes(Elemento):
             pyxel.rect(self.cinta0_x + z, y - 10 + w, 7, 3, COLORES["gris"])
             pyxel.rect(self.cinta0_x + 4 + z, y - 10 + w, 1, 3, COLORES["azulMarino"])
             pyxel.rect(self.cinta0_x + z, y - 6 + w, 3, 1, COLORES["azulMarino"])
-
-
-        #plataforma jefe
-        # z es la x para mover la plataforma facil e w es la y
-        z = 5
-        w = -10
-        for i in range(2):
-            if i != 1: #plataforma jefe mario
-                pyxel.rect(self.cinta0_x + 3 + z, y - 30 + w, 26, 3, COLORES["marron"])
-                pyxel.rect(self.cinta0_x + 5 + z, y - 30 + w, 22, 2, COLORES["verde"])
-            else: #plataforma jefe luigi
-                z = -215
-                w = 40
-                pyxel.rect(self.cinta0_x + 3 + z, y - 30 + w, 26, 3, COLORES["marron"])
-                pyxel.rect(self.cinta0_x + 5 + z, y - 30 + w, 22, 2, COLORES["verde"])
 
 
         # -- Dibujamos las cintas --

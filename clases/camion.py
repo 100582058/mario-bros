@@ -23,6 +23,9 @@ class Camion(Elemento):
         self.dirMov = 0 
         self.compSonidoRetroceso = 0
 
+        # Almacena el número de repartos que se han hecho desde que se eliminó un fallo
+        self.numRepartos = 0
+
         # Atributos de la configuración del nivel
         self.config = config
 
@@ -47,8 +50,12 @@ class Camion(Elemento):
 
 
     def mover_y_descargar(self):
-        # Condición inicial para que se empieze a mover
+        # Condición inicial para que se empiece a mover
+
+
         if self.carga >= 8:
+            # Añadimos un reparto
+            self.numRepartos += 1
             self.dirMov = -1
         if self.dirMov != 0:
             if self.posX > self.posicionDescarga and self.dirMov == -1: #por ejemplo (tiene que estar fuera de la pantalla)

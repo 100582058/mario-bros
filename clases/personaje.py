@@ -126,18 +126,35 @@ class Personaje(Elemento):
         self.__tiempoReganado = time.time()
 
     def draw(self):
+        # Dibujamos las plataformas del jefe
+        if self.id == "M":
+            x = 225
+            y = 75
+            w = -self.ancho
+            pyxel.rect(x, y, 26, 3, COLORES["marron"])
+            pyxel.rect(x + 2, y, 22, 2, COLORES["verde"])
+        elif self.id == "L":
+            x = 7
+            y = 115
+            w = self.ancho
+            pyxel.rect(x, y, 26, 3, COLORES["marron"])
+            pyxel.rect(x + 2, y, 22, 2, COLORES["verde"])
+
+
         if not self.__estaReganado:
             pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
             pyxel.text(self.posX + self.ancho / 4, self.posY + self.alto / 4, self.id, COLORES["blanco"])
         else:
             # Pintamos al personaje en otro sitio y añadimos al jefe
             if pyxel.frame_count % 16 >= 8:
-                pyxel.rect(self.posX - self.ancho, self.posY - self.alto / 2,
+                # Pintamos al jefe
+                pyxel.rect(x + w, y - self.alto / 2,
                         self.ancho * 0.8, self.alto * 0.8, COLORES["negro"])
-                # REFACTOR cambiar de lugar
-                delta_t = time.time() - self.__tiempoReganado
-                if delta_t >= self.__tiempoMaxReganado:
-                    self.__estaReganado = False
 
-            pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
-            pyxel.text(self.posX + self.ancho / 4, self.posY + self.alto / 4, self.id, COLORES["blanco"])
+            # Pintamos al personaje
+            pyxel.rect(x, y, self.ancho, self.alto, self.color)
+            pyxel.text(x + self.ancho / 4, y + self.alto / 4, self.id, COLORES["blanco"])
+
+            delta_t = time.time() - self.__tiempoReganado
+            if delta_t >= self.__tiempoMaxReganado:
+                self.__estaReganado = False

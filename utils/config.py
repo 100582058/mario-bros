@@ -43,12 +43,12 @@ def asignarDificultad(dificultad: str) -> ConfigNivel:
     # Valores por defecto
     controlesMario = (pyxel.KEY_UP, pyxel.KEY_DOWN)
     controlesLuigi = (pyxel.KEY_W, pyxel.KEY_S)
-    velCinta0 = 1
+    velCinta0 = 0.5
     velCintasPares = 1
     velCintasImpares = 1
 
     if dificultad == "facil":
-        numCintas = 3
+        numCintas = 5
         anadirPaquetesCada = 50
         eliminaFallos = 3
     elif dificultad == "normal":

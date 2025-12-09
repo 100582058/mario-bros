@@ -8,7 +8,7 @@ class ConfigNivel:
         sepEntreCintas,
         anchoPaq,
         altoPaq, dificultad):
-        # Parámetros relaccioandos con la dificultad del nivel
+        # Parámetros relacionados con la dificultad del nivel
         self.controlesMario = controles_mario
         self.controlesLuigi = controles_luigi
         self.velCinta0 = vel_cinta_0

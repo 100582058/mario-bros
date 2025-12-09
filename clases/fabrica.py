@@ -20,6 +20,8 @@ class Fabrica:
         self.maxFallos = 3
         self.activa = True
 
+        self.__repartosHastaElimFallo = config.eliminaFallos
+
         self.puntos = 0
         self.puntosComp = 0
 
@@ -34,6 +36,7 @@ class Fabrica:
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
         self.tiempoSigPaq = time.time()
+
 
         # Atributos de la configuración del nivel
         self.numCintas = self.config.numCintas
@@ -116,6 +119,11 @@ class Fabrica:
             self.pausa = True
             self.draw()
 
+        # Elimina un fallo si se hacen 'repartosHastaElimFallo' repartos
+        if self.camion.numRepartos == self.__repartosHastaElimFallo and self.fallos >= 1:
+            self.fallos -= 1
+            self.camion.numRepartos = 0
+
     def moverPaquetes(self):
         # Actualizamos las cintas pares e impares por su cuenta
         velocidadInicial = 4
@@ -123,7 +131,6 @@ class Fabrica:
         velImpar = velocidadInicial / self.config.velCintasImpares
         vel0 = velocidadInicial / self.config.velCinta0
         # REFACTOR: En que posición va?
-        self.checkFallo()
 
         if pyxel.frame_count % int(velPar) == 0:
             # self.checkFallo()
@@ -136,6 +143,7 @@ class Fabrica:
             # self.checkFallo()
             self.paquetes.actualizarLista0()
 
+        self.checkFallo()
 
 
         # Sonido puntos (los reproducimos en el canal 2 para que no interfieran con la música)
@@ -177,7 +185,9 @@ class Fabrica:
             tiempoMins = tiempo // 60
             tiempoSegs = int(tiempo - tiempoMins * 60)
             txtFin = f"------ GAME OVER ------\n\nDIFICULTAD JUGADA: {self.config.dificultad.upper()}\n\nPUNTOS CONSEGUIDOS: {self.puntos}\n\nTIEMPO JUGADO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}"
-            pyxel.text(80, 40, txtFin, COLORES["rosa"])
+            pyxel.text(80, 40, txtFin, COLORES["magenta"])
+            pyxel.stop()
+
         else:
             # Muestra las cintas y los paquetes
             self.paquetes.draw()
