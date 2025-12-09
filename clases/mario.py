@@ -31,20 +31,3 @@ class Mario(Personaje):
 
     def draw(self):
         super().draw()
-        # # Dibujamos la plataforma del jefe
-        # x = 225
-        # y = 75
-        # pyxel.rect(x, y, 26, 3, COLORES["marron"])
-        # pyxel.rect(x + 2, y, 22, 2, COLORES["verde"])
-        #
-        #
-        # if not self.__estaReganado:
-        #     super().draw()
-        # else:
-        #     # Dibujamos a Mario en la plataforma
-        #     pyxel.rect(x, y, self.ancho, self.alto, self.color)
-        #     pyxel.text(x + self.ancho / 4, y + self.alto / 4, self.id, COLORES["blanco"])
-        #
-        #     delta_t = time.time() - self.__tiempoReganado
-        #     if delta_t >= self.__tiempoMaxReganado:
-        #         self.__estaReganado = False

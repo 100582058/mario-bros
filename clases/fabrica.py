@@ -238,7 +238,7 @@ class Fabrica:
             # REFACTOR: --> Parece que ya está mejor?  Fernando dice que son muchos condicionales y se lee mal
             # QUIZÁS: self.paquetes.paqueteEn(x, y) and cintaIzda() and not self.luigi.enPlanta(y)
             if self.paquetes.matriz[y][0] != 0 and esCintaPar(y, self.numCintas):
-                if self.luigi.planta != y:  # luigi es el de la izda
+                if not self.luigi.estaEnPiso(y):  # luigi es el de la izda
                     # print(self.paquetes)
                     print("Luigi falla", x, y)
                     self.anadirFalloYElimPaq(0, y)
@@ -248,7 +248,7 @@ class Fabrica:
                     self.puntos += 1
             # if (paquete en el borde dcho) Y (cinta impar) Y (mario no está en esa planta)
             if self.paquetes.matriz[y][x] != 0 and not esCintaPar(y, self.numCintas):
-                if self.mario.planta != y:
+                if not self.mario.estaEnPiso(y):
                     # print(self.paquetes)
                     print("Mario falla",  x, y)
                     self.anadirFalloYElimPaq(x, y)
@@ -259,7 +259,7 @@ class Fabrica:
 
         # Comprueba que esté Luigi en la cinta del camión
         if self.paquetes.matriz[0][0] != 0:
-            if self.luigi.planta == 0:
+            if self.luigi.estaEnPiso(0):
                 self.camion.carga += 1
                 self.puntos += 1
                 # Controla cuando se llena el camión para pausar el juego
@@ -275,7 +275,7 @@ class Fabrica:
                 self.anadirFalloYElimPaq(0, 0)
         # Comprueba si hay un paquete en la lista0 listo para ser añadido a la matriz
         if self.paquetes.lista0[0] != 0:
-            if self.mario.planta != self.numCintas - 1:
+            if not self.mario.estaEnPiso(self.numCintas - 1):
                 # Añadimos un fallo y eliminamos el paquete
                 self.anadirFalloYElimPaq(0)
                 self.mario.reganar()

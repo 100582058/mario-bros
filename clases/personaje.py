@@ -8,9 +8,8 @@ from utils.funciones import dibujar
 
 class Personaje(Elemento):
     def __init__(self, id_personaje, posX, posY, ancho, alto, color, controles, config):
-        y = posY
         # Movemos el personaje hasta la cinta 0
-        y += config.sepEntreCintas * (config.numCintas - 1)
+        y = posY + config.sepEntreCintas * (config.numCintas - 1)
 
         super().__init__(posX, y, ancho, alto, color)
 
@@ -29,16 +28,20 @@ class Personaje(Elemento):
         self.__tiempoMaxReganado = 1.2
 
         # Atributos de la configuración del nivel
-        self.sepEntreCintas = config.sepEntreCintas
-        self.numCintas = config.numCintas
+        self.__sepEntreCintas = config.sepEntreCintas
+        self.__numCintas = config.numCintas
 
+    # --- PROPERTIES Y SETTERS ---
     @property
     def controles(self):
         return self.__controles
 
     @controles.setter
     def controles(self, valor):
-        self.__controles = valor
+        if isinstance(valor, tuple) and len(valor) == 2:
+            self.__controles = valor
+        else:
+            raise TypeError("Controles no válidos")
 
     @property
     def id(self):
@@ -72,6 +75,8 @@ class Personaje(Elemento):
             self.__numCintas = valor
         else:
             raise TypeError()
+
+    # --- MÉTODOS DE LA CLASE ---
 
     def intentarCambiarPlanta(self, direccion):
         # Se sobreescribe en los hijos (Luigi y Mario)
@@ -117,8 +122,8 @@ class Personaje(Elemento):
         else:
             self.__timerDown = 0
 
-    def estaEnPiso(self):
-        pass
+    def estaEnPiso(self, piso):
+        return self.planta == piso
 
     def reganar(self):
         self.__estaReganado = True

@@ -8,42 +8,42 @@ class Elemento:
 
     @property
     def posX(self):
-        return self._posX
+        return self.__posX
     @posX.setter
     def posX(self, valor):
         if isinstance(valor, int) or isinstance(valor, float):
-            self._posX = valor
+            self.__posX = valor
         else:
             raise TypeError("La posX debe ser un número")
 
     @property
     def posY(self):
-        return self._posY
+        return self.__posY
 
     @posY.setter
     def posY(self, valor):
         if isinstance(valor, int) or isinstance(valor, float):
-            self._posY = valor
+            self.__posY = valor
         else:
             raise TypeError("La posY debe ser un número")
 
     @property
     def ancho(self):
-        return self._ancho
+        return self.__ancho
     @ancho.setter
     def ancho(self, valor):
         if isinstance(valor, int):
-            self._ancho = valor
+            self.__ancho = valor
         else:
             raise TypeError("El ancho debe ser un entero")
 
     @property
     def alto(self):
-        return self._alto
+        return self.__alto
     @alto.setter
     def alto(self, valor):
         if isinstance(valor, int):
-            self._alto = valor
+            self.__alto = valor
         else:
             raise TypeError("El ancho debe ser un entero")
 
