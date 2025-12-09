@@ -5,7 +5,7 @@ from clases.elemento import Elemento
 
 class Camion(Elemento):
     def __init__(self, posX, posY, ancho, alto, color, config):
-        super().__init__(posX, posY, ancho, alto, color)
+        super().__init__(posX, posY  + 2, ancho, alto, color)
 
         self.carga = 0
 
@@ -25,6 +25,14 @@ class Camion(Elemento):
 
         # Atributos de la configuración del nivel
         self.config = config
+
+    def __dibujarPaquete(self, x, y):
+        pyxel.rect(x, y + 1, self.config.anchoPaq, self.config.altoPaq, COLORES["azulMarino"])
+        w = int(self.config.anchoPaq * 0.2)
+        h = int(self.config.altoPaq * 0.4)
+        pyxel.rect(x, y + h + 1, self.config.anchoPaq, 1, COLORES["blanco"])
+        # Y otra linea para completar el 'lazo'
+        pyxel.rect(x + w, y + 1, 1, self.config.altoPaq, COLORES["blanco"])
 
 
     @property
@@ -80,32 +88,31 @@ class Camion(Elemento):
             self.matrizPaqs[y][siguientePosVacia] = 1
 
 
+
     
     def draw(self):
         # -- Pinta el camión y los paquetes --
         # Camión
-        pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
+        pyxel.rect(self.posX, self.posY, self.ancho, self.alto, COLORES["gris"])
         # Ruedas
         pyxel.rect(self.posX +1, self.posY +2, self.ancho -25, self.alto, COLORES["negro"])
         pyxel.rect(self.posX + 3, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
         pyxel.rect(self.posX+25, self.posY +2, self.ancho - 25, self.alto, COLORES["negro"])
         pyxel.rect(self.posX + 27, self.posY + 4, self.ancho - 29, self.alto -4, COLORES["gris"])
+        pyxel.rect(self.posX, self.posY - 10, self.ancho - 20, self.alto+ 5, COLORES["gris"])
+        pyxel.rect(self.posX, self.posY - 7, self.ancho - 24, self.alto, COLORES["azul"])
+        pyxel.rect(self.posX, self.posY, self.ancho, self.alto - 4, COLORES["azul"])
 
-        # Dibujamos los paquetes
-        x, y = self.posX, self.posY - self.config.altoPaq
-        for i in range(len(self.matrizPaqs)):
-            for j in range(len(self.matrizPaqs[i])):
-                if self.matrizPaqs[i][j] != 0:
-                    self.__dibujarPaquete(x + j * (self.config.anchoPaq + 1),  y - i * self.config.altoPaq)
+        # Paquetes dentro del camión
 
+        paqAnchoEnCamion = 8 #Uno más para que haya separación después
 
+        for i in range(self.carga):
+            fila = i // 2  # 4 niveles (entre dos porque es de dos en dos)
+            columna = i % 2  # asignar la izquierda o la derecha (1 y 0)
 
-    # Dibujamos los paquete (nivel 5) en el camión
-    def __dibujarPaquete(self, x, y):
-        pyxel.rect(x, y, self.config.anchoPaq, self.config.altoPaq, COLORES["azulMarino"])
-        w = int(self.config.anchoPaq * 0.2)
-        h = int(self.config.altoPaq * 0.4)
-        pyxel.rect(x, y + h, self.config.anchoPaq, 1, COLORES["blanco"])
-        # Y otra linea para completar el 'lazo'
-        pyxel.rect(x + w, y, 1, self.config.altoPaq, COLORES["blanco"])
+            x = self.posX + 12 + columna * paqAnchoEnCamion #si la columna es 0 no influye
+            y = self.posY - 5 - fila * self.alto
+
+            self.__dibujarPaquete(x, y)
 

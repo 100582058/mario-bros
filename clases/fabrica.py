@@ -44,15 +44,15 @@ class Fabrica:
         # Pasamos el objeto ConfigNivel a los objetos
         # para que extraigan la información necesaria de la configuración
         yInicial = 25  # Indica la altura máxima a la que llegarían los personajes
-        ancho, alto = 10, 12
-        yPersonajes = yInicial - alto + self.config.altoCinta
+        ancho, alto = 10, 11
+        yPersonajes = yInicial - alto + self.config.altoCinta - 2
         self.luigi = Luigi(
             "L", 45, yPersonajes, ancho, alto, COLORES["azulCeleste"], self.config.controlesLuigi, self.config)
         self.mario = Mario(
             "M", 205, yPersonajes, ancho, alto, COLORES["magenta"], self.config.controlesMario, self.config)
 
         anchoCamion = (self.config.anchoPaq + 1) * 4
-        self.camion = Camion(10, 30, anchoCamion, 5, COLORES["marron"], self.config)
+        self.camion = Camion(10, 30, anchoCamion - 2, 5, COLORES["marron"], self.config)
 
         self.paquetes = Paquetes(
             60,
@@ -216,7 +216,7 @@ class Fabrica:
             # Muesta el tiempo para el siguiente paquete
             # pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
             # Contador en lista0
-            pyxel.text(252, 99, f"{int(self.tiempoSigPaq)}", COLORES["azul"])
+            #pyxel.text(252, 99, f"{int(self.tiempoSigPaq)}", COLORES["azul"])
 
     # Función para ver si se cae un paquete
     # Cuando paquete en el final de las filas pares y no está Luigi, eliminar el paquete. Lo mismo para Mario
