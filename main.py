@@ -42,7 +42,7 @@ def update():
             print("Dificultad", dificultad.lower(), "Iniciamos el juego!")
 
     # -- Fase 2: Juego --
-    if not pantallaInicio.activa:
+    if not pantallaInicio.activa and fabrica.activa:
         fabrica.juegoRun()
 
 
@@ -52,14 +52,14 @@ def draw():
         # Fondo negro para la pantalla de inicio
         pyxel.cls(COLORES["negro"])
         pantallaInicio.draw()
-    else:
+    elif fabrica.activa:
         # -- Fase 2: Juego --
         pyxel.cls(COLORES["carne"])
+        # DEBUG: Posicion del ratón
+        txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
+        pyxel.text(5, 120, txt, 2)
         fabrica.draw()
 
-    # DEBUG: Posicion del ratón
-    txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
-    pyxel.text(5, 120, txt, 2)
 
 
 

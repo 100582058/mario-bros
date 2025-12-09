@@ -92,7 +92,8 @@ def asignarDificultad(dificultad: str) -> ConfigNivel:
         numPaqCinta,
         sepEntreCintas,
         anchoPaq,
-        altoPaq
+        altoPaq,
+        dificultad
     )
 
 # Devuelve el menor valor

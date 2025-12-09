@@ -80,9 +80,6 @@ class Camion(Elemento):
             self.matrizPaqs[y][siguientePosVacia] = 1
 
 
-        print(self.matrizPaqs)
-
-
     
     def draw(self):
         # -- Pinta el camión y los paquetes --

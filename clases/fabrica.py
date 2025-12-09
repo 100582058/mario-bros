@@ -6,18 +6,20 @@ from clases.luigi import Luigi
 from clases.paquetes import Paquetes
 from clases.camion import Camion
 
-from utils.config import esCintaPar, COLORES
+from utils.config import esCintaPar, COLORES, WIDTH, HEIGHT
 
 
 class Fabrica:
     def __init__(self, config):
         # Ahora la fábrica tiene todos los datos de la configuración del nivel
         self.config = config
+        
         self.fallos = 0
         self.compFallos = 0
         self.pausa = False
-        # Cambian en función de la dificultad. DEBUG: Vidas o fallos?
         self.maxFallos = 3
+        self.activa = True
+
         self.puntos = 0
         self.puntosComp = 0
 
@@ -85,9 +87,6 @@ class Fabrica:
     #     else:
     #         raise TypeError("El tiempo no es un entero")
 
-    def __repr__(self):
-        return f"Fabrica(vidas={self.fallos}, tiempo={self.tiempoInicial}, dificultad={self.dificultad}"
-
     # Bucle principal del juego
     def juegoRun(self):
         # Mueve todos los objetos (menos los paquetes)
@@ -110,6 +109,12 @@ class Fabrica:
 
         # Mover el camión con los paquetes (si está lleno)
         self.camion.mover_y_descargar()
+
+        # Comprueba si ha perdido la partida
+        if self.fallos >= self.maxFallos:
+            self.activa = False
+            self.pausa = True
+            self.draw()
 
     def moverPaquetes(self):
         # Actualizamos las cintas pares e impares por su cuenta
@@ -166,49 +171,52 @@ class Fabrica:
                 self.indiceIntervalo = 0
 
     def draw(self):
+        if not self.activa:
+            pyxel.cls(COLORES["negro"])
+            tiempo = int(time.time() - self.tiempoInicial)
+            tiempoMins = tiempo // 60
+            tiempoSegs = int(tiempo - tiempoMins * 60)
+            txtFin = f"------ GAME OVER ------\n\nDIFICULTAD JUGADA: {self.config.dificultad.upper()}\n\nPUNTOS CONSEGUIDOS: {self.puntos}\n\nTIEMPO JUGADO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}"
+            pyxel.text(80, 40, txtFin, COLORES["rosa"])
+        else:
+            # Muestra las cintas y los paquetes
+            self.paquetes.draw()
 
+            # Muestra los personajes
+            self.luigi.draw()
+            self.mario.draw()
 
-        # Muestra las cintas y los paquetes
-        self.paquetes.draw()
+            # Muestra el camión
+            self.camion.draw()
 
-        # Muestra los personajes
-        self.luigi.draw()
-        self.mario.draw()
+            # -- Muestra el texto superior con informacion
+            tiempo = int(time.time() - self.tiempoInicial)
+            tiempoMins = tiempo // 60
+            tiempoSegs = int(tiempo - tiempoMins * 60)
+            # pyxel.text(WIDTH - 20, 5, f"TIEMPO DE JUEGO: {tiempo}", COLORES["naranja"])
+            x = -40  # Mover el conjunto en x
+            y = -2  # Mover el conjunto en y
+            z = -20  # Mover en x las letras menos mario bros
+            w = 0  # Mover en x las letras
 
-        # Muestra el camión
-        self.camion.draw()
+            pyxel.rect(x + 40, y+2, 260, 11, COLORES["negro"])
+            # pyxel.rect(0, 119, 260, 11, COLORES["negro"]) #Le da inmersividad
+            pyxel.text(x+z+220, y+w + 5,
+                    f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])
 
-        # -- Muestra el texto superior con informacion
-        t = time.time()
-        tiempo = int((t - self.tiempoInicial) / 1)
-        tiempMin = 0
+            # Muesta los puntos
 
-        tiempoMins = tiempo // 60
-        tiempoSegs = int(tiempo - tiempoMins * 60)
-        # pyxel.text(WIDTH - 20, 5, f"TIEMPO DE JUEGO: {tiempo}", COLORES["naranja"])
-        x = -40  # Mover el conjunto en x
-        y = -2  # Mover el conjunto en y
-        z = -20  # Mover en x las letras menos mario bros
-        w = 0  # Mover en x las letras
+            pyxel.text(x+z+120, y+w + 5,
+                    f"PUNTOS: {self.puntos}", COLORES["amarillo"])
 
-        pyxel.rect(x + 40, y+2, 260, 11, COLORES["negro"])
-        # pyxel.rect(0, 119, 260, 11, COLORES["negro"]) #Le da inmersividad
-        pyxel.text(x+z+220, y+w + 5,
-                   f"TIEMPO DE JUEGO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}", COLORES["naranja"])
-
-        # Muesta los puntos
-
-        pyxel.text(x+z+120, y+w + 5,
-                   f"PUNTOS: {self.puntos}", COLORES["amarillo"])
-
-        pyxel.text(x + 49, y + w + 5, f"MARIO BROS", COLORES["blanco"])
-        # Muestra los fallos
-        pyxel.text(x + z + 170, y+w + 5,
-                   f"FALLOS: {self.fallos}", COLORES["magenta"])
-        # Muesta el tiempo para el siguiente paquete
-        # pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
-        # Contador en lista0
-        pyxel.text(252, 99, f"{int(self.tiempoSigPaq)}", COLORES["azul"])
+            pyxel.text(x + 49, y + w + 5, f"MARIO BROS", COLORES["blanco"])
+            # Muestra los fallos
+            pyxel.text(x + z + 170, y+w + 5,
+                    f"FALLOS: {self.fallos}", COLORES["magenta"])
+            # Muesta el tiempo para el siguiente paquete
+            # pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
+            # Contador en lista0
+            pyxel.text(252, 99, f"{int(self.tiempoSigPaq)}", COLORES["azul"])
 
     # Función para ver si se cae un paquete
     # Cuando paquete en el final de las filas pares y no está Luigi, eliminar el paquete. Lo mismo para Mario

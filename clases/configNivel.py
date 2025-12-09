@@ -7,7 +7,7 @@ class ConfigNivel:
                  anadir_paquetes_cada, elimina_fallos, numPaqCinta,
         sepEntreCintas,
         anchoPaq,
-        altoPaq):
+        altoPaq, dificultad):
         # Parámetros relaccioandos con la dificultad del nivel
         self.controlesMario = controles_mario
         self.controlesLuigi = controles_luigi
@@ -27,3 +27,5 @@ class ConfigNivel:
         self.altoCinta = 4
         # Cuando se empieza a ejecutar el juego
         self.tiempoInicial = time.time()
+
+        self.dificultad = dificultad
