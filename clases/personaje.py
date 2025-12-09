@@ -22,10 +22,13 @@ class Personaje(Elemento):
         # El numero de fps al que baja si matienes presionado (por debajo de 3 el jugador pierde precisión)(5 está bien)
         self.__comparador = 4
 
-        self.__estaReganado = False
+        # Controlan la animación del jefe regañándoles
+        self.___estaSiendoReganado = False
         # Le regaña durante self.tiempoMaxReganado segundos
         self.__tiempoReganado = 0
-        self.__tiempoMaxReganado = 1.2
+        self.__totalAnimacion = config.pausaFallo
+        self.__tiempoVisible = 0.15
+        self.__tiempoInvisible = 0.1
 
         # Atributos de la configuración del nivel
         self.__sepEntreCintas = config.sepEntreCintas
@@ -126,7 +129,7 @@ class Personaje(Elemento):
         return self.planta == piso
 
     def reganar(self):
-        self.__estaReganado = True
+        self.___estaSiendoReganado = True
         # Guarda el tiempo en el que se empieza a regañar
         self.__tiempoReganado = time.time()
 
@@ -145,22 +148,28 @@ class Personaje(Elemento):
             pyxel.rect(x + 2, y, anchoPlataforma - 4, altoPlataforma - 1, COLORES["verde"])
 
 
-        if not self.__estaReganado:
+        if not self.___estaSiendoReganado:
             pyxel.rect(self.posX, self.posY, self.ancho, self.alto, self.color)
             pyxel.text(self.posX + self.ancho / 4, self.posY + self.alto / 4, self.id, COLORES["blanco"])
         else:
             # Pintamos al personaje en otro sitio y añadimos al jefe
             posX = x + anchoPlataforma - self.ancho
-            if pyxel.frame_count % 16 >= 8:
-                # Pintamos al jefe
-                anchoJefe = self.ancho * 1.2
-                pyxel.rect(posX - anchoJefe - 5, y - self.alto * 1.2,
-                        anchoJefe, self.alto * 1.2, COLORES["negro"])
+            self.__animarJefe(posX, y)
 
             # Pintamos al personaje
             pyxel.rect(posX, y - self.alto, self.ancho, self.alto, self.color)
             pyxel.text(posX + self.ancho / 4, y + self.alto / 4 - self.alto, self.id, COLORES["blanco"])
 
             delta_t = time.time() - self.__tiempoReganado
-            if delta_t >= self.__tiempoMaxReganado:
-                self.__estaReganado = False
+            if delta_t >= self.__totalAnimacion:
+                self.___estaSiendoReganado = False
+
+    def __animarJefe(self, posX, y):
+        tiempoTranscurrido = time.time() - self.__tiempoReganado
+        if tiempoTranscurrido < self.__totalAnimacion:
+            t = tiempoTranscurrido % (self.__tiempoInvisible + self.__tiempoVisible)
+            if t < self.__tiempoVisible:
+                # Pintamos al jefe
+                anchoJefe = self.ancho * 1.2
+                pyxel.rect(posX - anchoJefe - 5, y - self.alto * 1.2,
+                        anchoJefe, self.alto * 1.2, COLORES["negro"])

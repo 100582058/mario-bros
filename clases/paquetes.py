@@ -352,7 +352,7 @@ class Paquetes(Elemento):
             t = tiempoTranscurrido % (self.tiemoInvisible + self.tiempoVisible)
             if t < self.tiempoVisible:
                 self.__dibujarPaq(x, y, self.numCintas - j)
-                print("borrandose", i, j, "-->", self.numCintas - j)
+                # print("borrandose", i, j, "-->", self.numCintas - j)
         else:
             # Se acaba la animación
             self.paqBorrandose = []
