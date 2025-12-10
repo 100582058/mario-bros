@@ -92,11 +92,26 @@ class PantallaInicio:
         return self.dificultadSeleccionada
 
     def draw(self):
+        # --Dibujar marco--
+        x = 0
+        y = 0
+        w = pyxel.width
+        h = pyxel.height
+        color = COLORES["azulMarino"]
+        for i in range(7): #Con esto se varía el grosor del rectángulo
+            if i >= 4:
+                color = COLORES["gris"]
+            pyxel.rectb(x, y, w, h, color)
+            x += 1
+            y += 1
+            w -= 2
+            h -= 2
+
         # -- Título --
         if pyxel.frame_count % 3 == 0: #Para no dañar epilepticos (cambia de color cada 3 frames)
             self.parpadeoCol = random.randint(1, 15)
         x = 0
-        y = -20
+        y = -16
         pyxel.text(80+x, 20+y, """
         
 M     M   AAAA   RRRR   III   OOOO        
@@ -107,7 +122,7 @@ M     M   A  A   R R     I   O    O
 M     M   A  A   R  R    I   O    O  
 M     M   A  A   R   R  III   OOOO    
 """, self.parpadeoCol)
-        pyxel.text(80 +x, 80+y, """
+        pyxel.text(80 +x, 73+y, """
         
 BBBB   RRRR    OOOO   SSSS
 B   B  R  R   O    O  S
@@ -119,7 +134,7 @@ BBBB   R   R   OOOO   SSSS
 """, self.parpadeoCol)
 
         # Para dibujar los botones
-        x = 12
+        x = 18
         y = 25
 
         i = 0  # REFACTOR: Es un contador, pero no me gustaba llamarlo contador

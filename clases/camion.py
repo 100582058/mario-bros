@@ -12,7 +12,7 @@ class Camion(Elemento):
         # Posición inicial, donde carga los paquetes
         self.__posicionCarga = posX
         # Posición fuera de la pantalla, donde descarga los paquetes
-        self.__posicionDescarga = -40
+        self.__posicionDescarga = -60
         self.__velocidadCamion = 2
         self.__velocidadCamionRetroceso = 1
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
@@ -77,6 +77,7 @@ class Camion(Elemento):
         # Camión
         #PlataformaCamion
         pyxel.rect(0, 39, 40, 5, COLORES["marron"])
+        pyxel.rect(13, 44, 17, 2, COLORES["gris"])
         pyxel.rect(20, 44, 3, 11, COLORES["gris"])
         pyxel.rect(20, 49, 3, 1, COLORES["azulMarino"])
         pyxel.rect(0, 52, 23, 3, COLORES["gris"])

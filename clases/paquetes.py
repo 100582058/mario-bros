@@ -192,8 +192,8 @@ class Paquetes(Elemento):
 
     # Añade un paquete al final de la cinta 0
     def anadirPaqInicio(self):
-        self.matriz[0][5] = 1
-        #self.lista0[-1] = 1
+        # self.matriz[0][5] = 1
+        self.lista0[-1] = 1
         # # print("cerca", self.__paqueteCercaPersonaje())
         # if not self.__paqueteCercaDcha(distancia=int(self.len_cinta0 / 2))[0]:
         # #     self.lista0[9] = 1
@@ -409,7 +409,7 @@ class Paquetes(Elemento):
                 return (i, None)
 
         # Si no, devuelve falso (en forma de tupla para seguir con el formato)
-        return (False, False)
+        return (None, None)
 
     def __paqueteCercaDcha(self, distancia=3):  # 2
         # Comprobamos por la derecha
@@ -470,8 +470,7 @@ class Paquetes(Elemento):
                 self.matriz[j][self.longitudX - 1] = 0
             print("paquete sincronizado, eliminados todos dcha")
 
-    def eliminPaquetesBorde(self):
-        d = 3
+    def eliminPaquetesBorde(self, d = 4): # DEBUG: 3 o 4
         i, j = self.__paqueteCercaPersonaje(d)
         print("Paquetes borde:", i, j)
         if i != None and j != None:
@@ -479,18 +478,19 @@ class Paquetes(Elemento):
             distDcha = i
             distIzda = self.longitudX - i
             # Eliminamos si está en el borde izquierdo en las cintas pares
-            if esCintaPar(j, self.numCintas) and distDcha >= distIzda:
+            if esCintaPar(j, self.numCintas) and distDcha <= distIzda:
                 print("Borrándose izda (par)", i, j)
                 # Reproducimos la animacion y borramos el paquete
                 self.animar(i, j)
                 self.matriz[j][i] = 0
-            elif not esCintaPar(j, self.numCintas) and distDcha <= distIzda:
+            # Eliminamos si está en el borde derecho en las cintas impares
+            elif not esCintaPar(j, self.numCintas) and distDcha >= distIzda:
                 print("Borrándose dcha (impar)", i, j)
                 # Reproducimos la animacion y borramos el paquete
                 self.animar(i, j)
                 self.matriz[j][i] = 0
             else:
-                print("Paquete NO se borra", i, j)
+                print("Paquete NO se borra. No es fallo asegurado", i, j)
         elif j == None and i != None:
             # Si 'j' no está definida pero 'i' sí -> Es la cinta 0
             print(i, "Paquete BORRÁNDOSE, cinta 0")
