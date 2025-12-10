@@ -92,6 +92,21 @@ class PantallaInicio:
         return self.dificultadSeleccionada
 
     def draw(self):
+        # --Dibujar marco--
+        x = 0
+        y = 0
+        w = pyxel.width
+        h = pyxel.height
+        color = COLORES["azulMarino"]
+        for i in range(5): #Con esto se varía el grosor del rectángulo
+            if i >= 3:
+                color = COLORES["gris"]
+            pyxel.rectb(x, y, w, h, color)
+            x += 1
+            y += 1
+            w -= 2
+            h -= 2
+
         # -- Título --
         if pyxel.frame_count % 3 == 0: #Para no dañar epilepticos (cambia de color cada 3 frames)
             self.parpadeoCol = random.randint(1, 15)
