@@ -245,6 +245,32 @@ class Paquetes(Elemento):
                 self.__dibujarPaq(x - 5, y - self.alto)
             x += self.sepEntrePaqs
 
+        # -- Dibujamos la estructura que "soporta" las cintas
+        #    x = 68
+         #   for i in range(4):
+          #      pyxel.rect(x, 25, 2, 120, COLORES["azul"])
+           #     pyxel.rect(x+1, 25, 1, 120, COLORES["azulMarino"])
+            #    x += 41
+
+        #CADENAS
+        #Cadena izq
+        pyxel.rect(3, 84, 1, 7, COLORES["gris"])
+        z = 2
+        w = 85
+        for i in range(30):
+            pyxel.rect(z, w, 1, 1, COLORES["gris"])
+            z += 1
+            w += 1
+
+        #Cadena drch
+        pyxel.rect(252, 46, 1, 7, COLORES["gris"])
+        z = 253
+        w = 47
+        for i in range(28):
+            pyxel.rect(z, w, 1, 1, COLORES["gris"])
+            z -= 1
+            w += 1
+
         # Dibujamos los elementos visuales de la cinta 0
         pyxel.rect(self.cinta0_x, y, 200, self.altoCinta, self.colorCinta)
         pyxel.rect(self.cinta0_x + 5, y, 40, 1, COLORES["gris"])
