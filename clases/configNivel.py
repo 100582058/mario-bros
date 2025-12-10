@@ -7,7 +7,7 @@ class ConfigNivel:
                  anadir_paquetes_cada, elimina_fallos, numPaqCinta,
         sepEntreCintas,
         anchoPaq,
-        altoPaq, dificultad):
+        altoPaq, dificultad, intervalos):
         # Parámetros relacionados con la dificultad del nivel
         self.controlesMario = controles_mario
         self.controlesLuigi = controles_luigi
@@ -18,6 +18,8 @@ class ConfigNivel:
         
         self.anadirPaquetesCada = anadir_paquetes_cada
         self.eliminaFallos = elimina_fallos
+
+        self.intervalos = intervalos
 
         # Parámetros externos a la dificultad del nivel
         self.numPaqCinta = numPaqCinta

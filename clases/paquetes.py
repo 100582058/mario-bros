@@ -308,10 +308,11 @@ class Paquetes(Elemento):
             pyxel.rect(0, 117, 33, 2, COLORES["marron"])
             pyxel.rect(225, 77, 33, 2, COLORES["marron"])
             pyxel.rect(253, 0, 3, 78, COLORES["marron"])
-            # Dibujamos una flecha indicando la direccion de la cinta
+            
+            # -- Dibujamos una flecha indicando la direccion de la cinta --
             flechasTotales = 3
             flechasX = self.posX
-            flechasY = y - 7
+            flechasY = y - 5
             tamanoFlecha, color = 3, COLORES["marron"]
             for i in range(flechasTotales):
                 flechasX += (self.anchoCinta / (flechasTotales + 1))

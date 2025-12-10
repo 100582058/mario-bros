@@ -47,6 +47,9 @@ def asignarDificultad(dificultad: str) -> ConfigNivel:
     velCintasPares = 1
     velCintasImpares = 1
 
+    # Numero de segundos que pasan hasta que salga un paquete
+    intervalos = [3.5, 3.5, 14, 7, 3.5, 7]
+
     if dificultad == "facil":
         numCintas = 5
         anadirPaquetesCada = 50
@@ -63,6 +66,10 @@ def asignarDificultad(dificultad: str) -> ConfigNivel:
         velCintasImpares = 2
         anadirPaquetesCada = 30
         eliminaFallos = 5
+
+        for i in range(len(intervalos)):
+            intervalos[i] /= 1.5
+
     elif dificultad == "crazy":
         controlesMario = (pyxel.KEY_DOWN, pyxel.KEY_UP)
         controlesLuigi = (pyxel.KEY_S, pyxel.KEY_W)
@@ -71,12 +78,15 @@ def asignarDificultad(dificultad: str) -> ConfigNivel:
         velCintasImpares = random.uniform(1, 2)
         anadirPaquetesCada = 20
         eliminaFallos = 10000
+        
+        for i in range(len(intervalos)):
+            intervalos[i] /= 1.5
+
     else:
         raise ValueError("Dificultad seleccionada no válida")
 
     # Añadimos parámetros independientes a la dificultad
-    numPaqCinta = 40  # 40 # ANTES: 50 (Así va más rápido para probar cosas)
-
+    numPaqCinta = 30
     sepEntreCintas = (HEIGHT - 25) / numCintas
     anchoPaq, altoPaq = 7, 4
 
@@ -93,7 +103,8 @@ def asignarDificultad(dificultad: str) -> ConfigNivel:
         sepEntreCintas,
         anchoPaq,
         altoPaq,
-        dificultad
+        dificultad,
+        intervalos
     )
 
 # Devuelve el menor valor

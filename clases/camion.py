@@ -7,7 +7,7 @@ class Camion(Elemento):
     def __init__(self, posX, posY, ancho, alto, color, config):
         super().__init__(posX, posY  + 2, ancho, alto, color)
 
-        self.carga = 6
+        self.carga = 0
 
         # Posición inicial, donde carga los paquetes
         self.__posicionCarga = posX
@@ -18,7 +18,7 @@ class Camion(Elemento):
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
         self.__dirMov = 0 
         # Se ejecuta el sonido de retroceso?
-        self.__compSonidoRetroceso = False
+        self.__compSonidoRetroceso = True
 
         # Almacena el número de repartos que se han hecho desde que se eliminó un fallo
         self.numRepartos = 0
@@ -63,7 +63,7 @@ class Camion(Elemento):
             if self.posX < self.__posicionCarga and self.__dirMov == 1:
                 self.posX += self.__velocidadCamionRetroceso
 
-                if self.__compSonidoRetroceso:  #Para que el sonido se ejecute solo 1 vez
+                if self.__compSonidoRetroceso:  # Para que el sonido se ejecute solo 1 vez
                     self.__compSonidoRetroceso = False
                     pyxel.play(1, 15) #sonido camión retroceso (mismo canal que los fallos porque al no poder
                                     # reproducirse a la vez no se puede glichear(así ahorramos un canal))
@@ -72,6 +72,7 @@ class Camion(Elemento):
 
             # Cuando vuelve a la posición original
             elif self.posX >= self.__posicionCarga:
+                self.posX = self.__posicionCarga
                 self.__dirMov = 0
                 self.__compSonidoRetroceso = True
 

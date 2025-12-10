@@ -18,8 +18,6 @@ def main():
     # Cargamos los archivos de música e imágenes
     pyxel.load("assets/my_resources.pyxres")
 
-    # DEBUG
-    pyxel.mouse(True)
     pyxel.run(update, draw)
 
 
@@ -70,9 +68,6 @@ def draw():
     elif fabrica.activa:
         # -- Fase 2: Juego --
         pyxel.cls(COLORES["carne"])
-        # DEBUG: Posicion del ratón
-        txt = f"({pyxel.mouse_x}, {pyxel.mouse_y})"
-        pyxel.text(5, 120, txt, 2)
         fabrica.draw()
 
 

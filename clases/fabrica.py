@@ -12,12 +12,11 @@ from utils.config import esCintaPar, COLORES, WIDTH, HEIGHT
 class Fabrica:
     def __init__(self, config):
         # Ahora la fábrica tiene todos los datos de la configuración del nivel
-        self.config = config
+        self.__config = config
         
         self.fallos = 0
-        self.compFallos = 0
         self.pausa = False
-        self.maxFallos = 30 # DEBUG
+        self.__maxFallos = 3
         self.activa = True
 
         self.__compMute = 1
@@ -26,61 +25,75 @@ class Fabrica:
         self.__repartosHastaElimFallo = config.eliminaFallos
 
         self.puntos = 0
-        self.puntosComp = 0
 
-        self.tiempoInicial = time.time()
+        self.__tiempoInicial = time.time()
         # Guarda el momento en el que se para el tiempo en un fallo. Lo inicializamos a 'TIEMPO'
-        self.tiempoPausado = time.time()
+        self.__tiempoPausado = time.time()
 
-        self.ultimoSpawn = time.time()
+        self.__ultimoSpawn = time.time()
         # Lista que especifica cuantos segundos hasta el spawn del proximo paquete
-        self.intervalos = [8, 8, 12, 8, 12, 10]
+        self.__intervalos = config.intervalos
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
-        self.indiceIntervalo = 0
+        self.__indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
-        self.tiempoSigPaq = time.time()
+        self.__tiempoSigPaq = time.time()
 
 
         # Atributos de la configuración del nivel
-        self.numCintas = self.config.numCintas
+        self.__numCintas = self.__config.numCintas
 
         self.crearJuego()
+
+    # --- PROPERTIES Y SETTERS ---
+    @property
+    def fallos(self):
+        return self.__fallos
+
+    @fallos.setter
+    def fallos(self, valor):
+        if isinstance(valor, int):
+            self.__fallos = valor
+        else:
+            raise TypeError("Debe ser un entero")
+        
+    @property
+    def puntos(self):
+        return self.__puntos
+
+    @puntos.setter
+    def puntos(self, valor):
+        if isinstance(valor, int):
+            self.__puntos = valor
+        else:
+            raise TypeError("Debe ser un entero")
 
     def crearJuego(self):
         # Pasamos el objeto ConfigNivel a los objetos
         # para que extraigan la información necesaria de la configuración
         yInicial = 25  # Indica la altura máxima a la que llegarían los personajes
         ancho, alto = 10, 11
-        yPersonajes = yInicial - alto + self.config.altoCinta - 2
+        yPersonajes = yInicial - alto + self.__config.altoCinta - 2
         self.luigi = Luigi(
-            "L", 45, yPersonajes, ancho, alto, COLORES["azulCeleste"], self.config.controlesLuigi, self.config)
+            "L", 45, yPersonajes, ancho, alto, COLORES["azulCeleste"], self.__config.controlesLuigi, self.__config)
         self.mario = Mario(
-            "M", 205, yPersonajes, ancho, alto, COLORES["magenta"], self.config.controlesMario, self.config)
+            "M", 205, yPersonajes, ancho, alto, COLORES["magenta"], self.__config.controlesMario, self.__config)
 
-        anchoCamion = (self.config.anchoPaq + 1) * 4
-        self.camion = Camion(10, 30, anchoCamion - 2, 5, COLORES["marron"], self.config)
+        anchoCamion = (self.__config.anchoPaq + 1) * 4
+        self.camion = Camion(10, 30, anchoCamion - 2, 5, COLORES["marron"], self.__config)
 
         self.paquetes = Paquetes(
             60,
             yInicial,
-            self.config.anchoPaq,
-            self.config.altoPaq,
+            self.__config.anchoPaq,
+            self.__config.altoPaq,
             COLORES["azulMarino"],
-            self.config.numPaqCinta,
-            self.config.numCintas,
-            self.config
+            self.__config.numPaqCinta,
+            self.__config.numCintas,
+            self.__config
         )
 
         # Añade un paquete al empezar
-        self.paquetes.lista0[10] = 1
-
-    @property
-    def fallos(self):
-        return self.__vidas
-
-    @fallos.setter
-    def fallos(self, valor):
-        self.__vidas = valor
+        self.paquetes.lista0[9] = 1
 
     # @property
     # def tiempoInicial(self):
@@ -101,12 +114,13 @@ class Fabrica:
             # Se mueven los paquetes si el juego no está en pausa
             self.__moverPaquetes()
             self.__anadirPaquetes()
-            self.paquetes.comprobarMinPaquetes(self.puntos)
+            if time.time() - self.__tiempoInicial >= 10:
+                self.paquetes.comprobarMinPaquetes(self.__puntos)
         else:
             # Esperar (5 + 1) segundos hasta volver a reanudar el juego
             tiempoActual = time.time()
-            tiempoPausado = tiempoActual - self.tiempoPausado
-            if tiempoPausado > self.config.pausaFallo + 1:
+            tiempoPausado = tiempoActual - self.__tiempoPausado
+            if tiempoPausado > self.__config.pausaFallo + 1:
                 self.pausa = False
 
     def __run(self):
@@ -120,7 +134,7 @@ class Fabrica:
         self.camion.mover_y_descargar()
 
         # Comprueba si ha perdido la partida
-        if self.fallos >= self.maxFallos:
+        if self.__fallos >= self.__maxFallos:
             self.activa = False
             self.pausa = True
             self.draw()
@@ -128,9 +142,9 @@ class Fabrica:
 
     def __comprobarRepartosCamion(self):
         # Elimina un fallo si se hacen 'repartosHastaElimFallo' repartos
-        if self.camion.numRepartos >= self.__repartosHastaElimFallo and self.fallos >= 1:
-            print("Fallo eliminado", self.camion.numRepartos, self.fallos, self.__repartosHastaElimFallo)
-            self.fallos -= 1
+        if self.camion.numRepartos >= self.__repartosHastaElimFallo and self.__fallos >= 1:
+            print("Fallo eliminado", self.camion.numRepartos, self.__fallos, self.__repartosHastaElimFallo)
+            self.__fallos -= 1
             # Reproducir el sonido de sumar una vida
             pyxel.play(1, 17)
             self.camion.numRepartos = 0
@@ -141,9 +155,9 @@ class Fabrica:
     def __moverPaquetes(self):
         # Actualizamos las cintas pares e impares por su cuenta
         velocidadInicial = 3
-        velPar = velocidadInicial / self.config.velCintasPares
-        velImpar = velocidadInicial / self.config.velCintasImpares
-        vel0 = velocidadInicial / self.config.velCinta0
+        velPar = velocidadInicial / self.__config.velCintasPares
+        velImpar = velocidadInicial / self.__config.velCintasImpares
+        vel0 = velocidadInicial / self.__config.velCinta0
 
         if pyxel.frame_count % int(velPar) == 0:
             self.__checkFalloPares()
@@ -159,38 +173,55 @@ class Fabrica:
 
     def __anadirPaquetes(self):
         ahora = time.time()  # tiempo actual, empezado a contar desde que se ejecuta
-        intervalo = self.intervalos[self.indiceIntervalo]
+        intervalo = self.__intervalos[self.__indiceIntervalo]
         # print("ahora", ahora)
         # Da el valor al contador regresivo de segundos para paquete
         # + 1 #Va un poco mal, igual necesita el +1
         # -3 para ajustarlo
-        self.tiempoSigPaq = (intervalo - (ahora - self.ultimoSpawn)) - 3
+        self.__tiempoSigPaq = (intervalo - (ahora - self.__ultimoSpawn)) - 3
 
-        if ahora - self.ultimoSpawn >= intervalo:
+        if ahora - self.__ultimoSpawn >= intervalo:
             self.paquetes.anadirPaqInicio()
 
             # reinicia el temporizador
-            self.ultimoSpawn = ahora
+            self.__ultimoSpawn = ahora
             # pasar al siguiente intervalo
-            self.indiceIntervalo += 1
-            if self.indiceIntervalo == len(self.intervalos):
-                self.indiceIntervalo = 0
+            self.__indiceIntervalo += 1
+            if self.__indiceIntervalo == len(self.__intervalos):
+                self.__indiceIntervalo = 0
 
     # Suma puntos y reproduce el sonido
     def __anadirPuntos(self, ptos):
-        self.puntos += ptos
+        self.__puntos += ptos
         pyxel.play(2, 16)
 
-    def draw(self):
-        if not self.activa:
-            pyxel.cls(COLORES["negro"])
-            tiempo = int(time.time() - self.tiempoInicial)
+    def __drawGameOver(self):
+        pyxel.cls(COLORES["negro"])
+        # --Dibujar el marco--
+        x = 0
+        y = 0
+        w = pyxel.width
+        h = pyxel.height
+        color = COLORES["azulMarino"]
+        for i in range(7): #Con esto se varía el grosor del rectángulo
+            if i >= 4:
+                color = COLORES["gris"]
+            pyxel.rectb(x, y, w, h, color)
+            x += 1
+            y += 1
+            w -= 2
+            h -= 2
+            
+            tiempo = int(time.time() - self.__tiempoInicial)
             tiempoMins = tiempo // 60
             tiempoSegs = int(tiempo - tiempoMins * 60)
-            txtFin = f"------ GAME OVER ------\n\nDIFICULTAD JUGADA: {self.config.dificultad.upper()}\n\nPUNTOS CONSEGUIDOS: {self.puntos}\n\nTIEMPO JUGADO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}"
+            txtFin = f"------ GAME OVER ------\n\nDIFICULTAD JUGADA: {self.__config.dificultad.upper()}\n\nPUNTOS CONSEGUIDOS: {self.__puntos}\n\nTIEMPO JUGADO: {tiempoMins:02.0f}:{tiempoSegs:02.0f}"
             pyxel.text(80, 40, txtFin, COLORES["magenta"])
             pyxel.stop()
 
+    def draw(self):
+        if not self.activa:
+            self.__drawGameOver()
         else:
             # Muestra las cintas y los paquetes
             self.paquetes.draw()
@@ -203,7 +234,7 @@ class Fabrica:
             self.camion.draw()
 
             # -- Muestra el texto superior con informacion --
-            tiempo = int(time.time() - self.tiempoInicial)
+            tiempo = int(time.time() - self.__tiempoInicial)
             tiempoMins = tiempo // 60
             tiempoSegs = int(tiempo - tiempoMins * 60)
             x = -40  # Mover el conjunto en x
@@ -218,12 +249,12 @@ class Fabrica:
             # Muesta los puntos
 
             pyxel.text(x+z+120, y+w + 5,
-                    f"PUNTOS: {self.puntos}", COLORES["amarillo"])
+                    f"PUNTOS: {self.__puntos}", COLORES["amarillo"])
 
             pyxel.text(x + 49, y + w + 5, f"MARIO BROS", COLORES["blanco"])
             # Muestra los fallos
             pyxel.text(x + z + 170, y+w + 5,
-                    f"FALLOS: {self.fallos}", COLORES["magenta"])
+                    f"FALLOS: {self.__fallos}", COLORES["magenta"])
             #Muestra como mutear
             #soporte
             pyxel.rect(213, 13, 41, 4, COLORES["marron"])
@@ -246,8 +277,8 @@ class Fabrica:
     # Y suman puntos si el personaje sí está en esa cinta
     def __checkFalloPares(self):
         x = self.paquetes.longitudX - 1
-        for y in range(1, self.numCintas):
-            if self.paquetes.matriz[y][0] != 0 and esCintaPar(y, self.numCintas):
+        for y in range(1, self.__numCintas):
+            if self.paquetes.matriz[y][0] != 0 and esCintaPar(y, self.__numCintas):
                 if not self.luigi.estaEnPiso(y):  # luigi es el de la izda
                     print("Luigi falla", x, y)
                     self.__anadirFalloYElimPaq(0, y)
@@ -262,7 +293,7 @@ class Fabrica:
                 self.__anadirPuntos(1)
                 # Controla cuando se llena el camión para pausar el juego
                 if self.camion.carga >= 8:
-                    self.tiempoPausado = time.time()
+                    self.__tiempoPausado = time.time()
                     self.pausa = True
                     self.__anadirPuntos(10)
                     # Eliminamos los paquetes al final de las cintas
@@ -275,8 +306,8 @@ class Fabrica:
 
     def __checkFalloImpares(self):
         x = self.paquetes.longitudX - 1
-        for y in range(1, self.numCintas):
-            if self.paquetes.matriz[y][x] != 0 and not esCintaPar(y, self.numCintas):
+        for y in range(1, self.__numCintas):
+            if self.paquetes.matriz[y][x] != 0 and not esCintaPar(y, self.__numCintas):
                 if not self.mario.estaEnPiso(y):
                     # print(self.paquetes)
                     print("Mario falla",  x, y)
@@ -289,7 +320,7 @@ class Fabrica:
     def __checkFalloCinta0(self):
         # Comprueba si hay un paquete en la lista0 listo para ser añadido a la matriz
         if self.paquetes.lista0[0] != 0:
-            if not self.mario.estaEnPiso(self.numCintas - 1):
+            if not self.mario.estaEnPiso(self.__numCintas - 1):
                 # Añadimos un fallo y eliminamos el paquete
                 self.__anadirFalloYElimPaq(0)
                 self.mario.reganar()
@@ -304,10 +335,10 @@ class Fabrica:
     def __anadirFalloYElimPaq(self, x=None, y=None):
         self.pausa = True
         # Añade un fallo y reproduce el sonido
-        self.fallos += 1
+        self.__fallos += 1
         self.__reproducirFallo()
 
-        self.tiempoPausado = time.time()
+        self.__tiempoPausado = time.time()
         # Eliminamos el paquete de la matriz
         if x != None and y != None:
             self.paquetes.matriz[y][x] = 0
