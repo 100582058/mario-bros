@@ -131,7 +131,7 @@ BBBB   R   R   OOOO   SSSS
         x = 18
         y = 25
 
-        i = 0  # REFACTOR: Es un contador, pero no me gustaba llamarlo contador
+        i = 0  # Es un contador, pero no me gustaba llamarlo contador
         for nombre in self.opciones:     #Así hacemos que "nombre" represente el nombre de las dificultades en función de su posicion en la lista
             color = self.colores[nombre] #utilizamos el diccionario para decidir el color del rectángulo
 

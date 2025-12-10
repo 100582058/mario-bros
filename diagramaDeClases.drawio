@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="Python UML Generator" version="22.0.0" type="device">
+  <diagram id="uml-sprint4" name="UML Sprint 4">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Camion&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ carga : int&lt;br/&gt;+ numRepartos : int&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(posX, posY, ancho, alto, color, config)&lt;br/&gt;- __dibujarPaquete(x, y)&lt;br/&gt;+ carga()&lt;br/&gt;+ carga(valor)&lt;br/&gt;+ mover_y_descargar()&lt;br/&gt;+ draw()&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="250" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ConfigNivel&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ controlesMario&lt;br/&gt;+ controlesLuigi&lt;br/&gt;+ velCinta0&lt;br/&gt;+ velCintasPares&lt;br/&gt;+ velCintasImpares&lt;br/&gt;+ numCintas&lt;br/&gt;+ anadirPaquetesCada&lt;br/&gt;+ eliminaFallos&lt;br/&gt;+ intervalos&lt;br/&gt;+ numPaqCinta&lt;br/&gt;+ sepEntreCintas&lt;br/&gt;+ anchoPaq&lt;br/&gt;+ altoPaq&lt;br/&gt;+ anchoCinta : int&lt;br/&gt;+ altoCinta : int&lt;br/&gt;+ tiempoInicial&lt;br/&gt;+ dificultad&lt;br/&gt;+ pausaFallo : int&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(controles_mario, controles_luigi, vel_cinta_0, vel_cintas_pares, vel_cintas_impares, num_cintas, anadir_paquetes_cada, elimina_fallos, numPaqCinta, sepEntreCintas, anchoPaq, altoPaq, dificultad, intervalos)&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="50" width="250" height="440" as="geometry"/>
+        </mxCell>
+        <mxCell id="4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Elemento&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ posX&lt;br/&gt;+ posY&lt;br/&gt;+ ancho&lt;br/&gt;+ alto&lt;br/&gt;+ color&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(x, y, ancho, alto, color)&lt;br/&gt;+ posX()&lt;br/&gt;+ posX(valor)&lt;br/&gt;+ posY()&lt;br/&gt;+ posY(valor)&lt;br/&gt;+ ancho()&lt;br/&gt;+ ancho(valor)&lt;br/&gt;+ alto()&lt;br/&gt;+ alto(valor)&lt;br/&gt;+ color()&lt;br/&gt;+ color(valor)&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="750" y="50" width="250" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="5" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Fabrica&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ fallos : int&lt;br/&gt;+ pausa : bool&lt;br/&gt;+ activa : bool&lt;br/&gt;+ puntos : int&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(config)&lt;br/&gt;+ fallos()&lt;br/&gt;+ fallos(valor)&lt;br/&gt;+ puntos()&lt;br/&gt;+ puntos(valor)&lt;br/&gt;+ crearJuego()&lt;br/&gt;+ juegoRun()&lt;br/&gt;- __run()&lt;br/&gt;- __comprobarRepartosCamion()&lt;br/&gt;- __reproducirFallo()&lt;br/&gt;- __moverPaquetes()&lt;br/&gt;- __anadirPaquetes()&lt;br/&gt;- __anadirPuntos(ptos)&lt;br/&gt;- __drawGameOver()&lt;br/&gt;+ draw()&lt;br/&gt;- __checkFalloPares()&lt;br/&gt;- __checkFalloImpares()&lt;br/&gt;- __checkFalloCinta0()&lt;br/&gt;- __anadirFalloYElimPaq(x, y)&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="350" width="250" height="760" as="geometry"/>
+        </mxCell>
+        <mxCell id="6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Luigi&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(id_personaje, posX, posY, ancho, alto, color, controles, config)&lt;br/&gt;+ mover()&lt;br/&gt;+ intentarCambiarPlanta(direccion)&lt;br/&gt;+ draw()&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="350" width="250" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="7" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Mario&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(id_personaje, posX, posY, ancho, alto, color, controles, config)&lt;br/&gt;+ mover()&lt;br/&gt;+ intentarCambiarPlanta(direccion)&lt;br/&gt;+ draw()&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="750" y="350" width="250" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="8" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PantallaInicio&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ opciones : list&lt;br/&gt;+ colores : dict&lt;br/&gt;+ seleccion : int&lt;br/&gt;+ activa : bool&lt;br/&gt;+ cancionJuego : bool&lt;br/&gt;+ dificultadSeleccionada : NoneType&lt;br/&gt;+ timerUp : int&lt;br/&gt;+ timerDown : int&lt;br/&gt;+ comparador : int&lt;br/&gt;+ parpadeoCol : int&lt;br/&gt;+ conpCancion : int&lt;br/&gt;+ contadorMusica : int&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__()&lt;br/&gt;+ btnCheck()&lt;br/&gt;+ update()&lt;br/&gt;+ draw()&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="650" width="250" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="9" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Paquetes&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ longitudX&lt;br/&gt;+ longitudY&lt;br/&gt;+ numCintas&lt;br/&gt;+ anchoCinta&lt;br/&gt;+ altoCinta&lt;br/&gt;+ colorCinta&lt;br/&gt;+ sepEntrePaqs&lt;br/&gt;+ sepEntreCintas&lt;br/&gt;+ paqBorrandose : list&lt;br/&gt;+ inicioAnimacion&lt;br/&gt;+ tiempoVisible : float&lt;br/&gt;+ tiemoInvisible : float&lt;br/&gt;+ totalAnimacion : float&lt;br/&gt;+ paqBorrandose0 : NoneType&lt;br/&gt;+ matriz&lt;br/&gt;+ len_cinta0&lt;br/&gt;+ cinta0_x : int&lt;br/&gt;+ fuego1 : int&lt;br/&gt;+ fuego2 : int&lt;br/&gt;+ fuego3 : int&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(inicioX, inicioY, anchoPaq, altoPaq, color, longitudX, longitudY, config)&lt;br/&gt;+ longitudX()&lt;br/&gt;+ longitudX(valor)&lt;br/&gt;+ longitudY()&lt;br/&gt;+ longitudY(valor)&lt;br/&gt;+ numCintas()&lt;br/&gt;+ numCintas(valor)&lt;br/&gt;+ crearMatriz(longitudX, longitudY)&lt;br/&gt;+ crearlista0()&lt;br/&gt;+ actualizarLista0()&lt;br/&gt;+ actualizarPaquetes(grupo)&lt;br/&gt;+ moverDcha(fila, x)&lt;br/&gt;+ subirPaquete(x, y)&lt;br/&gt;+ anadirPaqInicio()&lt;br/&gt;- __dibujarPaq(x, y, nivelPaquete)&lt;br/&gt;+ draw()&lt;br/&gt;- __animacionPaqMatriz()&lt;br/&gt;- __animacionPaqCinta0()&lt;br/&gt;+ comprobarMinPaquetes(ptos)&lt;br/&gt;- __paqsEnJuego()&lt;br/&gt;- __paqueteCercaPersonaje(distancia)&lt;br/&gt;+ eliminPaquetesBorde(d)&lt;br/&gt;+ animar(x, y)&lt;br/&gt;# __str__()&lt;br/&gt;# __repr__()&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="650" width="250" height="1000" as="geometry"/>
+        </mxCell>
+        <mxCell id="10" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Personaje&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ id&lt;br/&gt;+ controles&lt;br/&gt;+ planta&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(id_personaje, posX, posY, ancho, alto, color, controles, config)&lt;br/&gt;+ controles()&lt;br/&gt;+ controles(valor)&lt;br/&gt;+ id()&lt;br/&gt;+ id(valor)&lt;br/&gt;+ sepEntreCintas()&lt;br/&gt;+ sepEntreCintas(valor)&lt;br/&gt;+ numCintas()&lt;br/&gt;+ numCintas(valor)&lt;br/&gt;+ intentarCambiarPlanta(direccion)&lt;br/&gt;+ subir(mult)&lt;br/&gt;+ bajar(mult)&lt;br/&gt;+ mover()&lt;br/&gt;+ estaEnPiso(piso)&lt;br/&gt;+ reganar()&lt;br/&gt;+ draw()&lt;br/&gt;- __animarJefe(posX, y)&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="750" y="650" width="250" height="660" as="geometry"/>
+        </mxCell>
+        <mxCell id="11" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AnalizadorUML&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ ruta : Path&lt;br/&gt;+ clases : dict&lt;br/&gt;+ dependencias : list&lt;br/&gt;+ herencias : list&lt;br/&gt;+ archivo_actual&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;# __init__(ruta_proyecto)&lt;br/&gt;+ analizar_archivo(archivo)&lt;br/&gt;+ analizar_clase(node, archivo, imports)&lt;br/&gt;+ inferir_tipo(node)&lt;br/&gt;+ analizar_proyecto()&lt;br/&gt;+ detectar_herencias()&lt;br/&gt;+ detectar_dependencias()&lt;br/&gt;&lt;/p&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="950" width="250" height="300" as="geometry"/>
+        </mxCell>
+        <mxCell id="12" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" edge="1" parent="1" source="2" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="13" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" edge="1" parent="1" source="6" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="14" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" edge="1" parent="1" source="7" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="15" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" edge="1" parent="1" source="9" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="16" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" edge="1" parent="1" source="10" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="17" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="2" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="18" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="5" target="7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="19" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="20" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="5" target="9">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="21" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="5" target="2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="22" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="6" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="23" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="7" target="10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="24" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="9" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="25" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;" edge="1" parent="1" source="10" target="4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

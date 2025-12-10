@@ -1,0 +1,270 @@
+('C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+ 'final\\build\\Game And Watch - EES-MGL\\Game And Watch - EES-MGL.pkg',
+ {'BINARY': True,
+  'DATA': True,
+  'EXECUTABLE': True,
+  'EXTENSION': True,
+  'PYMODULE': True,
+  'PYSOURCE': True,
+  'PYZ': False,
+  'SPLASH': True,
+  'SYMLINK': False},
+ [('pyi-contents-directory _internal', '', 'OPTION'),
+  ('PYZ-00.pyz',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\build\\Game And Watch - EES-MGL\\PYZ-00.pyz',
+   'PYZ'),
+  ('struct',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\build\\Game And Watch - EES-MGL\\localpycs\\struct.pyc',
+   'PYMODULE'),
+  ('pyimod01_archive',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\build\\Game And Watch - EES-MGL\\localpycs\\pyimod01_archive.pyc',
+   'PYMODULE'),
+  ('pyimod02_importers',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\build\\Game And Watch - EES-MGL\\localpycs\\pyimod02_importers.pyc',
+   'PYMODULE'),
+  ('pyimod03_ctypes',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\build\\Game And Watch - EES-MGL\\localpycs\\pyimod03_ctypes.pyc',
+   'PYMODULE'),
+  ('pyimod04_pywin32',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\build\\Game And Watch - EES-MGL\\localpycs\\pyimod04_pywin32.pyc',
+   'PYMODULE'),
+  ('pyiboot01_bootstrap',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'PYSOURCE'),
+  ('pyi_rth_inspect',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
+   'PYSOURCE'),
+  ('main',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\main.py',
+   'PYSOURCE'),
+  ('python312.dll',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\python312.dll',
+   'BINARY'),
+  ('unicodedata.pyd',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\DLLs\\unicodedata.pyd',
+   'EXTENSION'),
+  ('_decimal.pyd',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\DLLs\\_decimal.pyd',
+   'EXTENSION'),
+  ('_hashlib.pyd',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\DLLs\\_hashlib.pyd',
+   'EXTENSION'),
+  ('select.pyd',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\DLLs\\select.pyd',
+   'EXTENSION'),
+  ('_socket.pyd',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\DLLs\\_socket.pyd',
+   'EXTENSION'),
+  ('_lzma.pyd',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\DLLs\\_lzma.pyd',
+   'EXTENSION'),
+  ('_bz2.pyd',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\DLLs\\_bz2.pyd',
+   'EXTENSION'),
+  ('pyxel\\pyxel_wrapper.pyd',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\pyxel\\pyxel_wrapper.pyd',
+   'EXTENSION'),
+  ('VCRUNTIME140.dll',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\VCRUNTIME140.dll',
+   'BINARY'),
+  ('libcrypto-3.dll',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\DLLs\\libcrypto-3.dll',
+   'BINARY'),
+  ('python3.dll',
+   'C:\\Users\\marco\\AppData\\Local\\Programs\\Python\\Python312\\python3.dll',
+   'BINARY'),
+  ('assets\\PyxelPersonajes.pyxres',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\PyxelPersonajes.pyxres',
+   'DATA'),
+  ('assets\\__pycache__\\pyxel.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\__pycache__\\pyxel.cpython-312.pyc',
+   'DATA'),
+  ('assets\\alejandro.pyxres',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\alejandro.pyxres',
+   'DATA'),
+  ('assets\\atlas.png',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\atlas.png',
+   'DATA'),
+  ('assets\\combinarArchivos.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\combinarArchivos.py',
+   'DATA'),
+  ('assets\\mapa.png',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\mapa.png',
+   'DATA'),
+  ('assets\\musicaFondo.pyxres',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\musicaFondo.pyxres',
+   'DATA'),
+  ('assets\\musicas_y_sonidos.pyxres',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\musicas_y_sonidos.pyxres',
+   'DATA'),
+  ('assets\\my_resources.pyxres',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\my_resources.pyxres',
+   'DATA'),
+  ('assets\\objetos.png',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\assets\\objetos.png',
+   'DATA'),
+  ('clases\\__pycache__\\__init__.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\__init__.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\camion.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\camion.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\camion.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\camion.cpython-314.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\configNivel.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\configNivel.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\configNivel.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\configNivel.cpython-314.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\elemento.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\elemento.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\elemento.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\elemento.cpython-314.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\fabrica.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\fabrica.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\fabrica.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\fabrica.cpython-314.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\luigi.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\luigi.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\luigi.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\luigi.cpython-314.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\mario.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\mario.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\mario.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\mario.cpython-314.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\pantallaInicio.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\pantallaInicio.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\pantallaInicio.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\pantallaInicio.cpython-314.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\paquetes.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\paquetes.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\paquetes.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\paquetes.cpython-314.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\personaje.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\personaje.cpython-312.pyc',
+   'DATA'),
+  ('clases\\__pycache__\\personaje.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\__pycache__\\personaje.cpython-314.pyc',
+   'DATA'),
+  ('clases\\camion.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\camion.py',
+   'DATA'),
+  ('clases\\configNivel.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\configNivel.py',
+   'DATA'),
+  ('clases\\elemento.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\elemento.py',
+   'DATA'),
+  ('clases\\fabrica.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\fabrica.py',
+   'DATA'),
+  ('clases\\luigi.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\luigi.py',
+   'DATA'),
+  ('clases\\mario.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\mario.py',
+   'DATA'),
+  ('clases\\pantallaInicio.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\pantallaInicio.py',
+   'DATA'),
+  ('clases\\paquetes.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\paquetes.py',
+   'DATA'),
+  ('clases\\personaje.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\clases\\personaje.py',
+   'DATA'),
+  ('utils\\__pycache__\\config.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\utils\\__pycache__\\config.cpython-312.pyc',
+   'DATA'),
+  ('utils\\__pycache__\\config.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\utils\\__pycache__\\config.cpython-314.pyc',
+   'DATA'),
+  ('utils\\__pycache__\\funciones.cpython-312.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\utils\\__pycache__\\funciones.cpython-312.pyc',
+   'DATA'),
+  ('utils\\__pycache__\\funciones.cpython-314.pyc',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\utils\\__pycache__\\funciones.cpython-314.pyc',
+   'DATA'),
+  ('utils\\colores.png',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\utils\\colores.png',
+   'DATA'),
+  ('utils\\config.py',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\utils\\config.py',
+   'DATA'),
+  ('base_library.zip',
+   'C:\\Users\\marco\\Desktop\\Marco\\1. Primero en IA\\Programación\\Proyecto '
+   'final\\build\\Game And Watch - EES-MGL\\base_library.zip',
+   'DATA')],
+ 'python312.dll',
+ False,
+ False,
+ False,
+ [],
+ None,
+ None,
+ None)

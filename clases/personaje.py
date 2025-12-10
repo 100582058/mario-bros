@@ -3,7 +3,6 @@ import time
 
 from utils.config import COLORES
 from clases.elemento import Elemento
-from utils.funciones import dibujar
 
 
 class Personaje(Elemento):

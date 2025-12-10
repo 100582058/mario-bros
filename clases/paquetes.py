@@ -36,27 +36,27 @@ class Paquetes(Elemento):
         # -- Animación del paquete borrándose --
         # Guarda la posicion (x, y) del paquete
         self.paqBorrandose = []
-        self.inicioAnimacion = time.time()
-        self.tiempoVisible = 0.2
-        self.tiemoInvisible = 0.15
-        self.totalAnimacion = 1.25
+        self.__inicioAnimacion = time.time()
+        self.__tiempoVisible = 0.2
+        self.__tiempoInvisible = 0.15
+        self.__totalAnimacion = 1.25
         # Guarda la posicion x del paquete en la cinta 0
         # Mismos tiempos de animación que el resto de paquetes
-        self.paqBorrandose0 = None
+        self.__paqBorrandose0 = None
 
         # Creamos la matriz con los paquetes
-        self.matriz = self.crearMatriz(longitudX, longitudY)
+        self.matriz = self.__crearMatriz(longitudX, longitudY)
         # Creamos la lista de 1D con los paquetes de la cinta 0
-        # REFACTOR? 9 posiciones usadas, mas 9 por si hay paquetes cerca de los personajes
-        self.len_cinta0 = longitudX
-        self.cinta0_x = 220  # 220
-        self.crearlista0()
+        self.__len_cinta0 = longitudX
+        self.__cinta0_x = 220  # 220
+        self.__crearlista0()
 
         #horno
-        self.fuego1 = 0
-        self.fuego2 = 0
-        self.fuego3 = 0
+        self.__fuego1 = 0
+        self.__fuego2 = 0
+        self.__fuego3 = 0
 
+    # --- PROPERTIES Y SETTERS ---
     @property
     def longitudX(self):
         return self.__longitudX
@@ -90,7 +90,7 @@ class Paquetes(Elemento):
         else:
             raise TypeError("El número de cintas debe ser un entero positivo")
 
-    def crearMatriz(self, longitudX, longitudY):
+    def __crearMatriz(self, longitudX, longitudY):
         matriz = []
         for y in range(longitudY):
             fila = []
@@ -99,16 +99,16 @@ class Paquetes(Elemento):
             matriz.append(fila)
         return matriz
 
-    def crearlista0(self):
+    def __crearlista0(self):
         self.lista0 = []
         # for x in range(self.longitudX):
-        for x in range(self.len_cinta0):
+        for x in range(self.__len_cinta0):
             self.lista0.append(0)
         # print("lista0", self.lista0)
 
     def actualizarLista0(self):
         # Comprueba indices donde hay unos y los mueve hacia la izquierda
-        for i in range(1, self.len_cinta0):
+        for i in range(1, self.__len_cinta0):
             if self.lista0[i] != 0:
                 self.lista0[i] = 0
                 self.lista0[i - 1] = 1
@@ -138,7 +138,7 @@ class Paquetes(Elemento):
             x = self.longitudX - 1
             if filaActual[x] != 0:
                 # Subimos el paquete al lado correcto
-                self.subirPaquete(x, y)
+                self.__subirPaquete(x, y)
                 # Eliminamos la posición actual del paquete de la variable 'filaActual'
                 filaActual[x] = 0
 
@@ -146,13 +146,13 @@ class Paquetes(Elemento):
             # Bucle inverso desde el penúltimo elemento hasta el primero (índice 0)
             for x in range(self.longitudX - 2, -1, -1):
                 if filaActual[x] != 0:
-                    filaActual = self.moverDcha(filaActual, x)
+                    filaActual = self.__moverDcha(filaActual, x)
             # Le damos la vuelta otra vez, si es necesario
             if esCintaPar(y, self.__numCintas):
                 filaActual.reverse()
             self.matriz[y] = filaActual
 
-    def moverDcha(self, fila, x):
+    def __moverDcha(self, fila, x):
         # -- Mueve un paquete a la siguiente posición --
         if x + 1 < self.longitudX:
             # Movemos la posición del paquete de (x, y) a (x + 1, y)
@@ -163,7 +163,7 @@ class Paquetes(Elemento):
             print("ERROR: Paquete al final, se debería haber subido")
         return fila
 
-    def subirPaquete(self, x, y):
+    def __subirPaquete(self, x, y):
         if y != 0:
             valorActual = self.matriz[y][x]
             self.matriz[y][x] = 0
@@ -213,7 +213,7 @@ class Paquetes(Elemento):
     def draw(self):
         # -- Dibujamos la cinta 0 de paquetes --
         # Dibujamos los paquetes de la cinta 0
-        x = self.cinta0_x
+        x = self.__cinta0_x
         # La lista 0 debe estar a la altura de la última cinta de paquetes
         y = self.posY + (self.longitudY - 1) * self.sepEntreCintas
         for i in range(len(self.lista0)):
@@ -250,32 +250,32 @@ class Paquetes(Elemento):
             w += 1
 
         # Dibujamos los elementos visuales de la cinta 0
-        pyxel.rect(self.cinta0_x, y, 200, self.altoCinta, self.colorCinta)
-        pyxel.rect(self.cinta0_x + 5, y, 40, 1, COLORES["gris"])
-        pyxel.rect(self.cinta0_x - 25, y + 3, 25, 1, COLORES["marron"])
+        pyxel.rect(self.__cinta0_x, y, 200, self.altoCinta, self.colorCinta)
+        pyxel.rect(self.__cinta0_x + 5, y, 40, 1, COLORES["gris"])
+        pyxel.rect(self.__cinta0_x - 25, y + 3, 25, 1, COLORES["marron"])
      #   pyxel.rect(self.cinta0_x - 18, y -70, 1, 75, COLORES["azul"])
      #   pyxel.rect(self.cinta0_x - 5, y - 70, 1, 75, COLORES["azul"])
-        pyxel.rect(self.cinta0_x - 18, y , 16, 3, COLORES["marron"])
-        pyxel.rect(self.cinta0_x - 16, y, 12, 2, COLORES["morado"])
+        pyxel.rect(self.__cinta0_x - 18, y , 16, 3, COLORES["marron"])
+        pyxel.rect(self.__cinta0_x - 16, y, 12, 2, COLORES["morado"])
 
         #Fuego del horno
         if pyxel.frame_count % 2 == 0:  # Para no dañar epilepticos (cambia de color cada 2 frames)
-            self.fuego1 = random.randint(0, 9)
-            self.fuego2 = random.randint(0, 9)
-            self.fuego3 = random.randint(0, 9)
+            self.__fuego1 = random.randint(0, 9)
+            self.__fuego2 = random.randint(0, 9)
+            self.__fuego3 = random.randint(0, 9)
         z = 30
         w = -8
-        pyxel.rect(self.cinta0_x -3 + z, y - 3 + w, 9, 11, COLORES["negro"])
-        pyxel.rect(self.cinta0_x -1 + z, y - 1+ w, 5, 7, COLORES["gris"])
-        pyxel.rect(self.cinta0_x +z, y +w, 3, 5, random.randint(8, 10))
-        pyxel.text(self.cinta0_x +z, y +w, f"{self.fuego1}", random.randint(8, 10)) # del 8 al 10 son el naranja, amarillo y rojo
-        pyxel.text(self.cinta0_x +z, y +w, f"{self.fuego2}", random.randint(8, 10))
-        pyxel.text(self.cinta0_x +z, y +w, f"{self.fuego3}", random.randint(8, 10))
+        pyxel.rect(self.__cinta0_x -3 + z, y - 3 + w, 9, 11, COLORES["negro"])
+        pyxel.rect(self.__cinta0_x -1 + z, y - 1+ w, 5, 7, COLORES["gris"])
+        pyxel.rect(self.__cinta0_x +z, y +w, 3, 5, random.randint(8, 10))
+        pyxel.text(self.__cinta0_x +z, y +w, f"{self.__fuego1}", random.randint(8, 10)) # del 8 al 10 son el naranja, amarillo y rojo
+        pyxel.text(self.__cinta0_x +z, y +w, f"{self.__fuego2}", random.randint(8, 10))
+        pyxel.text(self.__cinta0_x +z, y +w, f"{self.__fuego3}", random.randint(8, 10))
         #chimenea
-        pyxel.rect(self.cinta0_x + z, y - 10 + w, 3, 7, COLORES["gris"])
-        pyxel.rect(self.cinta0_x + z, y - 10 + w, 7, 3, COLORES["gris"])
-        pyxel.rect(self.cinta0_x + 4 + z, y - 10 + w, 1, 3, COLORES["azulMarino"])
-        pyxel.rect(self.cinta0_x + z, y - 6 + w, 3, 1, COLORES["azulMarino"])
+        pyxel.rect(self.__cinta0_x + z, y - 10 + w, 3, 7, COLORES["gris"])
+        pyxel.rect(self.__cinta0_x + z, y - 10 + w, 7, 3, COLORES["gris"])
+        pyxel.rect(self.__cinta0_x + 4 + z, y - 10 + w, 1, 3, COLORES["azulMarino"])
+        pyxel.rect(self.__cinta0_x + z, y - 6 + w, 3, 1, COLORES["azulMarino"])
 
 
         # -- Dibujamos las cintas --
@@ -285,24 +285,24 @@ class Paquetes(Elemento):
                        self.altoCinta, self.colorCinta)
             pyxel.rect(self.posX + 5, y, self.anchoCinta - 10,
                        self.altoCinta - 3, COLORES["gris"])
-            # Dibujamos las plataformas donde se apoyan los personajes REFACTOR, usar método self.__dibujarPlataforma()
+            # Dibujamos las plataformas donde se apoyan los personajes
             if j % 2 == 0 and j != 0:
                 pyxel.rect(self.posX - 18, y + 3, self.anchoCinta -
                        122, self.altoCinta - 3, COLORES["marron"])
-                pyxel.rect(self.cinta0_x - 178, y, 16, 3, COLORES["marron"])
-                pyxel.rect(self.cinta0_x - 176, y, 12, 2, COLORES["azul12"])
+                pyxel.rect(self.__cinta0_x - 178, y, 16, 3, COLORES["marron"])
+                pyxel.rect(self.__cinta0_x - 176, y, 12, 2, COLORES["azul12"])
 
             if j == 0:
                 pyxel.rect(self.posX - 18, y + 3, self.anchoCinta -
                            122, self.altoCinta - 3, COLORES["marron"])
-                pyxel.rect(self.cinta0_x - 178, y, 16, 3, COLORES["marron"])
-                pyxel.rect(self.cinta0_x - 176, y, 12, 2, COLORES["morado"])
+                pyxel.rect(self.__cinta0_x - 178, y, 16, 3, COLORES["marron"])
+                pyxel.rect(self.__cinta0_x - 176, y, 12, 2, COLORES["morado"])
 
             if j % 2 == 1:
                 pyxel.rect(self.posX + 140, y + 3, self.anchoCinta -
                        122, self.altoCinta - 3, COLORES["marron"])
-                pyxel.rect(self.cinta0_x - 18, y, 16, 3, COLORES["marron"])
-                pyxel.rect(self.cinta0_x - 16, y, 12, 2, COLORES["azul12"])
+                pyxel.rect(self.__cinta0_x - 18, y, 16, 3, COLORES["marron"])
+                pyxel.rect(self.__cinta0_x - 16, y, 12, 2, COLORES["azul12"])
 
             #Soporte plataformas de castigo
             pyxel.rect(0, 117, 33, 2, COLORES["marron"])
@@ -348,7 +348,7 @@ class Paquetes(Elemento):
         if len(self.paqBorrandose) > 0:
             self.__animacionPaqMatriz()
         # Si es distinto de None
-        if self.paqBorrandose0 != None:
+        if self.__paqBorrandose0 != None:
             self.__animacionPaqCinta0()
 
     def __animacionPaqMatriz(self):
@@ -356,10 +356,10 @@ class Paquetes(Elemento):
         x = self.posX + i * self.sepEntrePaqs
         y = self.posY + j * self.sepEntreCintas - self.altoCinta
 
-        tiempoTranscurrido = time.time() - self.inicioAnimacion
-        if tiempoTranscurrido < self.totalAnimacion:
-            t = tiempoTranscurrido % (self.tiemoInvisible + self.tiempoVisible)
-            if t < self.tiempoVisible:
+        tiempoTranscurrido = time.time() - self.__inicioAnimacion
+        if tiempoTranscurrido < self.__totalAnimacion:
+            t = tiempoTranscurrido % (self.__tiempoInvisible + self.__tiempoVisible)
+            if t < self.__tiempoVisible:
                 self.__dibujarPaq(x, y, self.numCintas - j)
                 # print("borrandose", i, j, "-->", self.numCintas - j)
         else:
@@ -367,18 +367,18 @@ class Paquetes(Elemento):
             self.paqBorrandose = []
     
     def __animacionPaqCinta0(self):
-        j = self.paqBorrandose0
-        x = self.cinta0_x
+        j = self.__paqBorrandose0
+        x = self.__cinta0_x
         y = self.posY + (self.numCintas - 1) * self.sepEntreCintas - self.altoCinta
 
-        tiempoTranscurrido = time.time() - self.inicioAnimacion
-        if tiempoTranscurrido < self.totalAnimacion:
-            t = tiempoTranscurrido % (self.tiemoInvisible + self.tiempoVisible)
-            if t < self.tiempoVisible:
+        tiempoTranscurrido = time.time() - self.__inicioAnimacion
+        if tiempoTranscurrido < self.__totalAnimacion:
+            t = tiempoTranscurrido % (self.__tiempoInvisible + self.__tiempoVisible)
+            if t < self.__tiempoVisible:
                 self.__dibujarPaq(x, y)
         else:
             # Se acaba la animación
-            self.paqBorrandose0 = None
+            self.__paqBorrandose0 = None
 
     # Comprueba que haya el mínimo de paquetes pedido (según la dificultad)
     # Y aumenta la cantidad de paquetes mínimos cada X puntos
@@ -388,7 +388,6 @@ class Paquetes(Elemento):
         if paquetesEnJuego <= self.__paqsMinimosEnJuego:
             print("No se cumple el número de paquetes mínimos! Se añade un paquete", f"Paquetes en juego: {paquetesEnJuego}")
             self.anadirPaqInicio()
-
 
     def __paqsEnJuego(self):
         # Cuenta cuantos paquetes hay actualmente en juego (no tiene en cuenta la última fila, ya que ese paquete va a desaparecer pronto)
@@ -404,7 +403,7 @@ class Paquetes(Elemento):
         return sum
 
     # Comprueba si hay algun paquete a menos de 'distancia' distancia de los personajes cuando ocurre un fallo
-    # Devuelve la posición del paquete en forma de tupla (equivalente a True) o False REFACTOR -> Solo para DEBUG?
+    # Devuelve la posición del paquete en forma de tupla (equivalente a True) o False
     def __paqueteCercaPersonaje(self, distancia=8):  # 2
         # Comprobamos por la izquierda
         for j in range(self.longitudY):
@@ -428,7 +427,7 @@ class Paquetes(Elemento):
         # Si no, devuelve falso (en forma de tupla para seguir con el formato)
         return (None, None)
 
-    def eliminPaquetesBorde(self, d = 4): # DEBUG: 3 o 4
+    def eliminPaquetesBorde(self, d = 3): 
         i, j = self.__paqueteCercaPersonaje(d)
         print("Paquetes borde:", i, j)
         if i != None and j != None:
@@ -460,9 +459,10 @@ class Paquetes(Elemento):
         if y != None:
             self.paqBorrandose = [x, y]
         else:
-            self.paqBorrandose0 = x
-        self.inicioAnimacion = time.time()
+            self.__paqBorrandose0 = x
+        self.__inicioAnimacion = time.time()
 
+    # --- MÉTODOS ESPECIALES ---
 
     def __str__(self):
         txt = ""

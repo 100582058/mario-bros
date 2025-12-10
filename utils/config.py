@@ -6,10 +6,6 @@ from clases.configNivel import ConfigNivel
 
 scl = 4
 WIDTH, HEIGHT = 1024 / scl, 512 / scl
-# Las posiciones en las que puede estar un paquete en la cinta (columnas de la matriz)
-
-# Depende de la dificultad # DEBUG: Con números múltiplos de 5 curiosamente luigi y mario se ponen exactamente en la plataforma
-# Separación entre cintas
 
 COLORES = {
     "negro": 0,
