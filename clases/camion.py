@@ -77,6 +77,7 @@ class Camion(Elemento):
         # Camión
         #PlataformaCamion
         pyxel.rect(0, 39, 40, 5, COLORES["marron"])
+        pyxel.rect(13, 44, 17, 2, COLORES["gris"])
         pyxel.rect(20, 44, 3, 11, COLORES["gris"])
         pyxel.rect(20, 49, 3, 1, COLORES["azulMarino"])
         pyxel.rect(0, 52, 23, 3, COLORES["gris"])
