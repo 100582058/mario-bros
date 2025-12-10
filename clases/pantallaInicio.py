@@ -44,13 +44,7 @@ class PantallaInicio:
         return -1
 
     def update(self):
-        # Mute a la M
-
-
-
-
         #seleccion por flechas y wasd
-
         if pyxel.btnp(pyxel.KEY_S) or pyxel.btnp(pyxel.KEY_DOWN):
             if self.seleccion != 3:
                 self.seleccion += 1
@@ -92,7 +86,7 @@ class PantallaInicio:
         return self.dificultadSeleccionada
 
     def draw(self):
-        # --Dibujar marco--
+        # --Dibujar a Marco--
         x = 0
         y = 0
         w = pyxel.width

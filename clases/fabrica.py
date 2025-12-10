@@ -33,8 +33,8 @@ class Fabrica:
         self.tiempoPausado = time.time()
 
         self.ultimoSpawn = time.time()
-        # 7 segundos desde el spawn del ultimo paquete
-        self.intervalos = [3, 4, 8, 5, 4, 5]
+        # Lista que especifica cuantos segundos hasta el spawn del proximo paquete
+        self.intervalos = [8, 8, 12, 8, 12, 10]
         # Se le pueden poner especies de oleadas cambiando y añadiendo valores en la lista (cuando la lista se acaba se repite)
         self.indiceIntervalo = 0
         # self.dificultad = dificultad # 3 tipos
@@ -72,7 +72,7 @@ class Fabrica:
         )
 
         # Añade un paquete al empezar
-        self.paquetes.anadirPaqInicio()
+        self.paquetes.lista0[10] = 1
 
     @property
     def fallos(self):
@@ -101,7 +101,7 @@ class Fabrica:
             # Se mueven los paquetes si el juego no está en pausa
             self.__moverPaquetes()
             self.__anadirPaquetes()
-            self.__reproducirSonidoPtos()
+            self.paquetes.comprobarMinPaquetes(self.puntos)
         else:
             # Esperar (5 + 1) segundos hasta volver a reanudar el juego
             tiempoActual = time.time()
@@ -113,6 +113,8 @@ class Fabrica:
         # Permite mover a los personajes con las teclas
         self.luigi.mover()
         self.mario.mover()
+        
+        self.__comprobarRepartosCamion()
 
         # Mover el camión con los paquetes (si está lleno)
         self.camion.mover_y_descargar()
@@ -123,14 +125,22 @@ class Fabrica:
             self.pausa = True
             self.draw()
 
+
+    def __comprobarRepartosCamion(self):
         # Elimina un fallo si se hacen 'repartosHastaElimFallo' repartos
-        if self.camion.numRepartos == self.__repartosHastaElimFallo and self.fallos >= 1:
+        if self.camion.numRepartos >= self.__repartosHastaElimFallo and self.fallos >= 1:
+            print("Fallo eliminado", self.camion.numRepartos, self.fallos, self.__repartosHastaElimFallo)
             self.fallos -= 1
+            # Reproducir el sonido de sumar una vida
+            pyxel.play(1, 17)
             self.camion.numRepartos = 0
+
+    def __reproducirFallo(self):
+        pyxel.play(3, 25)
 
     def __moverPaquetes(self):
         # Actualizamos las cintas pares e impares por su cuenta
-        velocidadInicial = 8
+        velocidadInicial = 3
         velPar = velocidadInicial / self.config.velCintasPares
         velImpar = velocidadInicial / self.config.velCintasImpares
         vel0 = velocidadInicial / self.config.velCinta0
@@ -146,20 +156,6 @@ class Fabrica:
         if pyxel.frame_count % int(vel0) == 0:
             self.__checkFalloCinta0()
             self.paquetes.actualizarLista0()
-
-    def __reproducirSonidoPtos(self):
-        # Sonido puntos (los reproducimos en el canal 2 para que no interfieran con la música)
-        if self.puntosComp < self.puntos - 9:  # Puntos del camión
-            self.puntosComp += 10
-            pyxel.play(2, 16)
-        elif self.puntosComp < self.puntos:
-            self.puntosComp += 1
-            pyxel.play(2, 16)
-
-        # Sonido fallos (los reproducimos en el canal 3 para que no interfieran con la música)
-        if self.compFallos < self.fallos:
-            self.compFallos += 1
-            pyxel.play(3, 25)
 
     def __anadirPaquetes(self):
         ahora = time.time()  # tiempo actual, empezado a contar desde que se ejecuta
@@ -179,6 +175,11 @@ class Fabrica:
             self.indiceIntervalo += 1
             if self.indiceIntervalo == len(self.intervalos):
                 self.indiceIntervalo = 0
+
+    # Suma puntos y reproduce el sonido
+    def __anadirPuntos(self, ptos):
+        self.puntos += ptos
+        pyxel.play(2, 16)
 
     def draw(self):
         if not self.activa:
@@ -239,39 +240,6 @@ class Fabrica:
 
             pyxel.rect(x + 256 , y + w + 17, 35, 10, COLORES["negro"])
             pyxel.text(x + 260, y + w + 19, f"MUTE: M", self.__colorMute)
-            
-    # Funciones para detectar fallos en cada tipo de cintas
-    # Borran el paquete, llamar a la animación de borrado, etc.
-    # Y suman puntos si el personaje sí está en esa cinta
-    def checkFalloPares(self):
-        x = self.paquetes.longitudX - 1
-        for y in range(1, self.numCintas):
-            if self.paquetes.matriz[y][0] != 0 and esCintaPar(y, self.numCintas):
-                if not self.luigi.estaEnPiso(y):  # luigi es el de la izda
-                    # print(self.paquetes)
-                    print("Luigi falla", x, y)
-                    self.__anadirFalloYElimPaq(0, y)
-                    # print(self.paquetes)
-                    self.luigi.reganar()
-                else:
-                    self.puntos += 1
-
-                # Comprueba que esté Luigi en la cinta del camión
-        if self.paquetes.matriz[0][0] != 0:
-            if self.luigi.estaEnPiso(0):
-                self.camion.carga += 1
-                self.puntos += 1
-                # Controla cuando se llena el camión para pausar el juego
-                if self.camion.carga >= 8:
-                    self.tiempoPausado = time.time()
-                    self.pausa = True
-                    self.puntos += 10
-                    # Eliminamos los paquetes al final de las cintas
-                    self.paquetes.eliminPaquetesBorde()
-                # Eliminamos el paquete de la cinta
-                self.paquetes.matriz[0][0] = 0
-            else:
-                self.__anadirFalloYElimPaq(0, 0)
 
     # Funciones para detectar fallos en cada tipo de cintas
     # Borran el paquete, llamar a la animación de borrado, etc.
@@ -281,29 +249,29 @@ class Fabrica:
         for y in range(1, self.numCintas):
             if self.paquetes.matriz[y][0] != 0 and esCintaPar(y, self.numCintas):
                 if not self.luigi.estaEnPiso(y):  # luigi es el de la izda
-                    # print(self.paquetes)
                     print("Luigi falla", x, y)
                     self.__anadirFalloYElimPaq(0, y)
-                    # print(self.paquetes)
                     self.luigi.reganar()
                 else:
-                    self.puntos += 1
+                    self.__anadirPuntos(1)
+
         # Comprueba que esté Luigi en la cinta del camión
         if self.paquetes.matriz[0][0] != 0:
             if self.luigi.estaEnPiso(0):
                 self.camion.carga += 1
-                self.puntos += 1
+                self.__anadirPuntos(1)
                 # Controla cuando se llena el camión para pausar el juego
                 if self.camion.carga >= 8:
                     self.tiempoPausado = time.time()
                     self.pausa = True
-                    self.puntos += 10
+                    self.__anadirPuntos(10)
                     # Eliminamos los paquetes al final de las cintas
                     self.paquetes.eliminPaquetesBorde()
                 # Eliminamos el paquete de la cinta
                 self.paquetes.matriz[0][0] = 0
             else:
                 self.__anadirFalloYElimPaq(0, 0)
+                self.luigi.reganar()
 
     def __checkFalloImpares(self):
         x = self.paquetes.longitudX - 1
@@ -316,7 +284,7 @@ class Fabrica:
                     # print(self.paquetes)
                     self.mario.reganar()
                 else:
-                    self.puntos += 1
+                    self.__anadirPuntos(1)
 
     def __checkFalloCinta0(self):
         # Comprueba si hay un paquete en la lista0 listo para ser añadido a la matriz
@@ -329,13 +297,16 @@ class Fabrica:
             else:
                 # Añadimos el paquete a la matriz
                 self.paquetes.matriz[-1][-1] = 1
-                self.puntos += 1
+                self.__anadirPuntos(1)
             self.paquetes.lista0[0] = 0
 
     # Se encarga de añadir los fallos. Llamada desde checkFallo____
     def __anadirFalloYElimPaq(self, x=None, y=None):
         self.pausa = True
+        # Añade un fallo y reproduce el sonido
         self.fallos += 1
+        self.__reproducirFallo()
+
         self.tiempoPausado = time.time()
         # Eliminamos el paquete de la matriz
         if x != None and y != None:

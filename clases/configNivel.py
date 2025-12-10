@@ -15,6 +15,7 @@ class ConfigNivel:
         self.velCintasPares = vel_cintas_pares
         self.velCintasImpares = vel_cintas_impares
         self.numCintas = num_cintas
+        
         self.anadirPaquetesCada = anadir_paquetes_cada
         self.eliminaFallos = elimina_fallos
 
@@ -30,4 +31,4 @@ class ConfigNivel:
 
         self.dificultad = dificultad
 
-        self.pausaFallo = 5
+        self.pausaFallo = 2

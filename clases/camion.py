@@ -7,7 +7,7 @@ class Camion(Elemento):
     def __init__(self, posX, posY, ancho, alto, color, config):
         super().__init__(posX, posY  + 2, ancho, alto, color)
 
-        self.carga = 0
+        self.carga = 6
 
         # Posición inicial, donde carga los paquetes
         self.__posicionCarga = posX
@@ -17,7 +17,8 @@ class Camion(Elemento):
         self.__velocidadCamionRetroceso = 1
         # -1 si va hacia la izda, 0 si está quieto y 1 si va a la dcha
         self.__dirMov = 0 
-        self.__compSonidoRetroceso = 0
+        # Se ejecuta el sonido de retroceso?
+        self.__compSonidoRetroceso = False
 
         # Almacena el número de repartos que se han hecho desde que se eliminó un fallo
         self.numRepartos = 0
@@ -49,27 +50,30 @@ class Camion(Elemento):
     def mover_y_descargar(self):
         # Condición inicial para que se empiece a mover
         if self.carga >= 8:
-            # Añadimos un reparto
-            self.numRepartos += 1
             self.__dirMov = -1
+
         if self.__dirMov != 0:
-            if self.posX > self.__posicionDescarga and self.__dirMov == -1: #por ejemplo (tiene que estar fuera de la pantalla)
-                self.posX -= self.__velocidadCamion #Izquierda. En funcion de esto irá mas o menos rápido
+            if self.posX > self.__posicionDescarga and self.__dirMov == -1: # Cuando está fuera de la pantalla
+                self.posX -= self.__velocidadCamion # Izquierda. En funcion de esto irá mas o menos rápido
             elif self.posX <= self.__posicionDescarga:
                 self.carga = 0
                 self.__dirMov = 1
 
+            # Se mueve hacia la derecha
             if self.posX < self.__posicionCarga and self.__dirMov == 1:
                 self.posX += self.__velocidadCamionRetroceso
 
-                if self.__compSonidoRetroceso == 0:  #Para que el sonido se ejecute solo 1 vez
-                    self.__compSonidoRetroceso += 1
+                if self.__compSonidoRetroceso:  #Para que el sonido se ejecute solo 1 vez
+                    self.__compSonidoRetroceso = False
                     pyxel.play(1, 15) #sonido camión retroceso (mismo canal que los fallos porque al no poder
                                     # reproducirse a la vez no se puede glichear(así ahorramos un canal))
+                    # Añadimos un reparto una sola vez
+                    self.numRepartos += 1
 
+            # Cuando vuelve a la posición original
             elif self.posX >= self.__posicionCarga:
                 self.__dirMov = 0
-                self.__compSonidoRetroceso == 0
+                self.__compSonidoRetroceso = True
 
     
     def draw(self):
