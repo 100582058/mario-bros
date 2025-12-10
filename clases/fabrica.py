@@ -232,17 +232,21 @@ class Fabrica:
             pyxel.text(x + z + 170, y+w + 5,
                     f"FALLOS: {self.fallos}", COLORES["magenta"])
             #Muestra como mutear
+            #soporte
+            pyxel.rect(213, 13, 41, 4, COLORES["marron"])
+            pyxel.rect(215, 15, 37, 1, COLORES["gris"])
+            pyxel.rect(212, 13, 2, 4, COLORES["gris"])
             if pyxel.btnp(pyxel.KEY_M):
                 self.compMute += 1
             if self.compMute % 2 == 0:
                 self.colorMute = COLORES["azul"]
-                pyxel.rect(x + 254, y + w + 14, 37, 12, COLORES["azul"])
+                pyxel.rect(x + 255, y + w + 16, 37, 12, COLORES["azul"])
             else:
                 self.colorMute = COLORES["gris"]
 
 
-            pyxel.rect(x + 255 , y + w + 15, 35, 10, COLORES["negro"])
-            pyxel.text(x + 259, y + w + 17, f"MUTE: M", self.colorMute)
+            pyxel.rect(x + 256 , y + w + 17, 35, 10, COLORES["negro"])
+            pyxel.text(x + 260, y + w + 19, f"MUTE: M", self.colorMute)
 
             # Muesta el tiempo para el siguiente paquete
             # pyxel.text(x+z+ 145,y+w+ 5, f"PAQUETE EN: {int(self.tiempoSigPaq)}", COLORES["azul"])
